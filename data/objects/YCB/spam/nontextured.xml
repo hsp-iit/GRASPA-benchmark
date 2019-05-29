@@ -1,0 +1,6 @@
+<ManipulationObject name="spam">
+    <Visualization>
+        <File type="inventor">./nontextured.stl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

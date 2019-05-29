@@ -1,0 +1,6 @@
+<ManipulationObject name="strawberry">
+    <Visualization>
+        <File type="inventor">./projection.wrl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

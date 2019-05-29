@@ -1,0 +1,6 @@
+<ManipulationObject name="mustard">
+    <Visualization>
+        <File type="inventor">./nontextured.stl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

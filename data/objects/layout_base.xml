@@ -1,0 +1,6 @@
+<ManipulationObject name='Layout_Base'>
+	<Visualization>
+		<File type='inventor'>iv/layout_base.iv</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>

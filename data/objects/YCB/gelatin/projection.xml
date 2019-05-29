@@ -1,0 +1,6 @@
+<ManipulationObject name="gelatin">
+    <Visualization>
+        <File type="inventor">./projection.wrl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

@@ -1,0 +1,6 @@
+<ManipulationObject name="tomato_can">
+    <Visualization>
+        <File type="inventor">./nontextured.stl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

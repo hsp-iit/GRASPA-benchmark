@@ -1,0 +1,13 @@
+#Inventor V1.0 ascii
+
+Separator 
+{
+    Units {
+            units MILLIMETERS
+    }
+}
+
+Separator 
+{   
+    File {name marker_74.wrl }
+}

@@ -1,0 +1,6 @@
+<ManipulationObject name="hammer">
+    <Visualization>
+        <File type="inventor">./nontextured.stl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

@@ -1,0 +1,6 @@
+<ManipulationObject name="medium_clamp">
+    <Visualization>
+        <File type="inventor">./projection.wrl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Scene name="Benchmark_Layout_0">
+
+  <ManipulationObject name='YcbBanana'>
+    <File>objects/YCB/banana/projection.xml</File>
+    <GlobalPose>
+      <Transform>
+        <Matrix4x4>
+          <row1 c1='-0.988632000' c2='0.15035800' c3='0' c4='-236.1526'/>
+          <row2 c1='0.15035800' c2='0.988632000' c3='0' c4='117.94'/>
+          <row3 c1='0' c2='0' c3='1' c4='5'/>
+          <row4 c1='0' c2='0' c3='0' c4='1'/>
+        </Matrix4x4>
+      </Transform>
+    </GlobalPose>
+  </ManipulationObject>
+
+ <ManipulationObject name='YcbDrill'>
+    <File>objects/YCB/drill/projection.xml</File>
+    <GlobalPose>
+      <Transform>
+        <Matrix4x4>
+          <row1 c1='-0.36500812' c2='-0.92540252' c3='0' c4='-54.79695182'/>
+          <row2 c1='0.92540252' c2='-0.36500812' c3='0' c4='161.16925375'/>
+          <row3 c1='0' c2='0' c3='1' c4='5'/>
+          <row4 c1='0' c2='0' c3='0' c4='1'/>
+        </Matrix4x4>
+      </Transform>
+    </GlobalPose>
+  </ManipulationObject>
+
+   <ManipulationObject name='YcbMustard'>
+    <File>objects/YCB/mustard/projection.xml</File>
+    <GlobalPose>
+      <Transform>
+        <Matrix4x4>
+          <row1 c1='-0.15035800' c2='0.988632000' c3='0' c4='-199.20'/>
+          <row2 c1='-0.988632000' c2='-0.15035800' c3='0' c4='294.39'/>
+          <row3 c1='0' c2='0' c3='1' c4='5'/>
+          <row4 c1='0' c2='0' c3='0' c4='1'/>
+        </Matrix4x4>
+      </Transform>
+    </GlobalPose>
+  </ManipulationObject>
+
+  <ManipulationObject name='YcbJello'>
+    <File>objects/YCB/gelatin/projection.xml</File>
+    <GlobalPose>
+      <Transform>
+        <Matrix4x4>
+          <row1 c1='1' c2='0' c3='0' c4='-430.23'/>
+          <row2 c1='0' c2='1' c3='0' c4='238.49'/>
+          <row3 c1='0' c2='0' c3='1' c4='5'/>
+          <row4 c1='0' c2='0' c3='0' c4='1'/>
+        </Matrix4x4>
+      </Transform>
+    </GlobalPose>
+  </ManipulationObject>
+
+  <ManipulationObject name='YcbFoam'>
+    <File>objects/YCB/foam/projection.xml</File>
+    <GlobalPose>
+      <Transform>
+        <Matrix4x4>
+          <row1 c1='1' c2='0' c3='0' c4='-374.56'/>
+          <row2 c1='0' c2='1' c3='0' c4='138.99'/>
+          <row3 c1='0' c2='0' c3='1' c4='5'/>
+          <row4 c1='0' c2='0' c3='0' c4='1'/>
+        </Matrix4x4>
+      </Transform>
+    </GlobalPose>
+  </ManipulationObject>
+
+  <ManipulationObject name='Table'>
+    <File>objects/layout_base.xml</File>
+    <GlobalPose>
+      <Transform>
+        <Matrix4x4>
+          <row1 c1='1' c2='0' c3='0' c4='-267'/>
+          <row2 c1='0=' c2='1' c3='0' c4='178'/>
+          <row3 c1='0' c2='0' c3='1' c4='-2'/>
+          <row4 c1='0' c2='0' c3='0' c4='1'/>
+        </Matrix4x4>
+      </Transform>
+    </GlobalPose>
+  </ManipulationObject>
+
+  <ManipulationObject name='Marker'>
+    <File>objects/markers/marker_id_107/marker_107.xml</File>
+    <GlobalPose>
+      <Transform>
+        <Matrix4x4>
+          <row1 c1='1' c2='0' c3='0' c4='0'/>
+          <row2 c1='0' c2='1' c3='0' c4='0'/>
+          <row3 c1='0' c2='0' c3='1' c4='0'/>
+          <row4 c1='0' c2='0' c3='0' c4='1'/>
+        </Matrix4x4>
+      </Transform>
+    </GlobalPose>
+  </ManipulationObject>
+
+</Scene>

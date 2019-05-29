@@ -1,0 +1,6 @@
+<ManipulationObject name="tomato_can">
+    <Visualization>
+        <File type="inventor">./projection.wrl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

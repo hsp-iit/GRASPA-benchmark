@@ -1,0 +1,6 @@
+<ManipulationObject name="tennis_ball">
+    <Visualization>
+        <File type="inventor">./projection.wrl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>

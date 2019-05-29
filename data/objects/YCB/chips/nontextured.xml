@@ -1,0 +1,6 @@
+<ManipulationObject name="chips">
+    <Visualization>
+        <File type="inventor">./nontextured.stl</File>
+        <UseAsCollisionModel/>
+    </Visualization>
+</ManipulationObject>
