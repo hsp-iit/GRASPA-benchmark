@@ -13,6 +13,7 @@
 #include <GraspPlanning/GraspStudio.h>
 #include <GraspPlanning/GraspQuality/GraspQualityMeasureWrenchSpace.h>
 #include <GraspPlanning/ApproachMovementSurfaceNormal.h>
+#include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
 void parseDataPath()
 {
@@ -26,7 +27,6 @@ void parseDataPath()
 
     return;
 }
-
 
 bool parseRobotFilename(std::string& robot_filename)
 {
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
     VirtualRobot::RuntimeEnvironment::considerKey("robot");
     VirtualRobot::RuntimeEnvironment::considerKey("object");
     VirtualRobot::RuntimeEnvironment::considerKey("eef");
-    VirtualRobot::RuntimeEnvironment::considerKey("preshape");
+    //VirtualRobot::RuntimeEnvironment::considerKey("preshape");
     VirtualRobot::RuntimeEnvironment::considerKey("datapath");
     VirtualRobot::RuntimeEnvironment::processCommandLine(argc, argv);
     VirtualRobot::RuntimeEnvironment::print();
@@ -184,87 +184,114 @@ int main(int argc, char* argv[])
 
     listEndEffectors(robotEndEffectors);
 
-    //  retrieve robot end effector by name
+    //  retrieve robot end effector by name and load it
 
     std::string eef_name = VirtualRobot::RuntimeEnvironment::getValue("eef");
-    if (eef_name.empty())
-    {
-        std::cout << "End effector not specified. Quitting..." << std::endl;
-        return 1;
-    }
-
     VirtualRobot::EndEffectorPtr eef = robot->getEndEffector(eef_name);
-    if (eef)
+
+    if (eef_name.empty() || !eef)
     {
-        std::cout << "Using end effector: " << eef_name << std::endl;
+        std::cout << "End effector not found. Evaluation will consider grasps with any end effector" << std::endl;
     }
     else
     {
-        std::cout << "End effector not found. Quitting..." << std::endl;
-        return 1;
+        std::cout << "Using end effector: " << eef_name << std::endl;
     }
 
     //  extract grasps
 
-    VirtualRobot::GraspSetPtr grasp_set = object->getGraspSet(eef);
-    std::vector < VirtualRobot::GraspPtr > grasp_vec = grasp_set->getGrasps();
+    std::vector<VirtualRobot::GraspSetPtr> all_grasp_sets = object->getAllGraspSets();
 
-    listGrasps(grasp_vec);
-
-    //  create quality measure and calculate OWS
-
-    GraspStudio::GraspQualityMeasureWrenchSpacePtr qualityMeasure( new GraspStudio::GraspQualityMeasureWrenchSpace(object));
-
-    qualityMeasure->calculateObjectProperties();
-
-    for ( VirtualRobot::GraspPtr grasp : grasp_vec)
+    for (VirtualRobot::GraspSetPtr grasp_set : all_grasp_sets)
     {
-        //  get eef for each grasp
 
-        std::string eef_name = grasp->getEefName();
+        //  if eef was specified, skip any grasp not using it
 
-        //  assume eef is present in robot config, otherwise will crash
+        if(eef && eef_name != grasp_set->getEndEffector())
+        {
+            continue;
+        }
 
-        eef = robot->getEndEffector(eef_name);
+        //VirtualRobot::GraspSetPtr grasp_set = object->getGraspSet(eef);
+        std::vector < VirtualRobot::GraspPtr > grasp_vec = grasp_set->getGrasps();
 
-        //  extract preshape and assign it
+        listGrasps(grasp_vec);
 
-        std::string preshape_name = grasp->getPreshapeName();
-        eef->setPreshape(preshape_name);
+        //  create quality measure and calculate OWS
 
-        //  get the pose of the eef TCP
+        GraspStudio::GraspQualityMeasureWrenchSpacePtr qualityMeasure( new GraspStudio::GraspQualityMeasureWrenchSpace(object));
 
-        Eigen::Matrix4Xf mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
+        qualityMeasure->calculateObjectProperties();
 
-        //  not sure what this one does
+        for ( VirtualRobot::GraspPtr grasp : grasp_vec)
+        {
+            //  get eef for each grasp
 
-        GraspStudio::ApproachMovementSurfaceNormalPtr approach(new GraspStudio::ApproachMovementSurfaceNormal(object,eef));
+            std::string eef_name = grasp->getEefName();
 
-        //  clone the eef and place it according to the TCP in the grasp pose
+            //  assume eef is present in robot config, otherwise will crash
 
-        VirtualRobot::RobotPtr eefCloned = approach->getEEFRobotClone();
-        eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eef_name)->getTcp(), mGrasp);
+            eef = robot->getEndEffector(eef_name);
 
-        //  obtain contact information
+            //  extract preshape and assign it
 
-        VirtualRobot::EndEffector::ContactInfoVector contacts = eefCloned->getEndEffector(eef_name)->closeActors(object);
+            std::string preshape_name = grasp->getPreshapeName();
+            eef->setPreshape(preshape_name);
 
-        //  compute pose quality
+            //  get the pose of the eef TCP
 
-        qualityMeasure->setVerbose(false);
-        qualityMeasure->setContactPoints(contacts);
+            Eigen::Matrix4Xf mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
 
-        float grasp_quality = qualityMeasure->getGraspQuality();
+            //  not sure what this one does
 
-        bool is_grasp_fc = qualityMeasure->isGraspForceClosure();
+            GraspStudio::ApproachMovementSurfaceNormalPtr approach(new GraspStudio::ApproachMovementSurfaceNormal(object,eef));
 
-        std::cout << "Grasp " << grasp->getName() << (is_grasp_fc ? " IS " : " IS NOT ") << "in force closure" << std::endl;
-        std::cout << "Quality: " << grasp_quality << std::endl;
+            //  clone the eef and place it according to the TCP in the grasp pose
 
-        //  open the actors after grasp
+            VirtualRobot::RobotPtr eefCloned = approach->getEEFRobotClone();
+            eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eef_name)->getTcp(), mGrasp);
 
-        eefCloned->getEndEffector(eef_name)->openActors();
+            //  obtain contact information
 
+            eefCloned->getEndEffector(eef_name)->openActors();
+            VirtualRobot::EndEffector::ContactInfoVector contacts = eefCloned->getEndEffector(eef_name)->closeActors(object);
+
+            //  compute pose quality
+
+            qualityMeasure->setVerbose(false);
+            qualityMeasure->setContactPoints(contacts);
+
+            float grasp_quality = qualityMeasure->getGraspQuality();
+
+            bool is_grasp_fc = qualityMeasure->isGraspForceClosure();
+
+            std::cout << "Grasp " << grasp->getName() << (is_grasp_fc ? " IS " : " IS NOT ") << "in force closure" << std::endl;
+            std::cout << "Quality: " << grasp_quality << std::endl;
+
+            //  evaluate robustness for some default parameters
+
+            int num_samples = 500;
+            float max_pos_delta = 10.0;
+            float max_ori_delta = 10.0;
+
+            GraspStudio::GraspEvaluationPoseUncertainty::PoseUncertaintyConfig uncertainty_config;
+            uncertainty_config.init(max_pos_delta, max_ori_delta);
+
+            GraspStudio::GraspEvaluationPoseUncertaintyPtr uncertainty_eval(new GraspStudio::GraspEvaluationPoseUncertainty(uncertainty_config));
+
+            std::vector<Eigen::Matrix4f> poses_eval = uncertainty_eval->generatePoses(object->getGlobalPose(), contacts, num_samples);
+
+            GraspStudio::GraspEvaluationPoseUncertainty::PoseEvalResults results = uncertainty_eval->evaluatePoses(eefCloned->getEndEffector(eef_name), object, poses_eval, qualityMeasure);
+
+            std::cout << "Robustness: " << std::endl;
+
+            results.print();
+
+            //  open the actors after grasp
+
+            eefCloned->getEndEffector(eef_name)->openActors();
+
+        }
     }
 
     return 0;
