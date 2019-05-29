@@ -1,0 +1,6 @@
+<ManipulationObject name='Box_1m'>
+	<Visualization>
+		<File type='inventor'>misc/frame.wrl</File>
+		<UseAsCollisionModel/>
+	</Visualization>
+</ManipulationObject>
