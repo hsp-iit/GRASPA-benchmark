@@ -1,8 +1,0 @@
-<ManipulationObject name="marker_1">
-    <Visualization>
-        <File type="inventor">marker_113.iv</File>
-    </Visualization>
-    <CollisionModel>
-        <File type="inventor">marker_113.iv</File>
-    </CollisionModel>
-</ManipulationObject>

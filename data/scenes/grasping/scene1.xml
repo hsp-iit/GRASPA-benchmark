@@ -72,8 +72,11 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='Table'>
-    <File>objects/layout_base.xml</File>
+  <Obstacle name='Table'>
+    <Visualization>
+		<File type='inventor'>objects/iv/layout_base.iv</File>
+		<UseAsCollisionModel/>
+	</Visualization>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -84,10 +87,13 @@
         </Matrix4x4>
       </Transform>
     </GlobalPose>
-  </ManipulationObject>
+  </Obstacle>
 
-  <ManipulationObject name='Marker'>
-    <File>objects/markers/marker_id_107/marker_107.xml</File>
+  <Obstacle name='Marker'>
+    <Visualization>
+		<File type='inventor'>objects/markers/marker_id_107/marker_107.iv</File>
+		<UseAsCollisionModel/>
+	</Visualization>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -98,6 +104,6 @@
         </Matrix4x4>
       </Transform>
     </GlobalPose>
-  </ManipulationObject>
+  </Obstacle>
 
 </Scene>
