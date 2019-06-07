@@ -16,7 +16,7 @@
     </GlobalPose>
   </ManipulationObject>
 
- <ManipulationObject name='YcbChips'>
+ <ManipulationObject name='YcbChipsCan'>
     <File>objects/YCB/chips/projection.xml</File>
     <GlobalPose>
       <Transform>
@@ -58,7 +58,7 @@
    </GlobalPose>
  </ManipulationObject>
 
- <ManipulationObject name='YcbSpam'>
+ <ManipulationObject name='YcbPottedMeatCan'>
   <File>objects/YCB/spam/projection.xml</File>
   <GlobalPose>
     <Transform>
@@ -72,7 +72,7 @@
   </GlobalPose>
 </ManipulationObject>
 
-  <ManipulationObject name='YcbCracker'>
+  <ManipulationObject name='YcbCrackerBox'>
     <File>objects/YCB/cracker/projection_horizontal.xml</File>
     <GlobalPose>
       <Transform>
@@ -86,7 +86,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbFoam'>
+  <ManipulationObject name='YcbFoamBrick'>
     <File>objects/YCB/mustard/projection.xml</File>
     <GlobalPose>
       <Transform>

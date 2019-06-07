@@ -16,7 +16,7 @@
     </GlobalPose>
   </ManipulationObject>
 
- <ManipulationObject name='YcbDrill'>
+ <ManipulationObject name='YcbPowerDrill'>
     <File>objects/YCB/drill/projection.xml</File>
     <GlobalPose>
       <Transform>
@@ -30,7 +30,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-   <ManipulationObject name='YcbMustard'>
+   <ManipulationObject name='YcbMustardBottle'>
     <File>objects/YCB/mustard/projection.xml</File>
     <GlobalPose>
       <Transform>
@@ -44,7 +44,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbJello'>
+  <ManipulationObject name='YcbGelatinBox'>
     <File>objects/YCB/gelatin/projection.xml</File>
     <GlobalPose>
       <Transform>
@@ -58,7 +58,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbFoam'>
+  <ManipulationObject name='YcbFoamBrick'>
     <File>objects/YCB/foam/projection.xml</File>
     <GlobalPose>
       <Transform>

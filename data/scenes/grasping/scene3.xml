@@ -16,7 +16,7 @@
     </GlobalPose>
   </ManipulationObject>
 
- <ManipulationObject name='YcbMasterchef'>
+ <ManipulationObject name='YcbMasterChefCan'>
     <File>objects/YCB/masterchef/nontextured.xml</File>
     <GlobalPose>
       <Transform>
@@ -30,7 +30,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-   <ManipulationObject name='YcbChips'>
+   <ManipulationObject name='YcbChipsCan'>
     <File>objects/YCB/chips/nontextured.xml</File>
     <GlobalPose>
       <Transform>
@@ -44,7 +44,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbJClamp'>
+  <ManipulationObject name='YcbMediumClamp'>
     <File>objects/YCB/medium_clamp/nontextured.xml</File>
     <GlobalPose>
       <Transform>
@@ -72,7 +72,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbCracker'>
+  <ManipulationObject name='YcbCrackerBox'>
     <File>objects/YCB/cracker/nontextured.xml</File>
     <GlobalPose>
       <Transform>
@@ -86,7 +86,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbSpam'>
+  <ManipulationObject name='YcbPottedMeatCan'>
     <File>objects/YCB/spam/nontextured.xml</File>
     <GlobalPose>
       <Transform>
@@ -100,7 +100,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbTomatoCan'>
+  <ManipulationObject name='YcbTomatoSoupCan'>
     <File>objects/YCB/tomato_can/nontextured.xml</File>
     <GlobalPose>
       <Transform>
@@ -142,7 +142,7 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbMustard'>
+  <ManipulationObject name='YcbMustardBottle'>
     <File>objects/YCB/mustard/nontextured.xml</File>
     <GlobalPose>
       <Transform>
