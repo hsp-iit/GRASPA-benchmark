@@ -17,7 +17,7 @@
   </ManipulationObject>
 
  <ManipulationObject name='YcbPowerDrill'>
-    <File>objects/YCB/drill/nontextured.xml</File>
+    <File>objects/YCB/power_drill/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -31,7 +31,7 @@
   </ManipulationObject>
 
    <ManipulationObject name='YcbMustardBottle'>
-    <File>objects/YCB/mustard/nontextured.xml</File>
+    <File>objects/YCB/mustard_bottle/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -45,7 +45,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbGelatinBox'>
-    <File>objects/YCB/gelatin/nontextured.xml</File>
+    <File>objects/YCB/gelatin_box/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -59,7 +59,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbFoamBrick'>
-    <File>objects/YCB/foam/nontextured.xml</File>
+    <File>objects/YCB/foam_brick/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>

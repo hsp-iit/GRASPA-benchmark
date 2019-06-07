@@ -17,7 +17,7 @@
   </ManipulationObject>
 
  <ManipulationObject name='YcbChipsCan'>
-    <File>objects/YCB/chips/nontextured.xml</File>
+    <File>objects/YCB/chips_can/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -59,7 +59,7 @@
  </ManipulationObject>
 
  <ManipulationObject name='YcbPottedMeatCan'>
-  <File>objects/YCB/spam/nontextured.xml</File>
+  <File>objects/YCB/potted_meat_can/nontextured.xml</File>
   <GlobalPose>
     <Transform>
       <Matrix4x4>
@@ -73,7 +73,7 @@
 </ManipulationObject>
 
   <ManipulationObject name='YcbCrackerBox'>
-    <File>objects/YCB/cracker/nontextured.xml</File>
+    <File>objects/YCB/cracker_box/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -86,8 +86,8 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbFoamBrick'>
-    <File>objects/YCB/mustard/nontextured.xml</File>
+  <ManipulationObject name='YcbMustardBottle'>
+    <File>objects/YCB/mustard_bottle/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>

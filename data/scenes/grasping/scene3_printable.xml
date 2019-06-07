@@ -17,7 +17,7 @@
   </ManipulationObject>
 
  <ManipulationObject name='YcbMasterChefCan'>
-    <File>objects/YCB/masterchef/projection.xml</File>
+    <File>objects/YCB/master_chef_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -31,7 +31,7 @@
   </ManipulationObject>
 
    <ManipulationObject name='YcbChipsCan'>
-    <File>objects/YCB/chips/projection.xml</File>
+    <File>objects/YCB/chips_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -73,7 +73,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbCrackerBox'>
-    <File>objects/YCB/cracker/projection.xml</File>
+    <File>objects/YCB/cracker_box/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -87,7 +87,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbPottedMeatCan'>
-    <File>objects/YCB/spam/projection.xml</File>
+    <File>objects/YCB/potted_meat_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -101,7 +101,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbTomatoSoupCan'>
-    <File>objects/YCB/tomato_can/projection.xml</File>
+    <File>objects/YCB/tomato_soup_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -143,7 +143,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbMustardBottle'>
-    <File>objects/YCB/mustard/projection.xml</File>
+    <File>objects/YCB/mustard_bottle/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
