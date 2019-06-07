@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+<!-- Specify the testing layout as:
+    Benchmark_Layout_0, Benchmark_Layout_1 or Benchmark_Layout_2
+-->
 <Scene name="Benchmark_Layout_0">
-
+  <!-- For each Reachable_frame specified in the Benchmark
+       Fill the Matrix 4x4 with the pose reached by your robot as
+       an homogeneous matrix
+  -->
   <ManipulationObject name='Reachable_frame00'>
     <File>objects/frame.xml</File>
     <GlobalPose>
@@ -226,11 +232,11 @@
     </GlobalPose>
   </ManipulationObject>
 
-
-
-
-  <ManipulationObject name='Table'>
-    <File>objects/layout_base.xml</File>
+  <Obstacle name='Table'>
+    <Visualization>
+        <File type='inventor'>objects/iv/layout_base.iv</File>
+        <UseAsCollisionModel/>
+    </Visualization>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -241,10 +247,13 @@
         </Matrix4x4>
       </Transform>
     </GlobalPose>
-  </ManipulationObject>
+  </Obstacle>
 
-  <ManipulationObject name='Marker'>
-    <File>objects/markers/marker_id_107/marker_107.xml</File>
+  <Obstacle name='Marker'>
+    <Visualization>
+        <File type='inventor'>objects/markers/marker_id_107/marker_107.iv</File>
+        <UseAsCollisionModel/>
+    </Visualization>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -255,6 +264,6 @@
         </Matrix4x4>
       </Transform>
     </GlobalPose>
-  </ManipulationObject>
+  </Obstacle>
 
 </Scene>
