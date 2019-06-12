@@ -15,10 +15,13 @@ from os.path import isfile, join
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--file_reachability_test', action='store', dest="reached_poses_file",
+                    default='data/scenes/reachability/reachability_scene_1.xml',
                     help='file containing the reached poses during reachability tests')
 parser.add_argument('--grasps_folder', action='store', dest="grasping_folder",
+                    default='data/template_files/grasps_data/',
                     help='folder containing the xml with the graspings tests for one layout')
-parser.add_argument('--scenes_folder', action='store', dest="scenes_folder", default='data/scenes/grasping/3D_scenes/',
+parser.add_argument('--scenes_folder', action='store', dest="scenes_folder",
+                    default='data/scenes/grasping/3D_scenes/',
                     help='folder containing the xml with the graspings tests for one layout')
 
 # Params useful for xml parsing
@@ -86,14 +89,21 @@ def compute_final_score():
     # s_final = (s2 + s5) * s3 * s4 * 1(s0 < reaching_threshold) * 1(s1 < camera_threshold)
     for obj in acceptable_object_names[testing_layout]:
         if ((not s0_objects[obj]== 'Missing data') and (not s3[obj]== 'Missing data') and (not s4[obj]== 'Missing data') and ((not s5[obj]== 'Missing data'))):
-            if (s0_objects[obj] < reaching_threshold and  s4[obj] == 1 ): # TODO: Add camera calibration
-                #s_final[obj] = (s2[obj] + s5[obj]) * s3[obj] # TODO
-                s_final[obj] = s5[obj] * s3[obj]
+            if (s0_objects[obj] < reaching_threshold and  s3[obj] == 1 ): # TODO: Add camera calibration
+                #s_final[obj] = (s2[obj] + s5[obj]) * s4[obj] # TODO
+                s_final[obj] = s5[obj] * s4[obj]
         else:
             s_final[obj] = 'Missing data'
 
-    #for obj in s_final:
+    global average_final_score
+    average_final_score = 0.0
+    n_valid_objects = 0
+    for obj, value in s_final.items():
+        if (not value == 'Missing data'):
+            average_final_score += value
+            n_valid_objects += 1
 
+    average_final_score /= n_valid_objects
 
 def print_scores():
     print("\n")
@@ -133,6 +143,12 @@ def print_scores():
 
     print("\n")
     print("\n".join(" {} : {}".format(k, v) for k, v in s_final.items()) )
+    print("\n")
+
+    print('================================================')
+    string = 'Final average score (s_final):   ' + str(average_final_score)
+    print(string.center(len('------------------------------------------------')))
+    print('================================================')
     print("\n")
 
 def in_region(position, region):

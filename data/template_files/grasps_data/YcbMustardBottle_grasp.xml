@@ -17,8 +17,8 @@
 			</Transform>
 		</Grasp>
 	</GraspSet>
-    <Graspable quality='1'/>
-    <Grasped quality='0'/>
+    <Graspable quality='0'/>
+    <Grasped quality='1'/>
     <GraspStability quality='0.3'/>
 
 </ManipulationObject>
