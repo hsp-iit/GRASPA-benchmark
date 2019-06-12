@@ -17,8 +17,15 @@
 			</Transform>
 		</Grasp>
 	</GraspSet>
+    <!-- The field value shoul be 1 if the object is graspable
+    by the robot, 0 otherwise-->
     <Graspable quality='1'/>
+    <!-- The field value shoul be 1 if the object actually grasped
+    by the robot, 0 otherwise-->
     <Grasped quality='1'/>
-    <Grasp_stability quality='0.4'/>
+    <!-- The field value shoul be 1 if the object  managed to execute
+    the entire stability trajectory without letting the robot fall down,
+    m_waypoints/tot_waypoints if the object drops after the execution of n_waypoints-->
+    <GraspStability quality='0.4'/>
 
 </ManipulationObject>
