@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Scene name="Benchmark_Layout_0">
+<Scene name="Benchmark_Layout_2">
 
   <ManipulationObject name='YcbPear'>
     <File>objects/YCB/pear/nontextured.xml</File>

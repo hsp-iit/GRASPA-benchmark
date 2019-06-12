@@ -1,0 +1,24 @@
+<ManipulationObject name='banana'>
+	<Visualization>
+		<File type='inventor'>../../../RAL-benchmark-code/data/objects/YCB/banana/./nontextured.stl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>../../../RAL-benchmark-code/data/objects/YCB/banana/./nontextured.stl</File>
+	</CollisionModel>
+	<GraspSet name='Benchmark_Layout_0' RobotType='iCub' EndEffector='Left Hand'>
+		<Grasp name='Grasp 1' quality='0.557499' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.639516' c2='-0.656161' c3='0.40059' c4='8.76602'/>
+					<row2 c1='0.768152' c2='0.566415' c3='-0.298525' c4='7.44411'/>
+					<row3 c1='-0.0310201' c2='0.498626' c3='0.866262' c4='-39.2738'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+		</Grasp>
+	</GraspSet>
+    <Graspable quality='1'/>
+    <Grasped quality='1'/>
+    <Grasp_stability quality='0.4'/>
+
+</ManipulationObject>
