@@ -69,7 +69,7 @@ s5 = {}
 
 # ------- Final score -------
 # s_final = Final score
-# s_final = (s2 + s5) * s3 * s4 * 1(s0 < reaching_threshold) * 1(s1 < camera_threshold)
+# s_final = (s2 + s5) * s3  if object is reachable and graspable
 s_final = {}
 
 #--------------------------
@@ -86,11 +86,14 @@ def compute_final_score():
     # s_final = (s2 + s5) * s3 * s4 * 1(s0 < reaching_threshold) * 1(s1 < camera_threshold)
     for obj in acceptable_object_names[testing_layout]:
         if ((not s0_objects[obj]== 'Missing data') and (not s3[obj]== 'Missing data') and (not s4[obj]== 'Missing data') and ((not s5[obj]== 'Missing data'))):
-            if (s0_objects[obj] < reaching_threshold and  s3[obj] == 1 and s4[obj] == 1 ): # TODO: Add camera calibration
-                #s_final[obj] = s2[obj] + s5[obj] # TODO
-                s_final[obj] = s5[obj]
+            if (s0_objects[obj] < reaching_threshold and  s4[obj] == 1 ): # TODO: Add camera calibration
+                #s_final[obj] = (s2[obj] + s5[obj]) * s3[obj] # TODO
+                s_final[obj] = s5[obj] * s3[obj]
         else:
             s_final[obj] = 'Missing data'
+
+    #for obj in s_final:
+
 
 def print_scores():
     print("\n")
