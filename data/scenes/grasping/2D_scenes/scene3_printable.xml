@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Scene name="Benchmark_Layout_0">
+<Scene name="Benchmark_Layout_2">
 
   <ManipulationObject name='YcbPear'>
-    <File>objects/YCB/pear/projection.xml</File>
+    <File>data/objects/YCB/pear/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -17,7 +17,7 @@
   </ManipulationObject>
 
  <ManipulationObject name='YcbMasterChefCan'>
-    <File>objects/YCB/master_chef_can/projection.xml</File>
+    <File>data/objects/YCB/master_chef_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -31,7 +31,7 @@
   </ManipulationObject>
 
    <ManipulationObject name='YcbChipsCan'>
-    <File>objects/YCB/chips_can/projection.xml</File>
+    <File>data/objects/YCB/chips_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -45,7 +45,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbMediumClamp'>
-    <File>objects/YCB/medium_clamp/projection.xml</File>
+    <File>data/objects/YCB/medium_clamp/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -59,7 +59,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbScissors'>
-    <File>objects/YCB/scissors/projection.xml</File>
+    <File>data/objects/YCB/scissors/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -73,7 +73,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbCrackerBox'>
-    <File>objects/YCB/cracker_box/projection.xml</File>
+    <File>data/objects/YCB/cracker_box/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -87,7 +87,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbPottedMeatCan'>
-    <File>objects/YCB/potted_meat_can/projection.xml</File>
+    <File>data/objects/YCB/potted_meat_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -101,7 +101,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbTomatoSoupCan'>
-    <File>objects/YCB/tomato_soup_can/projection.xml</File>
+    <File>data/objects/YCB/tomato_soup_can/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -115,7 +115,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbTennisBall'>
-    <File>objects/YCB/tennis_ball/projection.xml</File>
+    <File>data/objects/YCB/tennis_ball/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -129,7 +129,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbStrawberry'>
-    <File>objects/YCB/strawberry/projection.xml</File>
+    <File>data/objects/YCB/strawberry/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -143,7 +143,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbMustardBottle'>
-    <File>objects/YCB/mustard_bottle/projection.xml</File>
+    <File>data/objects/YCB/mustard_bottle/projection.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -158,7 +158,7 @@
 
   <Obstacle name='Table'>
     <Visualization>
-       <File type='inventor'>objects/iv/layout_base.iv</File>
+       <File type='inventor'>data/objects/iv/layout_base.iv</File>
        <UseAsCollisionModel/>
    </Visualization>
     <GlobalPose>
@@ -175,7 +175,7 @@
 
   <Obstacle name='Marker'>
     <Visualization>
-       <File type='inventor'>objects/markers/marker_id_107/marker_107.iv</File>
+       <File type='inventor'>data/objects/markers/marker_id_107/marker_107.iv</File>
        <UseAsCollisionModel/>
    </Visualization>
     <GlobalPose>

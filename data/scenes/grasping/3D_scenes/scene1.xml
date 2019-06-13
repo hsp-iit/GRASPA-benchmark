@@ -3,7 +3,7 @@
 <Scene name="Benchmark_Layout_0">
 
   <ManipulationObject name='YcbBanana'>
-    <File>objects/YCB/banana/nontextured.xml</File>
+    <File>data/objects/YCB/banana/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -17,7 +17,7 @@
   </ManipulationObject>
 
  <ManipulationObject name='YcbPowerDrill'>
-    <File>objects/YCB/power_drill/nontextured.xml</File>
+    <File>data/objects/YCB/power_drill/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -31,7 +31,7 @@
   </ManipulationObject>
 
    <ManipulationObject name='YcbMustardBottle'>
-    <File>objects/YCB/mustard_bottle/nontextured.xml</File>
+    <File>data/objects/YCB/mustard_bottle/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -45,7 +45,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbGelatinBox'>
-    <File>objects/YCB/gelatin_box/nontextured.xml</File>
+    <File>data/objects/YCB/gelatin_box/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -59,7 +59,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbFoamBrick'>
-    <File>objects/YCB/foam_brick/nontextured.xml</File>
+    <File>data/objects/YCB/foam_brick/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -74,7 +74,7 @@
 
   <Obstacle name='Table'>
     <Visualization>
-		<File type='inventor'>objects/iv/layout_base.iv</File>
+		<File type='inventor'>data/objects/iv/layout_base.iv</File>
 		<UseAsCollisionModel/>
 	</Visualization>
     <GlobalPose>
@@ -91,7 +91,7 @@
 
   <Obstacle name='Marker'>
     <Visualization>
-		<File type='inventor'>objects/markers/marker_id_107/marker_107.iv</File>
+		<File type='inventor'>data/objects/markers/marker_id_107/marker_107.iv</File>
 		<UseAsCollisionModel/>
 	</Visualization>
     <GlobalPose>

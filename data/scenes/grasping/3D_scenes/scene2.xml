@@ -3,7 +3,7 @@
 <Scene name="Benchmark_Layout_1">
 
   <ManipulationObject name='YcbHammer'>
-    <File>objects/YCB/hammer/nontextured.xml</File>
+    <File>data/objects/YCB/hammer/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -17,7 +17,7 @@
   </ManipulationObject>
 
  <ManipulationObject name='YcbChipsCan'>
-    <File>objects/YCB/chips_can/nontextured.xml</File>
+    <File>data/objects/YCB/chips_can/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -31,7 +31,7 @@
   </ManipulationObject>
 
    <ManipulationObject name='YcbTennisBall'>
-    <File>objects/YCB/tennis_ball/nontextured.xml</File>
+    <File>data/objects/YCB/tennis_ball/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -45,7 +45,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbBanana'>
-   <File>objects/YCB/banana/nontextured.xml</File>
+   <File>data/objects/YCB/banana/nontextured.xml</File>
    <GlobalPose>
      <Transform>
        <Matrix4x4>
@@ -59,7 +59,7 @@
  </ManipulationObject>
 
  <ManipulationObject name='YcbPottedMeatCan'>
-  <File>objects/YCB/potted_meat_can/nontextured.xml</File>
+  <File>data/objects/YCB/potted_meat_can/nontextured.xml</File>
   <GlobalPose>
     <Transform>
       <Matrix4x4>
@@ -73,7 +73,7 @@
 </ManipulationObject>
 
   <ManipulationObject name='YcbCrackerBox'>
-    <File>objects/YCB/cracker_box/nontextured.xml</File>
+    <File>data/objects/YCB/cracker_box/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -87,7 +87,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbMustardBottle'>
-    <File>objects/YCB/mustard_bottle/nontextured.xml</File>
+    <File>data/objects/YCB/mustard_bottle/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -102,7 +102,7 @@
 
   <Obstacle name='Table'>
     <Visualization>
-       <File type='inventor'>objects/iv/layout_base.iv</File>
+       <File type='inventor'>data/objects/iv/layout_base.iv</File>
        <UseAsCollisionModel/>
    </Visualization>
     <GlobalPose>
@@ -119,7 +119,7 @@
 
   <Obstacle name='Marker'>
     <Visualization>
-       <File type='inventor'>objects/markers/marker_id_107/marker_107.iv</File>
+       <File type='inventor'>data/objects/markers/marker_id_107/marker_107.iv</File>
        <UseAsCollisionModel/>
    </Visualization>
     <GlobalPose>
