@@ -12,3 +12,8 @@ option(BUILD_COMPUTE_GRASP_QUALITY "Build executable to compute grasp quality" O
 if (BUILD_COMPUTE_GRASP_QUALITY)
     add_subdirectory(compute-grasp-quality)
 endif()
+
+option(BUILD_LAYOUT_PRINTER "Build executable to print layouts" ON)
+if (BUILD_LAYOUT_PRINTER)
+    add_subdirectory(layout-printer)
+endif()
