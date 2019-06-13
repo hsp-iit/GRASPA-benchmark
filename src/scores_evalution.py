@@ -14,8 +14,11 @@ from os.path import isfile, join
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--file_reachability_test', action='store', dest="reached_poses_file",
-                    default='data/scenes/reachability/reachability_scene_1.xml',
+parser.add_argument('--reached_poses_folder', action='store', dest="reached_poses_folder",
+                    default='data/template_files/reached_poses/',
+                    help='file containing the reached poses during reachability tests')
+parser.add_argument('--file_camera_calibration_test', action='store', dest="cam_reached_poses_file",
+                    default='data/scenes/camera_calibration/camera_calibration_poses.xml',
                     help='file containing the reached poses during reachability tests')
 parser.add_argument('--grasps_folder', action='store', dest="grasping_folder",
                     default='data/template_files/grasps_data/',
@@ -114,6 +117,16 @@ def print_scores():
     print("\n")
     print("\n".join(" {} : {}".format(k, v) for k, v in s0_objects.items()) )
     print("\n")
+
+    print("\n")
+    print('------------------------------------------------')
+    string = 'Camera calibration scores (s1):'
+    print(string.center(len('------------------------------------------------')))
+    print('------------------------------------------------')
+    print("\n")
+    print("\n".join(" {} : {}".format(k, v) for k, v in s1_objects.items()) )
+    print("\n")
+
     print('------------------------------------------------')
     string = 'Graspability score (s3):'
     print(string.center(len('------------------------------------------------')))
@@ -189,11 +202,11 @@ def associate_reachbility_to_objects():
         if (obj in s3):
             position = np.zeros(3)
             if testing_layout == 'Benchmark_Layout_0':
-                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/scene1.xml')
+                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_0.xml')
             elif testing_layout == 'Benchmark_Layout_1':
-                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/scene1.xml')
+                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_1.xml')
             elif testing_layout == 'Benchmark_Layout_2':
-                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/scene1.xml')
+                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_2.xml')
             if in_region(position, region_1):
                 s0_objects[obj] = s0['s0_1']
             elif in_region(position, region_2):
@@ -202,6 +215,30 @@ def associate_reachbility_to_objects():
                 s0_objects[obj] = s0['s0_3']
         else:
             s0_objects[obj] = 'Missing data'
+
+
+def associate_camera_calibration_to_objects():
+
+    # For each object provided by the user, find its position in the Benchmark
+    # and then associate to each object the camera calibration score of the region when it
+    # lays
+    for obj in acceptable_object_names[testing_layout]:
+        if (obj in s3):
+            position = np.zeros(3)
+            if testing_layout == 'Benchmark_Layout_0':
+                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_0.xml')
+            elif testing_layout == 'Benchmark_Layout_1':
+                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_1.xml')
+            elif testing_layout == 'Benchmark_Layout_2':
+                position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_2.xml')
+            if in_region(position, region_1):
+                s1_objects[obj] = s1['s1_1']
+            elif in_region(position, region_2):
+                s1_objects[obj] = s1['s1_2']
+            elif in_region(position, region_3):
+                s1_objects[obj] = s1['s1_3']
+        else:
+            s1_objects[obj] = 'Missing data'
 
 
 def not_consistent(file, acceptable_object_names):
@@ -303,28 +340,8 @@ def computeReachingError(desired_pose, reached_pose):
 
 def compute_reachability_score(args):
 
-    # Parse the file provided by the user including the poses reached by the robot
-    tree = ET.parse(args.reached_poses_file)
-    root = tree.getroot()
-    reached_poses = {}
-    parse_reachability_files(reached_poses,root)
-
-    # Parse the file provided by the benchmark for the reachibility test
-    # consistent with the tag provided by the user
-    desired_poses = {}
-    global testing_layout
-    testing_layout = root.attrib['name']
-
-    if (testing_layout == 'Benchmark_Layout_0'):
-        pose_to_reach_file = "data/scenes/reachability/reachability_scene_1.xml"
-    if (testing_layout == 'Benchmark_Layout_1'):
-        pose_to_reach_file = "data/scenes/reachability/reachability_scene_2.xml"
-    if (testing_layout == 'Benchmark_Layout_2'):
-        pose_to_reach_file = "data/scenes/reachability/reachability_scene_2.xml"
-
-    tree = ET.parse(pose_to_reach_file)
-    root = tree.getroot()
-    parse_reachability_files(desired_poses, root)
+    # Parse the scenes to load object labels
+    reached_poses_files = [f for f in listdir(args.reached_poses_folder) if isfile(join(args.reached_poses_folder,f))]
 
     s0_1 = 0.0
     s0_2 = 0.0
@@ -333,27 +350,98 @@ def compute_reachability_score(args):
     n_poses_2 = 0
     n_poses_3 = 0
 
-    # Compute reachability error for each region of the scene
-    for name_pose in desired_poses:
-        if( in_region(desired_poses[name_pose]['position'], region_1) ):
-            s0_1 = s0_1 + computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
-            n_poses_1 += 1
+    for file in reached_poses_files:
+        # Parse the file provided by the user including the poses reached by the robot
+        tree = ET.parse(join(args.reached_poses_folder,file))
+        root = tree.getroot()
+        reached_poses = {}
+        parse_reachability_files(reached_poses,root)
 
-        if( in_region(desired_poses[name_pose]['position'], region_2)):
-            s0_2 = s0_2 + computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
-            n_poses_2 += 1
+        # Parse the file provided by the benchmark for the reachibility test
+        # consistent with the tag provided by the user
+        desired_poses = {}
+        experiment_name = root.attrib['name']
 
-        if( in_region(desired_poses[name_pose]['position'], region_3)):
-            s0_3 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
-            n_poses_3 += 1
+        if (experiment_name == 'Set_Poses_1'):
+            pose_to_reach_file = "data/scenes/reachability/reachability_set_poses_1.xml"
+        if (experiment_name == 'Set_Poses_2'):
+            pose_to_reach_file = "data/scenes/reachability/reachability_set_poses_2.xml"
+        if (experiment_name == 'Set_Poses_3'):
+            pose_to_reach_file = "data/scenes/reachability/reachability_set_poses_3.xml"
+
+
+        tree = ET.parse(pose_to_reach_file)
+        root = tree.getroot()
+        parse_reachability_files(desired_poses, root)
+
+        # Compute reachability error for each region of the scene
+        for name_pose in desired_poses:
+            if( in_region(desired_poses[name_pose]['position'], region_1) ):
+                s0_1 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                n_poses_1 += 1
+
+            if( in_region(desired_poses[name_pose]['position'], region_2)):
+                s0_2 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                n_poses_2 += 1
+
+            if( in_region(desired_poses[name_pose]['position'], region_3)):
+                s0_3 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                n_poses_3 += 1
+
 
     s0_1 = s0_1 / n_poses_1
     s0_2 = s0_2 / n_poses_2
     s0_3 = s0_3 / n_poses_3
+
     s0['s0_1'] = s0_1
     s0['s0_2'] = s0_2
     s0['s0_3'] = s0_3
 
+def compute_camera_calibration_score(args):
+
+    # Parse the file provided by the user including the poses reached by the robot
+    tree = ET.parse(args.cam_reached_poses_file)
+    root = tree.getroot()
+    cam_reached_poses = {}
+    parse_reachability_files(cam_reached_poses,root)
+
+    # Parse the file provided by the benchmark for the reachibility test
+    # consistent with the tag provided by the user
+    cam_desired_poses = {}
+
+    cam_pose_to_reach_file = "data/scenes/camera_calibration/camera_calibration_poses.xml"
+
+    tree = ET.parse(cam_pose_to_reach_file)
+    root = tree.getroot()
+    parse_reachability_files(cam_desired_poses, root)
+
+    s1_1 = 0.0
+    s1_2 = 0.0
+    s1_3 = 0.0
+    n_poses_1 = 0
+    n_poses_2 = 0
+    n_poses_3 = 0
+
+    # Compute reachability error for each region of the scene
+    for name_pose in cam_desired_poses:
+        if( in_region(cam_desired_poses[name_pose]['position'], region_1) ):
+            s1_1 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            n_poses_1 += 1
+
+        if( in_region(cam_desired_poses[name_pose]['position'], region_2)):
+            s1_2 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            n_poses_2 += 1
+
+        if( in_region(cam_desired_poses[name_pose]['position'], region_3)):
+            s1_3 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            n_poses_3 += 1
+
+    s1_1 = s1_1 / n_poses_1
+    s1_2 = s1_2 / n_poses_2
+    s1_3 = s1_3 / n_poses_3
+    s1['s1_1'] = s1_1
+    s1['s1_2'] = s1_2
+    s1['s1_3'] = s1_3
 
 def read_scores(args):
 
@@ -363,9 +451,15 @@ def read_scores(args):
     # acceptable_object_names lists all the objects name included in a scene
     global acceptable_object_names
     acceptable_object_names = {}
+    global testing_layout
+    testin_layout = None
     for file in scenes_files:
         tree = ET.parse(join(args.scenes_folder,file))
         root = tree.getroot()
+
+        if (testing_layout == None):
+             testing_layout = root.attrib['name']
+
         parse_scenes_files(acceptable_object_names,root)
 
     # Collect file in the folder_grasping_test
@@ -391,6 +485,10 @@ if __name__ == '__main__':
     # representing the reachibility of the robot in the scene
     compute_reachability_score(parser.parse_args())
 
+    # Compute scores s1_1, s1_2, s1_3
+    # representing the camera calibration of the robot in the scene
+    compute_camera_calibration_score(parser.parse_args())
+
     # Compute grasp Quality
     # TODO To launch fabrizio's code
 
@@ -400,6 +498,10 @@ if __name__ == '__main__':
     # Associate the reachability error to each object, accordin to the region
     # where it belongs
     associate_reachbility_to_objects()
+
+    # Associate the camera calibration error to each object, accordin to the region
+    # where it belongs
+    associate_camera_calibration_to_objects()
 
     # Compute final_score
     compute_final_score()

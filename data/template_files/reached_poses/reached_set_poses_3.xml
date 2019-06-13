@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Scene name="Benchmark_Layout_0">
+<Scene name="Set_Poses_3">
 
   <ManipulationObject name='Reachable_frame00'>
     <File>objects/frame.xml</File>
