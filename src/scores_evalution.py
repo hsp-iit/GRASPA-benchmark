@@ -26,6 +26,9 @@ parser.add_argument('--grasps_folder', action='store', dest="grasping_folder",
 parser.add_argument('--scenes_folder', action='store', dest="scenes_folder",
                     default='data/scenes/grasping/3D_scenes/',
                     help='folder containing the xml with the graspings tests for one layout')
+parser.add_argument('--verbose', dest="verbose",
+                    default=False,
+                    help='Enabling verbose mode for getting more information')
 
 # Params useful for xml parsing
 acceptable_keys = ['Reachable_frame00', 'Reachable_frame01', 'Reachable_frame02', 'Reachable_frame03',
@@ -34,6 +37,8 @@ acceptable_keys = ['Reachable_frame00', 'Reachable_frame01', 'Reachable_frame02'
                    'Reachable_frame30', 'Reachable_frame31', 'Reachable_frame32', 'Reachable_frame33']
 
 testing_layout = None
+
+verbose = False
 
 # TODO Find good value
 reaching_threshold = 0.01
@@ -193,11 +198,18 @@ def get_object_position(obj, file):
 
     return position
 
-def associate_reachbility_to_objects():
+def associate_reachbility_to_objects(args):
 
     # For each object provided by the user, find its position in the Benchmark
     # and then associate to each object the reachability score of the region when it
     # lays
+
+    if (args.verbose):
+        print("\n")
+        string = 'Associating reachability scores (s0) to objects....'
+        print(string.center(len('------------------------------------------------')))
+        print('------------------------------------------------')
+
     for obj in acceptable_object_names[testing_layout]:
         if (obj in s3):
             position = np.zeros(3)
@@ -209,16 +221,30 @@ def associate_reachbility_to_objects():
                 position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_2.xml')
             if in_region(position, region_1):
                 s0_objects[obj] = s0['s0_1']
+                if (args.verbose):
+                    print("Object", obj, " is in region 1")
+
             elif in_region(position, region_2):
                 s0_objects[obj] = s0['s0_2']
+                if (args.verbose):
+                    print("Object", obj, " is in region 2")
+
             elif in_region(position, region_3):
                 s0_objects[obj] = s0['s0_3']
+                if (args.verbose):
+                    print("Object", obj, " is in region 3")
+
         else:
             s0_objects[obj] = 'Missing data'
 
 
-def associate_camera_calibration_to_objects():
+def associate_camera_calibration_to_objects(args):
 
+    if (args.verbose):
+        print("\n")
+        string = 'Associating camera calibration scores (s1) to objects....'
+        print(string.center(len('------------------------------------------------')))
+        print('------------------------------------------------')
     # For each object provided by the user, find its position in the Benchmark
     # and then associate to each object the camera calibration score of the region when it
     # lays
@@ -233,10 +259,19 @@ def associate_camera_calibration_to_objects():
                 position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_2.xml')
             if in_region(position, region_1):
                 s1_objects[obj] = s1['s1_1']
+                if (args.verbose):
+                    print("Object", obj, " is in region 1")
+
             elif in_region(position, region_2):
                 s1_objects[obj] = s1['s1_2']
+                if (args.verbose):
+                    print("Object", obj, " is in region 2")
+
             elif in_region(position, region_3):
                 s1_objects[obj] = s1['s1_3']
+                if (args.verbose):
+                    print("Object", obj, " is in region 3")
+
         else:
             s1_objects[obj] = 'Missing data'
 
@@ -397,6 +432,15 @@ def compute_reachability_score(args):
     s0['s0_2'] = s0_2
     s0['s0_3'] = s0_3
 
+    if (args.verbose):
+        print("\n")
+        print('Computing reachability scores (s0)....')
+        print('------------------------------------------------')
+        print('s0_1', s0_1)
+        print('s0_2', s0_2)
+        print('s0_3', s0_3)
+        print("\n")
+
 def compute_camera_calibration_score(args):
 
     # Parse the file provided by the user including the poses reached by the robot
@@ -442,6 +486,15 @@ def compute_camera_calibration_score(args):
     s1['s1_1'] = s1_1
     s1['s1_2'] = s1_2
     s1['s1_3'] = s1_3
+
+    if (args.verbose):
+        print("\n")
+        print('Computing camera calibration scores (s1)....')
+        print('------------------------------------------------')
+        print('s1_1', s1_1)
+        print('s1_2', s1_2)
+        print('s1_3', s1_3)
+        print("\n")
 
 def read_scores(args):
 
@@ -497,11 +550,11 @@ if __name__ == '__main__':
 
     # Associate the reachability error to each object, accordin to the region
     # where it belongs
-    associate_reachbility_to_objects()
+    associate_reachbility_to_objects(parser.parse_args())
 
     # Associate the camera calibration error to each object, accordin to the region
     # where it belongs
-    associate_camera_calibration_to_objects()
+    associate_camera_calibration_to_objects(parser.parse_args())
 
     # Compute final_score
     compute_final_score()
