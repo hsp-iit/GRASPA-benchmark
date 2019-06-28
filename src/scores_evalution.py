@@ -48,16 +48,15 @@ reaching_threshold = 0.01
 #--------------------------
 
 # ------- Reachability -------
-# s0 = Reachability score, for region 1,2 and 3
+# s0 = Reachability score, for region 1 up to 6
 s0 = {}
 # s0 = Reachability score associated to each object
 s0_objects = {}
 
 ## TODO
 # ------- Cam Calibration -------
-# s1_1 = Reachability score, region 1
-# s1_2 = Reachability score, region 2
-# s1_3 = Reachability score, region 3
+# s1_1 = Camera calibration score, region 1 up to 6
+
 s1 = {}
 s1_objects = {}
 
@@ -87,9 +86,12 @@ s_final = {}
 #--------------------------
 
 # Regions dimensions
-region_1 = np.array([[0.0, 0.0], [0.0, 123.33], [-544, 0.0], [-544, 123.33]])
-region_2 = np.array([[-0.0, 123.33], [0.0, 246.66], [-544, 123.33], [-544, 246.66]])
-region_3 = np.array([[-0.0, 246.66], [-0.0, 370], [-544, 246.66], [-544, 370]])
+region_1 = np.array([[0.0, 0.0], [0.0, 123.33], [-272, 0.0], [-272, 123.33]])
+region_2 = np.array([[-272, 0.0], [-272, 123.33], [-544, 0.0], [-544, 123.33]])
+region_3 = np.array([[-0.0, 123.33], [0.0, 246.66], [-272, 123.33], [-272, 246.66]])
+region_4 = np.array([[-272, 123.33], [-272, 246.66], [-544, 123.33], [-544, 246.66]])
+region_5 = np.array([[-0.0, 246.66], [-0.0, 370], [-272, 246.66], [-272, 370]])
+region_6 = np.array([[-272, 246.66], [-272, 370], [-544, 246.66], [-544, 370]])
 
 def compute_final_score():
 
@@ -175,7 +177,9 @@ def in_region(position, region):
     # The different regions differ for the y coordinate
     # so the check is done only on ys
     if( position[1] >= region[2,1] and
-        position[1] <= region[1,1]):
+        position[1] <= region[1,1] and
+        position[0] <= region[0,0] and
+        position[0] >= region[2,0]):
         return True
     else:
         return False
@@ -198,7 +202,7 @@ def get_object_position(obj, file):
 
     return position
 
-def associate_reachbility_to_objects(args):
+def associate_reachability_to_objects(args):
 
     # For each object provided by the user, find its position in the Benchmark
     # and then associate to each object the reachability score of the region when it
@@ -233,6 +237,20 @@ def associate_reachbility_to_objects(args):
                 s0_objects[obj] = s0['s0_3']
                 if (args.verbose):
                     print("Object", obj, " is in region 3")
+            elif in_region(position, region_4):
+                s0_objects[obj] = s0['s0_4']
+                if (args.verbose):
+                    print("Object", obj, " is in region 4")
+
+            elif in_region(position, region_5):
+                s0_objects[obj] = s0['s0_5']
+                if (args.verbose):
+                    print("Object", obj, " is in region 5")
+
+            elif in_region(position, region_6):
+                s0_objects[obj] = s0['s0_6']
+                if (args.verbose):
+                    print("Object", obj, " is in region 6")
 
         else:
             s0_objects[obj] = 'Missing data'
@@ -271,6 +289,20 @@ def associate_camera_calibration_to_objects(args):
                 s1_objects[obj] = s1['s1_3']
                 if (args.verbose):
                     print("Object", obj, " is in region 3")
+            elif in_region(position, region_4):
+                s1_objects[obj] = s1['s1_4']
+                if (args.verbose):
+                    print("Object", obj, " is in region 4")
+
+            elif in_region(position, region_5):
+                s1_objects[obj] = s1['s1_5']
+                if (args.verbose):
+                    print("Object", obj, " is in region 5")
+
+            elif in_region(position, region_6):
+                s1_objects[obj] = s1['s1_6']
+                if (args.verbose):
+                    print("Object", obj, " is in region 6")
 
         else:
             s1_objects[obj] = 'Missing data'
@@ -381,9 +413,15 @@ def compute_reachability_score(args):
     s0_1 = 0.0
     s0_2 = 0.0
     s0_3 = 0.0
+    s0_4 = 0.0
+    s0_5 = 0.0
+    s0_6 = 0.0
     n_poses_1 = 0
     n_poses_2 = 0
     n_poses_3 = 0
+    n_poses_4 = 0
+    n_poses_5 = 0
+    n_poses_6 = 0
 
     for file in reached_poses_files:
         # Parse the file provided by the user including the poses reached by the robot
@@ -423,14 +461,32 @@ def compute_reachability_score(args):
                 s0_3 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
                 n_poses_3 += 1
 
+            if( in_region(desired_poses[name_pose]['position'], region_4) ):
+                s0_4 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                n_poses_4 += 1
+
+            if( in_region(desired_poses[name_pose]['position'], region_5)):
+                s0_5 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                n_poses_5 += 1
+
+            if( in_region(desired_poses[name_pose]['position'], region_6)):
+                s0_6 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                n_poses_6 += 1
+
 
     s0_1 = s0_1 / n_poses_1
     s0_2 = s0_2 / n_poses_2
     s0_3 = s0_3 / n_poses_3
+    s0_4 = s0_4 / n_poses_4
+    s0_5 = s0_5 / n_poses_5
+    s0_6 = s0_6 / n_poses_6
 
     s0['s0_1'] = s0_1
     s0['s0_2'] = s0_2
     s0['s0_3'] = s0_3
+    s0['s0_4'] = s0_4
+    s0['s0_5'] = s0_5
+    s0['s0_6'] = s0_6
 
     if (args.verbose):
         print("\n")
@@ -439,6 +495,9 @@ def compute_reachability_score(args):
         print('s0_1', s0_1)
         print('s0_2', s0_2)
         print('s0_3', s0_3)
+        print('s0_4', s0_4)
+        print('s0_5', s0_5)
+        print('s0_6', s0_6)
         print("\n")
 
 def compute_camera_calibration_score(args):
@@ -462,9 +521,15 @@ def compute_camera_calibration_score(args):
     s1_1 = 0.0
     s1_2 = 0.0
     s1_3 = 0.0
+    s1_4 = 0.0
+    s1_5 = 0.0
+    s1_6 = 0.0
     n_poses_1 = 0
     n_poses_2 = 0
     n_poses_3 = 0
+    n_poses_4 = 0
+    n_poses_5 = 0
+    n_poses_6 = 0
 
     # Compute reachability error for each region of the scene
     for name_pose in cam_desired_poses:
@@ -480,12 +545,30 @@ def compute_camera_calibration_score(args):
             s1_3 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
             n_poses_3 += 1
 
+        if( in_region(cam_desired_poses[name_pose]['position'], region_4) ):
+            s1_4 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            n_poses_4 += 1
+
+        if( in_region(cam_desired_poses[name_pose]['position'], region_5)):
+            s1_5 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            n_poses_5 += 1
+
+        if( in_region(cam_desired_poses[name_pose]['position'], region_6)):
+            s1_6 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            n_poses_6 += 1
+
     s1_1 = s1_1 / n_poses_1
     s1_2 = s1_2 / n_poses_2
     s1_3 = s1_3 / n_poses_3
+    s1_4 = s1_4 / n_poses_4
+    s1_5 = s1_5 / n_poses_5
+    s1_6 = s1_6 / n_poses_6
     s1['s1_1'] = s1_1
     s1['s1_2'] = s1_2
     s1['s1_3'] = s1_3
+    s1['s1_4'] = s1_4
+    s1['s1_5'] = s1_5
+    s1['s1_6'] = s1_6
 
     if (args.verbose):
         print("\n")
@@ -494,6 +577,9 @@ def compute_camera_calibration_score(args):
         print('s1_1', s1_1)
         print('s1_2', s1_2)
         print('s1_3', s1_3)
+        print('s1_4', s1_4)
+        print('s1_5', s1_5)
+        print('s1_6', s1_6)
         print("\n")
 
 def read_scores(args):
@@ -550,7 +636,7 @@ if __name__ == '__main__':
 
     # Associate the reachability error to each object, accordin to the region
     # where it belongs
-    associate_reachbility_to_objects(parser.parse_args())
+    associate_reachability_to_objects(parser.parse_args())
 
     # Associate the camera calibration error to each object, accordin to the region
     # where it belongs
