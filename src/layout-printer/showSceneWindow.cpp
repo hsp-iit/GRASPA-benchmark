@@ -91,12 +91,12 @@ void showSceneWindow::exportPDF()
 
     QWidget *widget = QApplication::activeWindow();
 
-    QRect rect(71, 182, 450, 316);
+    QRect rect(79, 182, 450, 316);
 
-    QRect rect00(71, 182, 225, 158);
-    QRect rect01(71 + 225, 182, 225, 158);
-    QRect rect10(71, 182 + 158, 225, 158);
-    QRect rect11(71 + 225, 182 + 158, 225, 158);
+    QRect rect00(79, 182, 225, 158);
+    QRect rect01(79 + 225, 182, 225, 158);
+    QRect rect10(79, 182 + 158, 225, 158);
+    QRect rect11(79 + 225, 182 + 158, 225, 158);
 
     //  If using QT5
     // QPixmap screen_shot = widget->grab(rect);
