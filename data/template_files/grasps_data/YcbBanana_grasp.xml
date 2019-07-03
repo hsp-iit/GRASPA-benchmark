@@ -19,7 +19,7 @@
 	</GraspSet>
     <!-- The field value shoul be 1 if the object is graspable
     by the robot, 0 otherwise-->
-    <Graspable quality='1'/>
+    <Graspable quality='0'/>
     <!-- The field value shoul be 1 if the object actually grasped
     by the robot, 0 otherwise-->
     <Grasped quality='1'/>

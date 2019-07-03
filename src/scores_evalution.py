@@ -113,7 +113,10 @@ def compute_final_score():
             average_final_score += value
             n_valid_objects += 1
 
-    average_final_score /= n_valid_objects
+    if (n_valid_objects > 0):
+        average_final_score /= n_valid_objects
+    else:
+        average_final_score = 0.0
 
 def print_scores():
     print("\n")
@@ -169,6 +172,8 @@ def print_scores():
     string = 'Final average score (s_final):   ' + str(average_final_score)
     print(string.center(len('------------------------------------------------')))
     print('================================================')
+    if (average_final_score == 0.0):
+        print(' Warning: No graspable objects in the provided grasps file!')
     print("\n")
 
 def in_region(position, region):
