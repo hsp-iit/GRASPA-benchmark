@@ -102,11 +102,23 @@ void showSceneWindow::exportPDF()
     // QPixmap screen_shot = widget->grab(rect);
     QPixmap screen_shot = QPixmap::grabWindow(widget->winId());
 
-    scene->addPixmap(screen_shot.copy(rect));
-    scene1->addPixmap(screen_shot.copy(rect00));
-    scene2->addPixmap(screen_shot.copy(rect01));
-    scene3->addPixmap(screen_shot.copy(rect10));
-    scene4->addPixmap(screen_shot.copy(rect11));
+    QString url = "/home/gvezzani/giulia_code/RAL-benchmark-code/data/objects/markers/marker_grid.png";
+    QPixmap grid;
+    if (!grid.load(url))
+        cout << "CANNOT LOAD IMAGE" << endl;
+
+    QPixmap screen_shot_plus_grid(screen_shot.width(), screen_shot.height());
+    screen_shot_plus_grid.fill(Qt::transparent); // force alpha channel
+    QPainter painter_grid(&screen_shot_plus_grid);
+    painter_grid.drawPixmap(0, 0, screen_shot);
+    painter_grid.drawPixmap(0, 0, grid);
+
+
+    scene->addPixmap(screen_shot_plus_grid.copy(rect));
+    scene1->addPixmap(screen_shot_plus_grid.copy(rect00));
+    scene2->addPixmap(screen_shot_plus_grid.copy(rect01));
+    scene3->addPixmap(screen_shot_plus_grid.copy(rect10));
+    scene4->addPixmap(screen_shot_plus_grid.copy(rect11));
 
     vector<QGraphicsScene*> scenes;
     scenes.push_back(scene);
