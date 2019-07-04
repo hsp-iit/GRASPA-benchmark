@@ -105,16 +105,13 @@ void showSceneWindow::exportPDF()
     QString url = "/home/gvezzani/giulia_code/RAL-benchmark-code/data/objects/markers/marker_grid.png";
     QPixmap grid;
     if (!grid.load(url))
-        cout << "CANNOT LOAD IMAGE" << endl;
-
-    grid = grid.scaled(481, 340, Qt::KeepAspectRatio);
+        cout << "Cannot load image or marker board!" << endl;
 
     QPixmap screen_shot_plus_grid(screen_shot.width(), screen_shot.height());
     screen_shot_plus_grid.fill(Qt::transparent); // force alpha channel
     QPainter painter_grid(&screen_shot_plus_grid);
     painter_grid.drawPixmap(0, 0, screen_shot);
-    painter_grid.drawPixmap(60, 165, grid);
-
+    painter_grid.drawPixmap(80, 185, grid);
 
     scene->addPixmap(screen_shot_plus_grid.copy(rect));
     scene1->addPixmap(screen_shot_plus_grid.copy(rect00));
