@@ -107,15 +107,13 @@ void showSceneWindow::exportPDF()
     if (!grid.load(url))
         cout << "CANNOT LOAD IMAGE" << endl;
 
-    cout << screen_shot.width() << screen_shot.height() << endl;
-
-    grid = grid.scaled(grid.width()/2,grid.height()/2, Qt::KeepAspectRatio);
+    grid = grid.scaled(481, 340, Qt::KeepAspectRatio);
 
     QPixmap screen_shot_plus_grid(screen_shot.width(), screen_shot.height());
     screen_shot_plus_grid.fill(Qt::transparent); // force alpha channel
     QPainter painter_grid(&screen_shot_plus_grid);
     painter_grid.drawPixmap(0, 0, screen_shot);
-    painter_grid.drawPixmap(0, 0, grid);
+    painter_grid.drawPixmap(60, 165, grid);
 
 
     scene->addPixmap(screen_shot_plus_grid.copy(rect));
