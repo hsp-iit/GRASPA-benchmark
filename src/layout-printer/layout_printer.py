@@ -5,28 +5,13 @@ import xml.etree.ElementTree as et
 from matplotlib import pyplot as plt
 from mpl_toolkits import mplot3d
 import os
+import argparse
 
 def projectMeshOnImage(image, mesh_filename, transform, density):
 
     input_mesh = mesh.Mesh.from_file(mesh_filename)
 
     input_mesh.transform(transform)
-
-    # Create a new plot
-
-    #figure = plt.figure()
-    #ax1 = mplot3d.Axes3D(figure)
-
-    # Load the STL files and add the vectors to the plot
-
-    #ax1.add_collection3d(mplot3d.art3d.Poly3DCollection(input_mesh.vectors))
-
-    # Auto scale to the mesh size
-
-    # scale = input_mesh.points.flatten(-1)
-    # ax1.auto_scale_xyz(scale, scale, scale)
-
-    #plt.show()
 
     resolution_img_x = image.shape[1]
     resolution_img_y = image.shape[0]
@@ -42,11 +27,22 @@ def projectMeshOnImage(image, mesh_filename, transform, density):
         poly = np.array([indexed_mesh_points[point_idx, 0:2], indexed_mesh_points[point_idx, 3:5],indexed_mesh_points[point_idx, 6:8]], np.int32)
         cv2.fillConvexPoly(image, poly, 0)
 
+parser = argparse.ArgumentParser(description='Render a 2D projection of the layout on top of the custom aruco board')
+parser.add_argument('layout_filename', metavar='layout', type=str, help='Path to the layout file')
+parser.add_argument('data_dir', metavar='datadir', type=str, help='Path to the repo root directory')
+parser.add_argument('-c', '--cross', action='store_false', help='Exclude the central marker row and column in the board. Default is no inclusion')
 
+args = parser.parse_args()
 
-ROOT_DIR = '/home/fbottarel/robot-code/RAL-benchmark-code'
+#   Check for path existence
 
-scene_filename = os.path.join(ROOT_DIR, 'data/scenes/grasping/3D_scenes/layout_0_mod.xml')
+scene_filename = args.layout_filename
+if not os.path.isfile(scene_filename):
+    raise FileNotFoundError(scene_filename)
+
+data_dir = args.data_dir
+if not os.path.isdir(data_dir):
+    raise NotADirectoryError(string)
 
 canvas_size_x = 594 # mm
 canvas_size_y = 420 # mm
@@ -56,32 +52,43 @@ density = 10 #dots/mm
 resolution_img_x = canvas_size_x*density
 resolution_img_y = canvas_size_y*density
 
-marker_root_origin_x = 589 # mm
-marker_root_origin_y = 415 # mm
-
 image = np.ones((resolution_img_y, resolution_img_x), np.uint8)*255
 
 #   Draw the aruco board
 #   the bottom right of the aruco board will have to be placed on marker_root_origin
-#   markers have 3 units for edge, 1 unit for spacing, therefore to fit them in an image without white borders
-#   5826x4100 is a good size (also including the 50 pixel margin by both sides), but we need to pad that
-#   Incidentally, the padding is 14 pixels total (7 per side)
+#   markers have 3 units for edge, 1 unit for spacing
 
-size_aruco_x = resolution_img_x - 114
-size_aruco_y = resolution_img_y - 100
+marker_unit_size = 190
+marker_size = marker_unit_size * 3
+marker_spacing = marker_unit_size
+marker_count_x = 7
+marker_count_y = 5
+
+size_aruco_x = marker_count_x * marker_size + (marker_count_x-1) * marker_spacing
+size_aruco_y = marker_count_y * marker_size + (marker_count_y-1) * marker_spacing
 
 dictionary = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_100)
-aruco_board = cv2.aruco.GridBoard_create(7, 5, 300, 100, dictionary)
+aruco_board = cv2.aruco.GridBoard_create(marker_count_x, marker_count_y, marker_size, marker_spacing, dictionary)
 
 aruco_img = aruco_board.draw((size_aruco_x, size_aruco_y), 0)
 
-#   remove the inner rows and cols of aruco markers
+#   remove the central row and col of aruco markers
 
-aruco_img[862: 4100-862, 862: 5826-862] = 255
+if not args.cross:
+    aruco_img[:, 3*marker_size + 3*marker_spacing: 4*marker_size + 3*marker_spacing] = 255
+    aruco_img[2*marker_size + 2*marker_spacing: 3*marker_size + 2*marker_spacing , :] = 255
 
 #   paste the aruco image as a background
 
-image[50 : 4200-50, 50+7 : 5940-57] = aruco_img
+border_x = np.int32((resolution_img_x - size_aruco_x) / 2)
+border_y = np.int32((resolution_img_y - size_aruco_y) / 2)
+
+image[border_y : border_y + size_aruco_y , border_x : border_x + size_aruco_x] = aruco_img
+
+#   origin of ref frame is at the bottom right of the aruco board
+
+marker_root_origin_x = (border_x + size_aruco_x) / density # mm
+marker_root_origin_y = (border_y + size_aruco_y) / density # mm
 
 #   parse the xml file
 
@@ -96,7 +103,7 @@ for manip_object in root.findall('ManipulationObject'):
     #   parse .stl filename
 
     filename_element = manip_object.find('File')
-    mesh_filename = os.path.join(ROOT_DIR, filename_element.text)
+    mesh_filename = os.path.join(data_dir, filename_element.text)
     mesh_filename = mesh_filename.replace('.xml', '.stl')
 
     #   parse object transform
