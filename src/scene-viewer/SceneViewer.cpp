@@ -26,7 +26,7 @@ using namespace VirtualRobot;
 int main(int argc, char* argv[])
 {
     VirtualRobot::init(argc, argv, "Simox Scene Exporter");
-    std::string filename("data/scenes/grasping/2D_scenes/layout_0_printable.xml");
+    std::string filename("data/scenes/grasping/3D_scenes/layout_0.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(filename);
     VirtualRobot::RuntimeEnvironment::considerKey("scene");
     VirtualRobot::RuntimeEnvironment::processCommandLine(argc, argv);
