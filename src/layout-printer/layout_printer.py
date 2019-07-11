@@ -2,8 +2,6 @@ import numpy as np
 from stl import mesh
 import cv2
 import xml.etree.ElementTree as et
-from matplotlib import pyplot as plt
-from mpl_toolkits import mplot3d
 import os
 import argparse
 
@@ -30,7 +28,7 @@ def projectMeshOnImage(image, mesh_filename, transform, density):
 parser = argparse.ArgumentParser(description='Render a 2D projection of the layout on top of the custom aruco board')
 parser.add_argument('layout_filename', metavar='layout', type=str, help='Path to the layout file')
 parser.add_argument('data_dir', metavar='datadir', type=str, help='Path to the repo root directory')
-parser.add_argument('-c', '--cross', action='store_false', help='Exclude the central marker row and column in the board. Default is no inclusion')
+parser.add_argument('-c', '--cross', action='store_false', help='Exclude the central marker row and column in the board')
 
 args = parser.parse_args()
 
@@ -42,7 +40,7 @@ if not os.path.isfile(scene_filename):
 
 data_dir = args.data_dir
 if not os.path.isdir(data_dir):
-    raise NotADirectoryError(string)
+    raise NotADirectoryError(data_dir)
 
 canvas_size_x = 594 # mm
 canvas_size_y = 420 # mm
@@ -135,21 +133,18 @@ for manip_object in root.findall('ManipulationObject'):
 
     projectMeshOnImage(image, mesh_filename, transform, density)
 
-cv2.imwrite('output.png', image)
+base_output_filename = os.path.splitext(scene_filename)[0]
+if not args.cross:
+    base_output_filename+='_no_central'
 
-#   size of a4 page in pixels
-
-a4_size_x = 297 * density
-a4_size_y = 210 * density
-
-#image_a4 = 255* np.ones((a4_size_y*2, a4_size_x*2), np.uint8)
+cv2.imwrite(base_output_filename + '_printout.png', image)
 
 # divide it in 4 a4 pages
 
-cv2.imwrite('output-page1.png', image[0:2100, 0:2970])
-cv2.imwrite('output-page2.png', image[2100:4200, 0:2970])
-cv2.imwrite('output-page3.png', image[0:2100, 2970:5940])
-cv2.imwrite('output-page4.png', image[2100:4200, 2970:5940])
+cv2.imwrite(base_output_filename + '_printout_page_1.png', image[0:2100, 0:2970])
+cv2.imwrite(base_output_filename + '_printout_page_2.png', image[2100:4200, 0:2970])
+cv2.imwrite(base_output_filename + '_printout_page_3.png', image[0:2100, 2970:5940])
+cv2.imwrite(base_output_filename + '_printout_page_4.png', image[2100:4200, 2970:5940])
 
 
 
