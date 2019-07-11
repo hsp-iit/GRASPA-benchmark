@@ -49,48 +49,6 @@
         <string>Select Scene/Object File</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="ExportPDF">
-       <property name="toolTip">
-       <rect>
-        <x>10</x>
-        <y>100</y>
-        <width>191</width>
-        <height>31</height>
-       </rect>
-        <string>Export to PDF format</string>
-       </property>
-       <property name="text">
-        <string>Export PDF</string>
-       </property>
-      </widget>
-      <widget class="QGraphicsView" name="cam2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>160</y>
-         <width>400</width>
-         <height>260</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>11</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-       <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
-       </property>
-      </widget>
     </widget>
     </item>
    </layout>

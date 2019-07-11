@@ -7,7 +7,7 @@
 #
 #===============================================================================
 
-PROJECT ( layout-printer )
+PROJECT ( scene-viewer )
 
 #INCLUDE(${Simox_DIR}/CMakeModules/SimoxMacros.cmake)
 

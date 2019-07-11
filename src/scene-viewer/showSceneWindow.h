@@ -51,21 +51,6 @@ public slots:
     void loadScene();
     void selectScene();
 
-    // void selectRobot(int nr);
-    // void selectObject(int nr);
-    // void selectGrasp(int nr);
-    // void selectEEF(int nr);
-    // void selectRobotConfig(int nr);
-    // void selectTrajectory(int nr);
-    // void sliderMoved(int pos);
-
-    //void closeHand();
-    //void openHand();
-    //void colModel();
-    //void showRoot();
-
-    void exportPDF();
-
     SoQtExaminerViewer* getExaminerViewer()
     {
         return viewer;
@@ -74,14 +59,13 @@ public slots:
 protected:
 
     void updateGui();
-    //void updateGrasps();
-    //void updateGraspVisu();
+
     void setupUI();
     QString formatString(const char* s, float f);
     void buildVisu();
 
     Ui::MainWindowShowScene UI;
-    SoQtExaminerViewer* viewer; /*!< Viewer to display the 3D model of the robot and the environment. */
+    SoQtExaminerViewer* viewer;
 
     SoSeparator* sceneSep;
     SoSeparator* sceneVisuSep;
@@ -98,7 +82,6 @@ protected:
 
     VirtualRobot::ScenePtr scene;
     std::string sceneFile;
-
 
     boost::shared_ptr<VirtualRobot::CoinVisualization> visualization;
 };

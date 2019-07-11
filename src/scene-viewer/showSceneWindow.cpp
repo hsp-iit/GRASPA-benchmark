@@ -9,9 +9,6 @@
 
 #include <QFileDialog>
 #include <Eigen/Geometry>
-// If using QT5
-// #include <QtPrintSupport/QPrinter>
-// #include <QtPrintSupport/QPrintDialog>
 
 #include <string>
 #include <ctime>
@@ -71,87 +68,6 @@ void showSceneWindow::setupUI()
     viewer->viewAll();
     viewer->setAntialiasing(true, 4);
     connect(UI.pushButtonLoad, SIGNAL(clicked()), this, SLOT(selectScene()));
-    connect(UI.ExportPDF, SIGNAL(clicked()), this, SLOT(exportPDF()));
-}
-
-void showSceneWindow::exportPDF()
-{
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setPaperSize(QPrinter::A2);
-    printer.setFullPage(true);
-    printer.setOrientation(QPrinter::Landscape);
-    printer.setPageMargins(0, 0, 0, 0, QPrinter::Millimeter);
-    QPrintDialog dlg(&printer);
-
-    QGraphicsScene* scene = new QGraphicsScene();
-    QGraphicsScene* scene1 = new QGraphicsScene();
-    QGraphicsScene* scene2 = new QGraphicsScene();
-    QGraphicsScene* scene3 = new QGraphicsScene();
-    QGraphicsScene* scene4 = new QGraphicsScene();
-
-    QWidget *widget = QApplication::activeWindow();
-
-    QRect rect(79, 182, 450, 316);
-
-    QRect rect00(79, 182, 225, 158);
-    QRect rect01(79 + 225, 182, 225, 158);
-    QRect rect10(79, 182 + 158, 225, 158);
-    QRect rect11(79 + 225, 182 + 158, 225, 158);
-
-    //  If using QT5
-    // QPixmap screen_shot = widget->grab(rect);
-    QPixmap screen_shot = QPixmap::grabWindow(widget->winId());
-
-    QString url = "/home/gvezzani/giulia_code/RAL-benchmark-code/data/objects/markers/marker_grid.png";
-    QPixmap grid;
-    if (!grid.load(url))
-        cout << "Cannot load image or marker board!" << endl;
-
-    QPixmap screen_shot_plus_grid(screen_shot.width(), screen_shot.height());
-    screen_shot_plus_grid.fill(Qt::transparent); // force alpha channel
-    QPainter painter_grid(&screen_shot_plus_grid);
-    painter_grid.drawPixmap(0, 0, screen_shot);
-    painter_grid.drawPixmap(80, 185, grid);
-
-    scene->addPixmap(screen_shot_plus_grid.copy(rect));
-    scene1->addPixmap(screen_shot_plus_grid.copy(rect00));
-    scene2->addPixmap(screen_shot_plus_grid.copy(rect01));
-    scene3->addPixmap(screen_shot_plus_grid.copy(rect10));
-    scene4->addPixmap(screen_shot_plus_grid.copy(rect11));
-
-    vector<QGraphicsScene*> scenes;
-    scenes.push_back(scene);
-    scenes.push_back(scene1);
-    scenes.push_back(scene2);
-    scenes.push_back(scene3);
-    scenes.push_back(scene4);
-
-    if(dlg.exec()==QDialog::Accepted) {
-
-        string file_name = scene_name + "_A2.pdf";
-        printer.setFullPage(true);
-        printer.setOutputFileName(QString::fromStdString(file_name));
-        printer.setPageMargins(0, 0, 0, 0, QPrinter::Millimeter);
-        QPainter p(&printer);
-        scenes[0]->render(&p);
-        p.end();
-
-        printer.setPaperSize(QPrinter::A4);
-        printer.setFullPage(true);
-        printer.setPageMargins(0, 0, 0, 0, QPrinter::Millimeter);
-
-        for (int i = 1 ; i < scenes.size(); i++ )
-        {
-            std::ostringstream ss;
-            ss << i;
-            string file_name = scene_name + "_A4_"+ ss.str() +".pdf";
-            printer.setOutputFileName(QString::fromStdString(file_name));
-            QPainter p(&printer);
-            scenes[i]->render(&p);
-
-            p.end();
-        }
-    }
 }
 
 QString showSceneWindow::formatString(const char* s, float f)
@@ -285,12 +201,10 @@ void showSceneWindow::loadScene()
 
     if (!scene)
     {
-        // try manip object
         try
         {
 
             ManipulationObjectPtr mo = ObjectIO::loadManipulationObject(sceneFile);
-            //mo = mo->clone(mo->getName());
 
             if (mo)
             {
@@ -308,7 +222,6 @@ void showSceneWindow::loadScene()
 
     if (!scene)
     {
-        // try object
         try
         {
 
