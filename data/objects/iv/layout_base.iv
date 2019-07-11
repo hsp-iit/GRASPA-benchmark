@@ -1,12 +1,16 @@
-#Inventor V1.0 ascii
+#Inventor V2.1 ascii
 
 Separator {
     Units {
             units MILLIMETERS
     }
 
+    Texture2 {
+        filename "aruco_board.png"
+    }
+
     Material {
-        diffuseColor    1.0 1.0 1.0
+        diffuseColor    1 1 1
     }
 
     Cube {
@@ -16,84 +20,5 @@ Separator {
    }
 }
 
-Separator {
-    Units {
-            units MILLIMETERS
-    }
-
-    Material {
-        diffuseColor    0.0 0.0 0.0
-    }
-	Transform {
-			translation 0 210 0
-    }
-
-    Cube {
-        width 594
-        height 1
-        depth 1
-        
-   }
-}
-
-Separator {
-    Units {
-            units MILLIMETERS
-    }
-
-    Material {
-        diffuseColor    0.0 0.0 0.0
-    }
-	Transform {
-			translation 0 -210 0
-    }
-
-    Cube {
-        width 594
-        height 1
-        depth 1
-        
-   }
-}
-
-Separator {
-    Units {
-            units MILLIMETERS
-    }
-	Transform {
-			translation 297 0 0
-    } 
-
-    Material {
-        diffuseColor    0.0 0.0 0.0
-    }
-
-    Cube {
-        width 1
-        height 420
-        depth 1
-        
-   }
-}
-
-Separator {
-    Units {
-            units MILLIMETERS
-    }
-	Transform {
-			translation -297 0 0
-    } 
-
-    Material {
-        diffuseColor    0.0 0.0 0.0
-    }
-
-    Cube {
-        width 1
-        height 420
-        depth 1
-        
-   }
-}
 
 
