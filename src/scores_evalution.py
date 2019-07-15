@@ -14,6 +14,10 @@ from os.path import isfile, join
 
 
 parser = argparse.ArgumentParser()
+
+parser.add_argument('--layout', action='store', dest="layout",
+                    default='Benchmark_Layout_0',
+                    help='folder containing the xml with the grasping scenes')
 parser.add_argument('--reached_poses_folder', action='store', dest="reached_poses_folder",
                     default='data/template_files/reached_poses/',
                     help='file containing the reached poses during reachability tests')
@@ -25,7 +29,21 @@ parser.add_argument('--grasps_folder', action='store', dest="grasping_folder",
                     help='folder containing the xml with the graspings tests for one layout')
 parser.add_argument('--scenes_folder', action='store', dest="scenes_folder",
                     default='data/scenes/grasping/3D_scenes/',
-                    help='folder containing the xml with the graspings tests for one layout')
+                    help='folder containing the xml with the grasping scenes')
+
+## TODO Find good values, they need to be found trying also to grasp
+parser.add_argument('--threshold_pos', action='store', dest="threshold_pos",
+                    default=40.0,  ## In millimeters
+                    help='Threshold on reaching position')
+parser.add_argument('--reaching_threshold', action='store', dest="reaching_threshold",
+                    default=0.3,  ## Orientation error
+                    help='Threshold on reaching position')
+parser.add_argument('--threshold_camera', action='store', dest="threshold_camera",
+                    default=60.0,  ## In millimeters
+                    help='Threshold on reaching position')
+parser.add_argument('--camera_threshold', action='store', dest="camera_threshold",
+                    default=0.5,  ## Orientation error
+                    help='Threshold on reaching position')
 parser.add_argument('--verbose', dest="verbose",
                     default=False,
                     help='Enabling verbose mode for getting more information')
@@ -40,9 +58,6 @@ testing_layout = None
 
 verbose = False
 
-# TODO Find good value
-reaching_threshold = 0.01
-
 #--------------------------
 # Scores computed
 #--------------------------
@@ -55,7 +70,7 @@ s0_objects = {}
 
 ## TODO
 # ------- Cam Calibration -------
-# s1_1 = Camera calibration score, region 1 up to 6
+# s1_1_pos = Camera calibration score, region 1 up to 6
 
 s1 = {}
 s1_objects = {}
@@ -93,14 +108,14 @@ region_4 = np.array([[-272, 123.33], [-272, 246.66], [-544, 123.33], [-544, 246.
 region_5 = np.array([[-0.0, 246.66], [-0.0, 370], [-272, 246.66], [-272, 370]])
 region_6 = np.array([[-272, 246.66], [-272, 370], [-544, 246.66], [-544, 370]])
 
-def compute_final_score():
+def compute_final_score(args):
 
     # Compute the final score for each object
     # s_final = (s2 + s5) * s3 * s4 * 1(s0 < reaching_threshold) * 1(s1 < camera_threshold)
     for obj in acceptable_object_names[testing_layout]:
         if ((not s0_objects[obj]== 'Missing data') and (not s3[obj]== 'Missing data') and (not s4[obj]== 'Missing data') and ((not s5[obj]== 'Missing data'))):
-            if (s0_objects[obj] < reaching_threshold and  s3[obj] == 1 ): # TODO: Add camera calibration
-                #s_final[obj] = (s2[obj] + s5[obj]) * s4[obj] # TODO
+            if (s0_objects[obj] < args.reaching_threshold and  s1_objects[obj] < args.camera_threshold and s3[obj] == 1 ):
+                #s_final[obj] = (s2[obj] + s5[obj]) * s4[obj] # TODO Add grasp metric
                 s_final[obj] = s5[obj] * s4[obj]
         else:
             s_final[obj] = 'Missing data'
@@ -229,31 +244,31 @@ def associate_reachability_to_objects(args):
             elif testing_layout == 'Benchmark_Layout_2':
                 position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_2.xml')
             if in_region(position, region_1):
-                s0_objects[obj] = s0['s0_1']
+                s0_objects[obj] = summarize_reach_error(args.threshold_pos, s0['s0_1_pos'], s0['s0_1_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 1")
 
             elif in_region(position, region_2):
-                s0_objects[obj] = s0['s0_2']
+                s0_objects[obj] = summarize_reach_error(args.threshold_pos, s0['s0_2_pos'], s0['s0_2_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 2")
 
             elif in_region(position, region_3):
-                s0_objects[obj] = s0['s0_3']
+                s0_objects[obj] = summarize_reach_error(args.threshold_pos, s0['s0_3_pos'], s0['s0_3_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 3")
             elif in_region(position, region_4):
-                s0_objects[obj] = s0['s0_4']
+                s0_objects[obj] = summarize_reach_error(args.threshold_pos, s0['s0_4_pos'], s0['s0_4_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 4")
 
             elif in_region(position, region_5):
-                s0_objects[obj] = s0['s0_5']
+                s0_objects[obj] = summarize_reach_error(args.threshold_pos, s0['s0_5_pos'], s0['s0_5_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 5")
 
             elif in_region(position, region_6):
-                s0_objects[obj] = s0['s0_6']
+                s0_objects[obj] = summarize_reach_error(args.threshold_pos, s0['s0_6_pos'], s0['s0_6_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 6")
 
@@ -281,36 +296,42 @@ def associate_camera_calibration_to_objects(args):
             elif testing_layout == 'Benchmark_Layout_2':
                 position = get_object_position(obj,'data/scenes/grasping/3D_scenes/layout_2.xml')
             if in_region(position, region_1):
-                s1_objects[obj] = s1['s1_1']
+                s1_objects[obj] = summarize_reach_error(args.threshold_camera, s1['s1_1_pos'], s1['s1_1_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 1")
 
             elif in_region(position, region_2):
-                s1_objects[obj] = s1['s1_2']
+                s1_objects[obj] = summarize_reach_error(args.threshold_camera, s1['s1_2_pos'], s1['s1_2_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 2")
 
             elif in_region(position, region_3):
-                s1_objects[obj] = s1['s1_3']
+                s1_objects[obj] = summarize_reach_error(args.threshold_camera, s1['s1_3_pos'], s1['s1_3_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 3")
             elif in_region(position, region_4):
-                s1_objects[obj] = s1['s1_4']
+                s1_objects[obj] = summarize_reach_error(args.threshold_camera, s1['s1_4_pos'], s1['s1_4_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 4")
 
             elif in_region(position, region_5):
-                s1_objects[obj] = s1['s1_5']
+                s1_objects[obj] = summarize_reach_error(args.threshold_camera, s1['s1_5_pos'], s1['s1_5_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 5")
 
             elif in_region(position, region_6):
-                s1_objects[obj] = s1['s1_6']
+                s1_objects[obj] = summarize_reach_error(args.threshold_camera, s1['s1_6_pos'], s1['s1_6_orie'])
                 if (args.verbose):
                     print("Object", obj, " is in region 6")
 
         else:
             s1_objects[obj] = 'Missing data'
+
+def summarize_reach_error(thresh, score_pos, score_orient):
+    if (score_pos < thresh):
+        return score_orient
+    else:
+        return score_pos
 
 
 def not_consistent(file, acceptable_object_names):
@@ -397,30 +418,45 @@ def parse_reachability_files(dict_store, root):
             dict_store[pose.attrib['name']] = {'position': position, 'orientation': r_rot}
             # print('---------------------------------------')
 
-def computeReachingError(desired_pose, reached_pose):
+def computeReachingError(desired_pose, reached_pose, args):
 
     # Compute position error
     position_error = np.linalg.norm(desired_pose['position'] - reached_pose['position'])
+
+    if (args.verbose):
+        print('----------')
+        print('Position error:  ', position_error)
 
     # Compute orientation error
     R_tmp = desired_pose['orientation'].as_dcm() * reached_pose['orientation'].as_dcm().transpose()
     R_error = R.from_dcm(R_tmp)
     orientation_error = np.sin(np.linalg.norm(R_error.as_rotvec()))
 
+    if (args.verbose):
+        print('Orientation error:  ', orientation_error)
+        print('----------')
+
     # Return position and orientation error
-    return position_error + orientation_error
+    return {'position': position_error, 'orientation': orientation_error}
 
 def compute_reachability_score(args):
 
     # Parse the scenes to load object labels
     reached_poses_files = [f for f in listdir(args.reached_poses_folder) if isfile(join(args.reached_poses_folder,f))]
 
-    s0_1 = 0.0
-    s0_2 = 0.0
-    s0_3 = 0.0
-    s0_4 = 0.0
-    s0_5 = 0.0
-    s0_6 = 0.0
+    s0_1_pos = 0.0
+    s0_2_pos = 0.0
+    s0_3_pos = 0.0
+    s0_4_pos = 0.0
+    s0_5_pos = 0.0
+    s0_6_pos = 0.0
+
+    s0_1_orie  = 0.0
+    s0_2_orie  = 0.0
+    s0_3_orie  = 0.0
+    s0_4_orie  = 0.0
+    s0_5_orie  = 0.0
+    s0_6_orie  = 0.0
     n_poses_1 = 0
     n_poses_2 = 0
     n_poses_3 = 0
@@ -452,57 +488,98 @@ def compute_reachability_score(args):
         root = tree.getroot()
         parse_reachability_files(desired_poses, root)
 
+        if (args.verbose):
+            print("\n")
+            print('----------')
+            print(experiment_name)
+
         # Compute reachability error for each region of the scene
         for name_pose in desired_poses:
+            if (args.verbose):
+                print("\n")
+                print('----------')
+                print(name_pose)
             if( in_region(desired_poses[name_pose]['position'], region_1) ):
-                s0_1 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                errors = computeReachingError(desired_poses[name_pose], reached_poses[name_pose], args)
+                s0_1_pos += errors['position']
+                s0_1_orie += errors['orientation']
                 n_poses_1 += 1
 
             if( in_region(desired_poses[name_pose]['position'], region_2)):
-                s0_2 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                errors = computeReachingError(desired_poses[name_pose], reached_poses[name_pose], args)
+                s0_2_pos += errors['position']
+                s0_2_orie  += errors['orientation']
                 n_poses_2 += 1
 
             if( in_region(desired_poses[name_pose]['position'], region_3)):
-                s0_3 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                errors = computeReachingError(desired_poses[name_pose], reached_poses[name_pose], args)
+                s0_3_pos += errors['position']
+                s0_3_orie  += errors['orientation']
                 n_poses_3 += 1
 
             if( in_region(desired_poses[name_pose]['position'], region_4) ):
-                s0_4 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                errors = computeReachingError(desired_poses[name_pose], reached_poses[name_pose], args)
+                s0_4_pos += errors['position']
+                s0_4_orie  += errors['orientation']
                 n_poses_4 += 1
 
             if( in_region(desired_poses[name_pose]['position'], region_5)):
-                s0_5 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                errors = computeReachingError(desired_poses[name_pose], reached_poses[name_pose], args)
+                s0_5_pos += errors['position']
+                s0_5_orie  += errors['orientation']
                 n_poses_5 += 1
 
             if( in_region(desired_poses[name_pose]['position'], region_6)):
-                s0_6 += computeReachingError(desired_poses[name_pose], reached_poses[name_pose])
+                errors = computeReachingError(desired_poses[name_pose], reached_poses[name_pose], args)
+                s0_6_pos += errors['position']
+                s0_6_orie  += errors['orientation']
                 n_poses_6 += 1
+            print('----------')
 
+    s0_1_pos = s0_1_pos / n_poses_1
+    s0_2_pos = s0_2_pos / n_poses_2
+    s0_3_pos = s0_3_pos / n_poses_3
+    s0_4_pos = s0_4_pos / n_poses_4
+    s0_5_pos = s0_5_pos / n_poses_5
+    s0_6_pos = s0_6_pos / n_poses_6
 
-    s0_1 = s0_1 / n_poses_1
-    s0_2 = s0_2 / n_poses_2
-    s0_3 = s0_3 / n_poses_3
-    s0_4 = s0_4 / n_poses_4
-    s0_5 = s0_5 / n_poses_5
-    s0_6 = s0_6 / n_poses_6
+    s0['s0_1_pos'] = s0_1_pos
+    s0['s0_2_pos'] = s0_2_pos
+    s0['s0_3_pos'] = s0_3_pos
+    s0['s0_4_pos'] = s0_4_pos
+    s0['s0_5_pos'] = s0_5_pos
+    s0['s0_6_pos'] = s0_6_pos
 
-    s0['s0_1'] = s0_1
-    s0['s0_2'] = s0_2
-    s0['s0_3'] = s0_3
-    s0['s0_4'] = s0_4
-    s0['s0_5'] = s0_5
-    s0['s0_6'] = s0_6
+    s0_1_orie = s0_1_orie / n_poses_1
+    s0_2_orie = s0_2_orie / n_poses_2
+    s0_3_orie = s0_3_orie / n_poses_3
+    s0_4_orie = s0_4_orie / n_poses_4
+    s0_5_orie = s0_5_orie / n_poses_5
+    s0_6_orie = s0_6_orie / n_poses_6
+
+    s0['s0_1_orie'] = s0_1_orie
+    s0['s0_2_orie'] = s0_2_orie
+    s0['s0_3_orie'] = s0_3_orie
+    s0['s0_4_orie'] = s0_4_orie
+    s0['s0_5_orie'] = s0_5_orie
+    s0['s0_6_orie'] = s0_6_orie
 
     if (args.verbose):
         print("\n")
         print('Computing reachability scores (s0)....')
         print('------------------------------------------------')
-        print('s0_1', s0_1)
-        print('s0_2', s0_2)
-        print('s0_3', s0_3)
-        print('s0_4', s0_4)
-        print('s0_5', s0_5)
-        print('s0_6', s0_6)
+        print('s0_1_pos', s0_1_pos)
+        print('s0_2_pos', s0_2_pos)
+        print('s0_3_pos', s0_3_pos)
+        print('s0_4_pos', s0_4_pos)
+        print('s0_5_pos', s0_5_pos)
+        print('s0_6_pos', s0_6_pos)
+        print('s0_1_orie', s0_1_orie)
+        print('s0_2_orie', s0_2_orie)
+        print('s0_3_orie', s0_3_orie)
+        print('s0_4_orie', s0_4_orie)
+        print('s0_5_orie', s0_5_orie)
+        print('s0_6_orie', s0_6_orie)
         print("\n")
 
 def compute_camera_calibration_score(args):
@@ -523,12 +600,21 @@ def compute_camera_calibration_score(args):
     root = tree.getroot()
     parse_reachability_files(cam_desired_poses, root)
 
-    s1_1 = 0.0
-    s1_2 = 0.0
-    s1_3 = 0.0
-    s1_4 = 0.0
-    s1_5 = 0.0
-    s1_6 = 0.0
+    s1_1_pos = 0.0
+    s1_2_pos = 0.0
+    s1_3_pos = 0.0
+    s1_4_pos = 0.0
+    s1_5_pos = 0.0
+    s1_6_pos = 0.0
+
+    s1_1_orie = 0.0
+    s1_2_orie = 0.0
+    s1_3_orie = 0.0
+    s1_4_orie = 0.0
+    s1_5_orie = 0.0
+    s1_6_orie = 0.0
+
+
     n_poses_1 = 0
     n_poses_2 = 0
     n_poses_3 = 0
@@ -539,52 +625,83 @@ def compute_camera_calibration_score(args):
     # Compute reachability error for each region of the scene
     for name_pose in cam_desired_poses:
         if( in_region(cam_desired_poses[name_pose]['position'], region_1) ):
-            s1_1 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            errors = computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose], args)
+            s1_1_pos += errors['position']
+            s1_1_orie += errors['orientation']
             n_poses_1 += 1
 
         if( in_region(cam_desired_poses[name_pose]['position'], region_2)):
-            s1_2 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            errors = computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose], args)
+            s1_2_pos += errors['position']
+            s1_2_orie += errors['orientation']
             n_poses_2 += 1
 
         if( in_region(cam_desired_poses[name_pose]['position'], region_3)):
-            s1_3 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            errors = computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose], args)
+            s1_3_pos += errors['position']
+            s1_3_orie += errors['orientation']
             n_poses_3 += 1
 
         if( in_region(cam_desired_poses[name_pose]['position'], region_4) ):
-            s1_4 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            errors = computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose], args)
+            s1_4_pos += errors['position']
+            s1_4_orie += errors['orientation']
             n_poses_4 += 1
 
         if( in_region(cam_desired_poses[name_pose]['position'], region_5)):
-            s1_5 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            errors = computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose], args)
+            s1_5_pos += errors['position']
+            s1_5_orie += errors['orientation']
             n_poses_5 += 1
 
         if( in_region(cam_desired_poses[name_pose]['position'], region_6)):
-            s1_6 += computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose])
+            errors = computeReachingError(cam_desired_poses[name_pose], cam_reached_poses[name_pose], args)
+            s1_6_pos += errors['position']
+            s1_6_orie += errors['orientation']
             n_poses_6 += 1
 
-    s1_1 = s1_1 / n_poses_1
-    s1_2 = s1_2 / n_poses_2
-    s1_3 = s1_3 / n_poses_3
-    s1_4 = s1_4 / n_poses_4
-    s1_5 = s1_5 / n_poses_5
-    s1_6 = s1_6 / n_poses_6
-    s1['s1_1'] = s1_1
-    s1['s1_2'] = s1_2
-    s1['s1_3'] = s1_3
-    s1['s1_4'] = s1_4
-    s1['s1_5'] = s1_5
-    s1['s1_6'] = s1_6
+    s1_1_pos = s1_1_pos / n_poses_1
+    s1_2_pos = s1_2_pos / n_poses_2
+    s1_3_pos = s1_3_pos / n_poses_3
+    s1_4_pos = s1_4_pos / n_poses_4
+    s1_5_pos = s1_5_pos / n_poses_5
+    s1_6_pos = s1_6_pos / n_poses_6
+    s1['s1_1_pos'] = s1_1_pos
+    s1['s1_2_pos'] = s1_2_pos
+    s1['s1_3_pos'] = s1_3_pos
+    s1['s1_4_pos'] = s1_4_pos
+    s1['s1_5_pos'] = s1_5_pos
+    s1['s1_6_pos'] = s1_6_pos
+
+    s1_1_orie = s1_1_orie / n_poses_1
+    s1_2_orie = s1_2_orie / n_poses_2
+    s1_3_orie = s1_3_orie / n_poses_3
+    s1_4_orie = s1_4_orie / n_poses_4
+    s1_5_orie = s1_5_orie / n_poses_5
+    s1_6_orie = s1_6_orie / n_poses_6
+    s1['s1_1_orie'] = s1_1_orie
+    s1['s1_2_orie' ] = s1_2_orie
+    s1['s1_3_orie' ] = s1_3_orie
+    s1['s1_4_orie' ] = s1_4_orie
+    s1['s1_5_orie' ] = s1_5_orie
+    s1['s1_6_orie' ] = s1_6_orie
 
     if (args.verbose):
         print("\n")
         print('Computing camera calibration scores (s1)....')
         print('------------------------------------------------')
-        print('s1_1', s1_1)
-        print('s1_2', s1_2)
-        print('s1_3', s1_3)
-        print('s1_4', s1_4)
-        print('s1_5', s1_5)
-        print('s1_6', s1_6)
+        print('s1_1_pos', s1_1_pos)
+        print('s1_2_pos', s1_2_pos)
+        print('s1_3_pos', s1_3_pos)
+        print('s1_4_pos', s1_4_pos)
+        print('s1_5_pos', s1_5_pos)
+        print('s1_6_pos', s1_6_pos)
+        print('s1_1_orie', s1_1_orie)
+        print('s1_2_orie', s1_2_orie)
+        print('s1_3_orie', s1_3_orie)
+        print('s1_4_orie', s1_4_orie)
+        print('s1_5_orie', s1_5_orie)
+        print('s1_6_orie', s1_6_orie)
         print("\n")
 
 def read_scores(args):
@@ -596,13 +713,10 @@ def read_scores(args):
     global acceptable_object_names
     acceptable_object_names = {}
     global testing_layout
-    testin_layout = None
+    testing_layout = args.layout
     for file in scenes_files:
         tree = ET.parse(join(args.scenes_folder,file))
         root = tree.getroot()
-
-        if (testing_layout == None):
-             testing_layout = root.attrib['name']
 
         parse_scenes_files(acceptable_object_names,root)
 
@@ -625,11 +739,11 @@ def read_scores(args):
 
 if __name__ == '__main__':
 
-    # Compute scores s0_1, s0_2, s0_3
+    # Compute scores s0_1, s0_2_pos, s0_3_pos
     # representing the reachibility of the robot in the scene
     compute_reachability_score(parser.parse_args())
 
-    # Compute scores s1_1, s1_2, s1_3
+    # Compute scores s1_1_pos, s1_2_pos, s1_3_pos
     # representing the camera calibration of the robot in the scene
     compute_camera_calibration_score(parser.parse_args())
 
@@ -648,7 +762,7 @@ if __name__ == '__main__':
     associate_camera_calibration_to_objects(parser.parse_args())
 
     # Compute final_score
-    compute_final_score()
+    compute_final_score(parser.parse_args())
 
     # Print all scores
     print_scores()

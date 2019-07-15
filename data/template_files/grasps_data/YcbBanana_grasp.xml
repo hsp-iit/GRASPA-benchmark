@@ -5,7 +5,7 @@
 	<CollisionModel>
 		<File type='inventor'>../../../RAL-benchmark-code/data/objects/YCB/banana/./nontextured.stl</File>
 	</CollisionModel>
-	<GraspSet name='Benchmark_Layout_0' RobotType='iCub' EndEffector='Left Hand'>
+	<GraspSet name='Benchmark_Layout_1' RobotType='iCub' EndEffector='Left Hand'>
 		<Grasp name='Grasp 1' quality='0.557499' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
 			<Transform>
 				<Matrix4x4>
@@ -19,7 +19,7 @@
 	</GraspSet>
     <!-- The field value shoul be 1 if the object is graspable
     by the robot, 0 otherwise-->
-    <Graspable quality='0'/>
+    <Graspable quality='1'/>
     <!-- The field value shoul be 1 if the object actually grasped
     by the robot, 0 otherwise-->
     <Grasped quality='1'/>
