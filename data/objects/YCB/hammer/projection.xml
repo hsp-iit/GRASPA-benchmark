@@ -1,6 +1,0 @@
-<ManipulationObject name="hammer">
-    <Visualization>
-        <File type="inventor">./projection.wrl</File>
-        <UseAsCollisionModel/>
-    </Visualization>
-</ManipulationObject>

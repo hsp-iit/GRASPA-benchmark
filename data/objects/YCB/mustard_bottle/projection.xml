@@ -1,6 +1,0 @@
-<ManipulationObject name="mustard">
-    <Visualization>
-        <File type="inventor">./projection.wrl</File>
-        <UseAsCollisionModel/>
-    </Visualization>
-</ManipulationObject>

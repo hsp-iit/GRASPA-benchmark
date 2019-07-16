@@ -35,7 +35,7 @@ parser.add_argument('--verbose', dest="verbose",
 
 ## TODO Find good values, they need to be found trying also to grasp
 parser.add_argument('--threshold_pos', action='store', dest="threshold_pos",
-                    default=0.04,  ## In millimeters
+                    default=0.02,  ## In millimeters
                     help='Threshold on reaching position')
 parser.add_argument('--threshold_orie', action='store', dest="threshold_orie",
                     default=0.5,  ## In millimeters
@@ -45,7 +45,7 @@ parser.add_argument('--reaching_threshold', action='store', dest="reaching_thres
                     help='Threshold on reaching position')
 
 parser.add_argument('--threshold_camera_pos', action='store', dest="threshold_camera_pos",
-                    default=0.06,  ## In millimeters
+                    default=0.045,  ## In millimeters
                     help='Threshold on reaching position')
 parser.add_argument('--threshold_camera_orie', action='store', dest="threshold_camera_orie",
                     default=0.8,  ## In millimeters

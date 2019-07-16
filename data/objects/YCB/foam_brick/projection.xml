@@ -1,6 +1,0 @@
-<ManipulationObject name="foam">
-    <Visualization>
-        <File type="inventor">./projection.wrl</File>
-        <UseAsCollisionModel/>
-    </Visualization>
-</ManipulationObject>

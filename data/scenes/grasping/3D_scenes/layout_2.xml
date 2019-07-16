@@ -73,7 +73,7 @@
   </ManipulationObject>
 
   <ManipulationObject name='YcbCrackerBox'>
-    <File>data/objects/YCB/cracker_box/nontextured.xml</File>
+    <File>data/objects/YCB/cracker_box/nontextured_vertical.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
