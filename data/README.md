@@ -5,7 +5,7 @@
 <img src="https://github.com/fbottarel/RAL-benchmark-code/blob/master/media/scene1.png" alt="drawing" width="300"/> <img src="https://github.com/fbottarel/RAL-benchmark-code/blob/master/data/scenes/grasping/printable_layouts/layout_0/layout_0_printout.png" alt="drawing" width="300"/>
 
 ### No. 2 - Difficulty: medium
-<img src="https://github.com/fbottarel/RAL-benchmark-code/blob/master/media/scene_2.png" alt="drawing" width="300"/> <img src="https://github.com/fbottarel/RAL-benchmark-code/blob/master/data/scenes/grasping/printable_layouts/layout_1/layout_1_printout.png" alt="drawing" width="300"/>
+<img src="https://github.com/fbottarel/RAL-benchmark-code/blob/master/media/scene2.png" alt="drawing" width="300"/> <img src="https://github.com/fbottarel/RAL-benchmark-code/blob/master/data/scenes/grasping/printable_layouts/layout_1/layout_1_printout.png" alt="drawing" width="300"/>
 
 
 ### No. 3 - Difficulty: high
