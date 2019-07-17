@@ -33,25 +33,27 @@ parser.add_argument('--verbose', dest="verbose",
                     default=False,
                     help='Enabling verbose mode for getting more information')
 
-## TODO Find good values, they need to be found trying also to grasp
+## The user is supposed to set the threhsold according to the robot specs
+## and the precision required by its pipeline
+## NOTE It's important this values are declared together with the results
 parser.add_argument('--threshold_pos', action='store', dest="threshold_pos",
-                    default=0.02,  ## In millimeters
+                    default=0.03,  ## In millimeters (TODO 0.02?)
                     help='Threshold on reaching position')
 parser.add_argument('--threshold_orie', action='store', dest="threshold_orie",
-                    default=0.5,  ## In millimeters
+                    default=0.5,  ## In rad (axis angle error)
                     help='Threshold on reaching position')
 parser.add_argument('--reaching_threshold', action='store', dest="reaching_threshold",
-                    default=0.66,  ## Orientation error
+                    default=0.5,  ## TODO or 0.6?
                     help='Threshold on reaching position')
 
 parser.add_argument('--threshold_camera_pos', action='store', dest="threshold_camera_pos",
                     default=0.045,  ## In millimeters
                     help='Threshold on reaching position')
 parser.add_argument('--threshold_camera_orie', action='store', dest="threshold_camera_orie",
-                    default=0.8,  ## In millimeters
+                    default=0.8,  ## In rad (axis angle error)
                     help='Threshold on reaching position')
 parser.add_argument('--camera_threshold', action='store', dest="camera_threshold",
-                    default=0.5,  ## Orientation error
+                    default=0.5,  ## TODO Value?
                     help='Threshold on reaching position')
 
 
@@ -145,6 +147,15 @@ def compute_final_score(args):
         average_final_score = 0.0
 
 def print_scores():
+
+    print("\n")
+    print('------------------------------------------------')
+    print('------------------------------------------------')
+    string = 'Results for : ' + testing_layout
+    print(string.center(len('------------------------------------------------')))
+    print('------------------------------------------------')
+    print('------------------------------------------------')
+
     print("\n")
     print('------------------------------------------------')
     string = 'Reachibility scores (s0):'
@@ -531,7 +542,6 @@ def compute_reachability_score(args):
                         print('acceptable')
                     s0_6 += 1
                 n_poses_6 += 1
-
 
     s0_1 = s0_1 / n_poses_1
     s0_2 = s0_2 / n_poses_2
