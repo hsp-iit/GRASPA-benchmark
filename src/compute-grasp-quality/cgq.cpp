@@ -15,6 +15,15 @@
 #include <GraspPlanning/ApproachMovementSurfaceNormal.h>
 #include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
+std::string file_base_name(std::string const& path)
+{
+    //  return basename of a file, without extension
+
+    std::string basename_with_extension = path.substr(path.find_last_of("/\\") + 1);
+
+    return basename_with_extension.substr(0, basename_with_extension.find_last_of("."));
+}
+
 void parseDataPath()
 {
     //  add datapath to search path
@@ -26,6 +35,22 @@ void parseDataPath()
     }
 
     return;
+}
+
+bool parseGraspPath(std::string& grasp_path)
+{
+    //  this function doesn't serve much purpose, only exists for consistency
+
+    std::string grasp_path_cmd_line = VirtualRobot::RuntimeEnvironment::getValue("grasps");
+    if (!grasp_path_cmd_line.empty())
+    {
+        grasp_path = grasp_path_cmd_line;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool parseSceneFilename(std::string& scene_filename)
@@ -144,12 +169,14 @@ int main(int argc, char* argv[])
 
     //  parse robot/object filenames if flags exist as arguments
 
-    VirtualRobot::RuntimeEnvironment::considerKey("scene");
-    VirtualRobot::RuntimeEnvironment::considerKey("robot");
-    VirtualRobot::RuntimeEnvironment::considerKey("object");
-    VirtualRobot::RuntimeEnvironment::considerKey("eef");
-    //VirtualRobot::RuntimeEnvironment::considerKey("preshape");
-    VirtualRobot::RuntimeEnvironment::considerKey("datapath");
+    VirtualRobot::RuntimeEnvironment::considerKey("scene");         //  pointing to the layout xml
+    VirtualRobot::RuntimeEnvironment::considerKey("robot");         //  robot xml, from datapath folder
+    VirtualRobot::RuntimeEnvironment::considerKey("object");        //  not really useful, parsed from scene
+    VirtualRobot::RuntimeEnvironment::considerKey("eef");           //  not really useful, parsed from grasp
+    VirtualRobot::RuntimeEnvironment::considerKey("preshape");      //  not really useful, parsed from grasp
+    VirtualRobot::RuntimeEnvironment::considerKey("datapath");      //  pointing to simox data dir
+    VirtualRobot::RuntimeEnvironment::considerKey("grasps");        //  pointing to where grasps to evaluate are stored (absolute path)
+
     VirtualRobot::RuntimeEnvironment::processCommandLine(argc, argv);
     VirtualRobot::RuntimeEnvironment::print();
 
@@ -160,12 +187,31 @@ int main(int argc, char* argv[])
     //  load default scene
     //  relative to data directory
 
-    std::string scene_filename("scenes/grasping/scene1.xml");
+    std::string scene_filename("data/scenes/grasping/3D_scenes/layout_0.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(scene_filename);
 
     parseSceneFilename(scene_filename);
 
     std::cout << "Using scene: \t" << scene_filename << std::endl;
+
+    //  parse path to grasp directory
+    //  this assumes there is a directory with the same name as the layout
+    //  under grasps_path
+    //  grasps_path
+    //      |
+    //      layout_0
+    //          |
+    //          *.xml
+    //      |
+    //      layout_1
+    //          |
+    //      ...
+
+    std::string grasps_path;
+    parseGraspPath(grasps_path);
+    grasps_path = grasps_path + "/" +  file_base_name(scene_filename);
+
+    std::cout << "Parsing grasps from: \t" << grasps_path << std::endl;
 
     //  load default setup
     //  robot filename is relative to the data directory
@@ -182,7 +228,7 @@ int main(int argc, char* argv[])
     //  load default object
     //  object filename is relative to the data directory
 
-    std::string object_filename("grasps/WaterBottleWithGrasps.xml");
+    std::string object_filename("data/grasps/YcbFoam_grasp.xml");
     VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(object_filename);
 
     //  parse manipulation object
@@ -212,10 +258,12 @@ int main(int argc, char* argv[])
 
     for (auto & obj : objects_in_scene)
     {
+
         std::cout << "Object: " << obj->getName() << std::endl;
         std::cout << obj->getGlobalPose() << std::endl;
+
         //  look for a filename in data/grasps with a specific name
-        std::string man_obj_filename = "grasps/" + obj->getName() + "_grasp.xml";
+        std::string man_obj_filename = grasps_path + "/" + obj->getName() + "_grasp.xml";
         VirtualRobot::RuntimeEnvironment::getDataFileAbsolute(man_obj_filename);
         VirtualRobot::ManipulationObjectPtr man_obj;
         try
@@ -228,7 +276,6 @@ int main(int argc, char* argv[])
             continue;
         }
 
-        //std::cout << "Object pose before setPose: " << std:: endl << man_obj->getGlobalPose() << std::endl;
         VirtualRobot::GraspSetPtr man_obj_scene_grasp_set = man_obj->getGraspSet(scene->getName());
         if (!man_obj_scene_grasp_set || man_obj_scene_grasp_set->getSize() < 1)
         {
