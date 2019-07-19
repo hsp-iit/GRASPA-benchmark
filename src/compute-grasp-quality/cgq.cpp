@@ -398,7 +398,30 @@ int main(int argc, char* argv[])
 
                 //  get the pose of the eef TCP
 
+                Eigen::Matrix4Xf mObject = object->getGlobalPose();
+
                 Eigen::Matrix4Xf mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
+
+                Eigen::Matrix4Xf pose = grasp->getTransformation();
+
+                Eigen::Matrix4Xf tcp2object = pose.inverse() * mObject;
+
+                std::cout << mObject << std::endl;
+
+                std::cout << mGrasp << std::endl;
+
+                std::cout << pose << std::endl;
+
+                std::cout << tcp2object << std::endl;
+
+                grasp->setTransformation(tcp2object);
+
+                mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
+
+                std::cout << mGrasp << std::endl;
+
+
+
 
                 //  not sure what this one does
 
