@@ -17,6 +17,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--layout', action='store', dest="layout",
                     default='Benchmark_Layout_0',
                     help='folder containing the xml with the grasping scenes')
+parser.add_argument('--modality', action='store', dest="testing_modality",
+                    default='isolation',
+                    help='select the benchmark modality: in isolation or in the clutter')
 parser.add_argument('--reached_poses_folder', action='store', dest="reached_poses_folder",
                     default='data/template_files/reached_poses/',
                     help='file containing the reached poses during reachability tests')
@@ -65,6 +68,8 @@ acceptable_keys = ['Reachable_frame00', 'Reachable_frame01', 'Reachable_frame02'
 
 testing_layout = None
 
+testing_modality = 'isolation'
+
 verbose = False
 
 #--------------------------
@@ -101,9 +106,13 @@ s4 = {}
 # s5 = Grasp robustness along trajectory (dictionary)
 s5 = {}
 
+# -------Obstacle avoidance (only if modality is in the clutter) -------
+# s6 = Goodness in avoiding obstacles (when testing in the clutter) (dictionary)
+s6 = {}
+
 # ------- Final score -------
 # s_final = Final score
-# s_final = (s2 + s5) * s3  if object is reachable and graspable
+# s_final = (s2 + s5 + s6 (if in the clutter)) * s3  if object is reachable and graspable
 s_final = {}
 
 #--------------------------
@@ -119,7 +128,7 @@ region_6 = np.array([[-272, 246.66], [-272, 370], [-544, 246.66], [-544, 370]])
 
 def compute_final_score(args):
     # Compute the final score for each object
-    # s_final = (s2 + s5) * s3 * s4 * 1(s0 > reaching_threshold) * 1(s1 > camera_threshold)
+    # s_final = (s2 + s5 + s6) * s3 * s4 * 1(s0 > reaching_threshold) * 1(s1 > camera_threshold)
     for obj in acceptable_object_names[testing_layout]:
         if ((not s0_objects[obj]== 'Missing data') and (not s3[obj]== 'Missing data') and (not s4[obj]== 'Missing data') and ((not s5[obj]== 'Missing data'))):
             if (s0_objects[obj] >= args.reaching_threshold and  s1_objects[obj] >= args.camera_threshold and s3[obj] == 1 ):
@@ -129,7 +138,7 @@ def compute_final_score(args):
                     print('Computing final score for object: ', obj)
                     print('------------------------------------------------')
                 #s_final[obj] = (s2[obj] + s5[obj]) * s4[obj] # TODO Add grasp metric
-                s_final[obj] = s5[obj] * s4[obj]
+                s_final[obj] = (s5[obj] + s6[obj]) * s4[obj]
         else:
             s_final[obj] = 'Missing data'
 
@@ -194,6 +203,13 @@ def print_scores():
     print('------------------------------------------------')
     print("\n")
     print("\n".join(" {} : {}".format(k, v) for k, v in s5.items()) )
+    print("\n")
+    print('------------------------------------------------')
+    string = 'Obstacle avoidance (s6) (Valid only if in the clutter):'
+    print(string.center(len('------------------------------------------------')))
+    print('------------------------------------------------')
+    print("\n")
+    print("\n".join(" {} : {}".format(k, v) for k, v in s6.items()) )
     print("\n")
 
     print('================================================')
@@ -374,7 +390,7 @@ def not_consistent(file, acceptable_object_names):
     else:
         return True
 
-def parse_grasping_files(files, s3, s4, s5):
+def parse_grasping_files(files, s3, s4, s5, s6, mod):
     # Parse grasping files to get score s3, s4 and s5
     for file in files:
         file_name = os.path.splitext(os.path.basename(file))[0]
@@ -391,6 +407,12 @@ def parse_grasping_files(files, s3, s4, s5):
         s4[file_name] = float(root[2].attrib['quality'])
         # Read grasp stability over trajectory
         s5[file_name] = float(root[3].attrib['quality'])
+        # Read grasp stability over trajectory
+
+        if (mod == 'clutter'):
+            s6[file_name] = 1.0 - float(root[4].attrib['quality'])/len(acceptable_object_names[testing_layout])
+        else:
+            s6[file_name] = 0.0
 
         # If the user does not provide some objects of the testing layout
         # their are stored with the value 'Missing data'
@@ -401,6 +423,8 @@ def parse_grasping_files(files, s3, s4, s5):
                 s4[obj] = 'Missing data'
             if (not obj in s5):
                 s5[obj] = 'Missing data'
+            if (not obj in s6):
+                s6[obj] = 'Missing data'
 
 def parse_scenes_files(dict_store, root):
     # Parse scene files
@@ -705,7 +729,7 @@ def read_scores(args):
     # of the objects as defined in the xmls of the benchmark
     # Read Stability scores and save in s4 as a dictionary, with tag the names
     # of the objects as defined in the xmls of the benchmark
-    parse_grasping_files(grasp_files, s3, s4, s5)
+    parse_grasping_files(grasp_files, s3, s4, s5, s6, args.testing_modality)
 
 if __name__ == '__main__':
 
@@ -720,7 +744,7 @@ if __name__ == '__main__':
     # Compute grasp Quality
     # TODO To launch fabrizio's code
 
-    # Read scores s3, s4, s5 from user provided files
+    # Read scores s3, s4, s5, s6 from user provided files
     read_scores(parser.parse_args())
 
     # Associate the reachability error to each object, accordin to the region
