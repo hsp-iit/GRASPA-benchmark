@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 
     //  Print some debug statements
 
-    std::cout << "Parsing complete!" << std::endl;
+    std::cout << std::endl << "Parsing complete!" << std::endl;
     std::cout << "Using scene: \t\t" << scene_filename << std::endl;
     std::cout << "Using robot: \t\t" << robot_filename << std::endl;
     std::cout << "Parsing grasps from: \t" << grasps_path << std::endl;

@@ -44,6 +44,10 @@ public slots:
 
     void loadScene();
 
+    void loadRobot();
+
+    void loadObjectsGrasps();
+
     SoQtExaminerViewer* getExaminerViewer()
     {
         return viewer;
@@ -63,18 +67,29 @@ protected:
 
     SoSeparator* sceneSep;
     SoSeparator* sceneVisuSep;
+    SoSeparator* robotSep;
+    SoSeparator* objectSep;
+
+    SoSeparator* eefVisu;
+
 
     VirtualRobot::GraspPtr currentGrasp;
     VirtualRobot::GraspSetPtr currentGraspSet;
-    VirtualRobot::RobotPtr currentRobot;
+    VirtualRobot::RobotPtr robot;
     VirtualRobot::EndEffectorPtr currentEEF;
+    VirtualRobot::RobotPtr eefCloned;
 
     VirtualRobot::ScenePtr scene;
+
+    std::vector< VirtualRobot::ManipulationObjectPtr > objects_in_scene;
+    std::vector< VirtualRobot::ManipulationObjectPtr > objects_in_scene_with_grasps;
+
     std::string sceneFile;
     std::string robotFile;
     std::string graspsPath;
 
 
     boost::shared_ptr<VirtualRobot::CoinVisualization> visualization;
+    boost::shared_ptr<VirtualRobot::CoinVisualization> visualizationRobot;
 };
 
