@@ -349,16 +349,27 @@ def acceptable(thres_pos, thres_orie, error):
     else:
         return True
 
+def wrap_grasp_files(file):
+    with open(file, 'r') as file_input:
+        contents = file_input.readlines()
+        file_input.close()
+
+        contents.insert(1, '<wrapper>')
+        contents.insert(len(contents), '</wrapper>')
+        root = ET.fromstring(''.join(contents))
+        return root
+
 def not_consistent(file, acceptable_object_names):
     # Check if the user provides the correct layout name
     # w.r.t the list of objects provided
-    tree = ET.parse(file)
-    root = tree.getroot()
+    # tree = ET.parse(file)
+    # root = tree.getroot()
+    root = wrap_grasp_files(file)
 
     file_name = os.path.splitext(os.path.basename(file))[0]
     file_name = file_name[:-6]
 
-    if file_name in acceptable_object_names[root[2].attrib['name']]:
+    if file_name in acceptable_object_names[root[0][2].attrib['name']]:
         return False
     else:
         return True
@@ -369,15 +380,17 @@ def parse_grasping_files(files, s3, s4, s5):
         file_name = os.path.splitext(os.path.basename(file))[0]
         file_name = file_name[:-6]
 
-        tree = ET.parse(file)
-        root = tree.getroot()
+        # tree = ET.parse(file)
+        # root = tree.getroot()
+        root = wrap_grasp_files(file)
+
 
         # Read graspability
-        s3[file_name] = float(root[3].attrib['quality'])
+        s3[file_name] = float(root[1].attrib['quality'])
         # Read if object has been grasped
-        s4[file_name] = float(root[4].attrib['quality'])
+        s4[file_name] = float(root[2].attrib['quality'])
         # Read grasp stability over trajectory
-        s5[file_name] = float(root[5].attrib['quality'])
+        s5[file_name] = float(root[3].attrib['quality'])
 
         # If the user does not provide some objects of the testing layout
         # their are stored with the value 'Missing data'
