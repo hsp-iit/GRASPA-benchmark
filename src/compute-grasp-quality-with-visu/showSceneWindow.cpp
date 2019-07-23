@@ -45,9 +45,12 @@ showSceneWindow::showSceneWindow(std::string& scene_filename, std::string& robot
     sceneSep->addChild(sceneVisuSep);
     robotSep = new SoSeparator;
     objectSep = new SoSeparator;
+    graspsSep = new SoSeparator;
+    graspsSep->ref();
 
     sceneSep->addChild(robotSep);
     sceneSep->addChild(objectSep);
+    sceneSep->addChild(graspsSep);
 
     setupUI();
 
@@ -61,6 +64,9 @@ showSceneWindow::showSceneWindow(std::string& scene_filename, std::string& robot
 showSceneWindow::~showSceneWindow()
 {
     sceneSep->unref();
+    graspsSep->unref();
+    eefVisu->unref();
+
     delete viewer;
 }
 
@@ -120,6 +126,8 @@ void showSceneWindow::buildVisu()
     {
         robotSep->addChild(visualisationNode2);
     }
+
+    viewer->scheduleRedraw();
 
 }
 
@@ -201,10 +209,6 @@ int showSceneWindow::main()
                 std::string preshape_name = grasp->getPreshapeName();
                 currentEEF->setPreshape(preshape_name);
 
-                //EXPERIMENTAL: DISPLAY EEF
-                eefVisu = VirtualRobot::CoinVisualizationFactory::CreateEndEffectorVisualization(currentEEF);
-                eefVisu->ref();
-
                 //  get the pose of the eef TCP
 
                 Eigen::Matrix4Xf mObject = object->getGlobalPose();
@@ -228,7 +232,6 @@ int showSceneWindow::main()
                 mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
 
                 std::cout << mGrasp << std::endl;
-
 
                 //  not sure what this one does
 
@@ -279,9 +282,23 @@ int showSceneWindow::main()
 
                 results.print();
 
+                //EXPERIMENTAL: DISPLAY EEF
+                currentEEF->closeActors(object);
+                eefVisu = VirtualRobot::CoinVisualizationFactory::CreateEndEffectorVisualization(currentEEF);
+                eefVisu->ref();
+
+                //  add the grasp to visualization
+
+                Eigen::Matrix4f m = grasp->getTcpPoseGlobal(object->getGlobalPose());
+                SoSeparator* sep_grasp = new SoSeparator();
+                SoMatrixTransform* mt = VirtualRobot::CoinVisualizationFactory::getMatrixTransformScaleMM2M(m);
+                sep_grasp->addChild(mt);
+                sep_grasp->addChild(eefVisu);
+                graspsSep->addChild(sep_grasp);
+
                 //  open the actors after grasp
 
-                eefCloned->getEndEffector(eef_name)->openActors();
+                //eefCloned->getEndEffector(eef_name)->openActors();
 
             }
         }

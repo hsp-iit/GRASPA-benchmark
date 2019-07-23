@@ -69,6 +69,7 @@ protected:
     SoSeparator* sceneVisuSep;
     SoSeparator* robotSep;
     SoSeparator* objectSep;
+    SoSeparator* graspsSep;
 
     SoSeparator* eefVisu;
 
