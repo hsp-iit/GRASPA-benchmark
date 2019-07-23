@@ -251,6 +251,18 @@ int showSceneWindow::main()
 
                 VirtualRobot::EndEffector::ContactInfoVector contacts = eefCloned->getEndEffector(eef_name)->closeActors(object);
 
+                eefVisu = VirtualRobot::CoinVisualizationFactory::CreateEndEffectorVisualization(eefCloned->getEndEffector(eef_name));
+                eefVisu->ref();
+
+                //  add the grasp to visualization
+
+                Eigen::Matrix4f m = grasp->getTcpPoseGlobal(object->getGlobalPose());
+                SoSeparator* sep_grasp = new SoSeparator();
+                SoMatrixTransform* mt = VirtualRobot::CoinVisualizationFactory::getMatrixTransformScaleMM2M(m);
+                sep_grasp->addChild(mt);
+                sep_grasp->addChild(eefVisu);
+                graspsSep->addChild(sep_grasp);
+
                 //  compute pose quality
 
                 qualityMeasure->setVerbose(false);
@@ -283,18 +295,7 @@ int showSceneWindow::main()
                 results.print();
 
                 //EXPERIMENTAL: DISPLAY EEF
-                currentEEF->closeActors(object);
-                eefVisu = VirtualRobot::CoinVisualizationFactory::CreateEndEffectorVisualization(currentEEF);
-                eefVisu->ref();
 
-                //  add the grasp to visualization
-
-                Eigen::Matrix4f m = grasp->getTcpPoseGlobal(object->getGlobalPose());
-                SoSeparator* sep_grasp = new SoSeparator();
-                SoMatrixTransform* mt = VirtualRobot::CoinVisualizationFactory::getMatrixTransformScaleMM2M(m);
-                sep_grasp->addChild(mt);
-                sep_grasp->addChild(eefVisu);
-                graspsSep->addChild(sep_grasp);
 
                 //  open the actors after grasp
 
