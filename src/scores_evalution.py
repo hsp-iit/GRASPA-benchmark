@@ -40,7 +40,7 @@ parser.add_argument('--verbose', dest="verbose",
 ## and the precision required by its pipeline
 ## NOTE It's important this values are declared together with the results
 parser.add_argument('--threshold_pos', action='store', dest="threshold_pos",
-                    default=0.03,  ## In millimeters (TODO 0.02?)
+                    default=0.02,  ## In millimeters (TODO 0.02?)
                     help='Threshold on reaching position')
 parser.add_argument('--threshold_orie', action='store', dest="threshold_orie",
                     default=0.5,  ## In rad (axis angle error)
@@ -400,17 +400,33 @@ def parse_grasping_files(files, s3, s4, s5, s6, mod):
         # root = tree.getroot()
         root = wrap_grasp_files(file)
 
-
         # Read graspability
         s3[file_name] = float(root[1].attrib['quality'])
-        # Read if object has been grasped
-        s4[file_name] = float(root[2].attrib['quality'])
-        # Read grasp stability over trajectory
-        s5[file_name] = float(root[3].attrib['quality'])
-        # Read grasp stability over trajectory
 
+        s_tmp = 0.0
+        count_grasp_item = 0
+        # Read if object has been grasped
+        for g in root[2].iter('Grasp'):
+            count_grasp_item += 1
+            s_tmp += float(g.attrib['quality'])
+        s4[file_name] = s_tmp / count_grasp_item
+
+        s_tmp = 0.0
+        count_grasp_item = 0
+        # Read grasp stability over trajectory
+        for g in root[3].iter('Grasp'):
+            count_grasp_item += 1
+            s_tmp += float(g.attrib['quality'])
+        s5[file_name] = s_tmp / count_grasp_item
+
+        # Read grasp stability over trajectory
+        s_tmp = 0.0
+        count_grasp_item = 0
         if (mod == 'clutter'):
-            s6[file_name] = 1.0 - float(root[4].attrib['quality'])/len(acceptable_object_names[testing_layout])
+            for g in root[4].iter('Grasp'):
+                count_grasp_item += 1
+                s_tmp += (1.0 -float(g.attrib['quality'])/len(acceptable_object_names))
+            s6[file_name] = s_tmp / count_grasp_item
         else:
             s6[file_name] = 0.0
 
