@@ -385,6 +385,8 @@ def not_consistent(file, acceptable_object_names):
     file_name = os.path.splitext(os.path.basename(file))[0]
     file_name = file_name[:-6]
 
+    print(file_name)
+
     if file_name in acceptable_object_names[root[0][2].attrib['name']]:
         return False
     else:

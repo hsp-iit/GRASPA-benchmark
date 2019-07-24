@@ -72,14 +72,14 @@
     </GlobalPose>
   </ManipulationObject>
 
-  <ManipulationObject name='YcbCrackerBox'>
-    <File>data/objects/YCB/cracker_box/nontextured_vertical.xml</File>
+  <ManipulationObject name='YcbPowerDrill'>
+    <File>data/objects/YCB/power_drill/nontextured.xml</File>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
-          <row1 c1='0.866' c2='0.5000439980641703' c3='0' c4='-494.56'/>
+          <row1 c1='0.866' c2='0.5000439980641703' c3='0' c4='-474.56'/>
           <row2 c1='-0.5000439980641703' c2='0.866' c3='0' c4='258.99'/>
-          <row3 c1='0' c2='0' c3='1' c4='100'/>
+          <row3 c1='0' c2='0' c3='1' c4='0'/>
           <row4 c1='0' c2='0' c3='0' c4='1'/>
         </Matrix4x4>
       </Transform>
