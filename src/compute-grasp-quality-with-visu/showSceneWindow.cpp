@@ -21,12 +21,16 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <fstream>
 
 #include "Inventor/actions/SoLineHighlightRenderAction.h"
 #include <Inventor/nodes/SoShapeHints.h>
 #include <Inventor/nodes/SoLightModel.h>
 
 #include <sstream>
+
+
+
 
 showSceneWindow::showSceneWindow(std::string& scene_filename, std::string& robot_filename, std::string& grasps_path)
     : QMainWindow(nullptr)
@@ -194,6 +198,8 @@ int showSceneWindow::main()
 
             qualityMeasure->calculateObjectProperties();
 
+            GraspSetQuality grasp_set_log;
+
             for ( VirtualRobot::GraspPtr grasp : grasp_vec)
             {
                 //  get eef for each grasp
@@ -219,19 +225,19 @@ int showSceneWindow::main()
 
                 Eigen::Matrix4Xf tcp2object = pose.inverse() * mObject;
 
-                std::cout << mObject << std::endl;
+                //std::cout << mObject << std::endl;
 
-                std::cout << mGrasp << std::endl;
+                //std::cout << mGrasp << std::endl;
 
-                std::cout << pose << std::endl;
+                //std::cout << pose << std::endl;
 
-                std::cout << tcp2object << std::endl;
+                //std::cout << tcp2object << std::endl;
 
                 grasp->setTransformation(tcp2object);
 
                 mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
 
-                std::cout << mGrasp << std::endl;
+                //std::cout << mGrasp << std::endl;
 
                 //  not sure what this one does
 
@@ -277,7 +283,7 @@ int showSceneWindow::main()
 
                 //  evaluate robustness for some default parameters
 
-                int num_samples = 500;
+                int num_samples = 10;
                 float max_pos_delta = 10.0;
                 float max_ori_delta = 10.0;
 
@@ -294,14 +300,16 @@ int showSceneWindow::main()
 
                 results.print();
 
-                //EXPERIMENTAL: DISPLAY EEF
+                //  log results in order to save them later
 
+                GraspQualitySetEntry results_quality(results.avgQuality, results.avgQualityCol);
 
-                //  open the actors after grasp
-
-                //eefCloned->getEndEffector(eef_name)->openActors();
+                grasp_set_log.insert( std::pair<std::string, GraspQualitySetEntry>(grasp->getName(), results_quality));
 
             }
+
+            saveComputedQuality(grasp_set_log, path_map[object->getName()]);
+
         }
     }
 
@@ -404,7 +412,38 @@ void showSceneWindow::loadObjectsGrasps()
         //std::cout << "Grasp pose after setPose: " << std:: endl << tmp_grasp->getTcpPoseGlobal(man_obj->getGlobalPose()) << std::endl;
 
         objects_in_scene_with_grasps.push_back(man_obj);
+
+        path_map.insert(std::pair<std::string, std::string>(man_obj->getName(), man_obj_filename));
     }
 
+
+}
+
+int showSceneWindow::saveComputedQuality( const GraspSetQuality& set_quality, const std::string& xml_filename)
+{
+
+    /*  append to the xml file a node containing
+    *   <ComputedQuality>
+    *       <Grasp name="Grasp 0" quality_collision_free=0.264 quality_overall=0.125/>
+    *       <Grasp name="Grasp 1" quality_collision_free=0.493 quality_overall=0.345/>
+    *       ...
+    *   </ComputedQuality>
+    */
+
+    std::ofstream xml_file(xml_filename, std::ios_base::app);
+    xml_file << "<ComputedQuality>" << "\n";
+
+    for (const auto& g_quality : set_quality)
+    {
+        xml_file << "    <Grasp name=\"" << g_quality.first << "\"";
+        xml_file << " quality_collision_free=\"" << g_quality.second.quality_collision_free << "\"";
+        xml_file << " quality_overall=\"" << g_quality.second.quality_overall << "\"";
+        xml_file << "/>" << "\n";
+    }
+
+    xml_file << "</ComputedQuality>" << "\n";
+
+    xml_file.close();
+    return 0;
 
 }
