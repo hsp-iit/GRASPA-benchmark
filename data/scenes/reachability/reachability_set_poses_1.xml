@@ -228,7 +228,7 @@
 
       <Obstacle name='Table'>
         <Visualization>
-    		<File type='inventor'>objects/iv/layout_base.iv</File>
+    		<File type='inventor'>objects/iv/layout_base_noboard.iv</File>
     		<UseAsCollisionModel/>
     	</Visualization>
         <GlobalPose>
