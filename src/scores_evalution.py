@@ -110,10 +110,16 @@ s5 = {}
 # s6 = Goodness in avoiding obstacles (when testing in the clutter) (dictionary)
 s6 = {}
 
+# ------- Auxiliary score  to compute final score-------
+# For each trial of the object
+# s_aux[object][trial] = (s2_aux[object][item] + s5_aux[object][item] + s6_aux[object][item])  * s4_aux[object][item]
+s_aux = {}
+
 # ------- Final score -------
 # s_final = Final score
-# s_final = (s2 + s5 + s6 (if in the clutter)) * s3  if object is reachable and graspable
+# s_final = average of s_aux
 s_final = {}
+
 
 #--------------------------
 #--------------------------
@@ -130,15 +136,19 @@ def compute_final_score(args):
     # Compute the final score for each object
     # s_final = (s2 + s5 + s6) * s3 * s4 * 1(s0 > reaching_threshold) * 1(s1 > camera_threshold)
     for obj in acceptable_object_names[testing_layout]:
-        if ((not s0_objects[obj]== 'Missing data') and (not s3[obj]== 'Missing data') and (not s4[obj]== 'Missing data') and ((not s5[obj]== 'Missing data'))):
+        if ((not s0_objects[obj]== 'Missing data') and (not s1[obj]== 'Missing data') and (not s2[obj]== 'Missing data')and (not s3[obj]== 'Missing data') and (not s4[obj]== 'Missing data') and ((not s5[obj]== 'Missing data'))):
             if (s0_objects[obj] >= args.reaching_threshold and  s1_objects[obj] >= args.camera_threshold and s3[obj] == 1 ):
                 if (args.verbose):
                     print("\n")
                     print('------------------------------------------------')
                     print('Computing final score for object: ', obj)
                     print('------------------------------------------------')
-                #s_final[obj] = (s2[obj] + s5[obj]) * s4[obj] # TODO Add grasp metric
-                s_final[obj] = (s5[obj] + s6[obj]) * s4[obj]
+                s_tmp = 0.0
+                count = 0
+                for s_a in s_aux[obj]:
+                    s_tmp += s_a
+                    count += 1
+                s_final[obj] = s_tmp / count
         else:
             s_final[obj] = 'Missing data'
 
@@ -181,6 +191,15 @@ def print_scores():
     print('------------------------------------------------')
     print("\n")
     print("\n".join(" {} : {}".format(k, v) for k, v in s1_objects.items()) )
+    print("\n")
+
+    print("\n")
+    print('------------------------------------------------')
+    string = 'Camera calibration scores (s2):'
+    print(string.center(len('------------------------------------------------')))
+    print('------------------------------------------------')
+    print("\n")
+    print("\n".join(" {} : {}".format(k, v) for k, v in s2.items()) )
     print("\n")
 
     print('------------------------------------------------')
@@ -385,14 +404,12 @@ def not_consistent(file, acceptable_object_names):
     file_name = os.path.splitext(os.path.basename(file))[0]
     file_name = file_name[:-6]
 
-    print(file_name)
-
     if file_name in acceptable_object_names[root[0][2].attrib['name']]:
         return False
     else:
         return True
 
-def parse_grasping_files(files, s3, s4, s5, s6, mod):
+def parse_grasping_files(files, s3, s4, s5, s6, args):
     # Parse grasping files to get score s3, s4 and s5
     for file in files:
         file_name = os.path.splitext(os.path.basename(file))[0]
@@ -405,36 +422,75 @@ def parse_grasping_files(files, s3, s4, s5, s6, mod):
         # Read graspability
         s3[file_name] = float(root[1].attrib['quality'])
 
+        # TODO Uncomment this when files available
         s_tmp = 0.0
         count_grasp_item = 0
+        s2_item = {}
+        s2_item[file_name] = []
+        # Read if object has been grasped
+        for g in root[5].iter('Grasp'):
+            count_grasp_item += 1
+            s_tmp += float(g.attrib['quality'])
+            s2_item[file_name].append(float(g.attrib['quality']))
+        s2[file_name] = s_tmp / count_grasp_item
+
+        s_tmp = 0.0
+        count_grasp_item = 0
+        s4_item = {}
+        s4_item[file_name] = []
         # Read if object has been grasped
         for g in root[2].iter('Grasp'):
             count_grasp_item += 1
             s_tmp += float(g.attrib['quality'])
+            s4_item[file_name].append(float(g.attrib['quality']))
         s4[file_name] = s_tmp / count_grasp_item
 
         s_tmp = 0.0
         count_grasp_item = 0
+        s5_item = {}
+        s5_item[file_name] = []
         # Read grasp stability over trajectory
         for g in root[3].iter('Grasp'):
             count_grasp_item += 1
             s_tmp += float(g.attrib['quality'])
+            s5_item[file_name].append(float(g.attrib['quality']))
         s5[file_name] = s_tmp / count_grasp_item
 
         # Read grasp stability over trajectory
         s_tmp = 0.0
         count_grasp_item = 0
-        if (mod == 'clutter'):
+        s6_item = {}
+        s6_item[file_name] = []
+        if (args.testing_modality == 'clutter'):
             for g in root[4].iter('Grasp'):
                 count_grasp_item += 1
                 s_tmp += (1.0 -float(g.attrib['quality'])/len(acceptable_object_names))
+                s6_item[file_name].append(float(g.attrib['quality']))
             s6[file_name] = s_tmp / count_grasp_item
         else:
             s6[file_name] = 0.0
+            for g in root[4].iter('Grasp'):
+                s6_item[file_name].append(0.0)
+
+        s_aux[file_name] = []
+        for i in range(len(s4_item[file_name])):
+            if (args.testing_modality == 'isolation'):
+                # TODO Add s2
+                s_aux[file_name].append((s2_item[file_name] + s5_item[file_name]) * s4_item[file_name])
+                #s_aux[file_name].append((s5_item[file_name][i]) * s4_item[file_name][i])
+            else:
+                # TODO Add s2
+                s_aux[file_name].append((s2_item[file_name] + s5_item[file_name] + s6_item[file_name]) * s4_item[file_name])
+                #s_aux[file_name].append((s5_item[file_name][i] + s6_item[file_name][i]) * s4_item[file_name][i])
+
+        if args.verbose:
+            print('s_aux', s_aux[file_name])
 
         # If the user does not provide some objects of the testing layout
         # their are stored with the value 'Missing data'
         for obj in acceptable_object_names[testing_layout]:
+            if (not obj in s2):
+                s2[obj] = 'Missing data'
             if (not obj in s3):
                 s3[obj] = 'Missing data'
             if (not obj in s4):
@@ -443,6 +499,8 @@ def parse_grasping_files(files, s3, s4, s5, s6, mod):
                 s5[obj] = 'Missing data'
             if (not obj in s6):
                 s6[obj] = 'Missing data'
+            if (not obj in s_aux):
+                s_aux[obj] = 'Missing data'
 
 def parse_scenes_files(dict_store, root):
     # Parse scene files
@@ -747,7 +805,7 @@ def read_scores(args):
     # of the objects as defined in the xmls of the benchmark
     # Read Stability scores and save in s4 as a dictionary, with tag the names
     # of the objects as defined in the xmls of the benchmark
-    parse_grasping_files(grasp_files, s3, s4, s5, s6, args.testing_modality)
+    parse_grasping_files(grasp_files, s3, s4, s5, s6, args)
 
 if __name__ == '__main__':
 
