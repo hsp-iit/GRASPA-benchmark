@@ -215,6 +215,10 @@ int showSceneWindow::main()
                 std::string preshape_name = grasp->getPreshapeName();
                 currentEEF->setPreshape(preshape_name);
 
+                //  not sure what this one does
+
+                GraspStudio::ApproachMovementSurfaceNormalPtr approach(new GraspStudio::ApproachMovementSurfaceNormal(object, currentEEF));
+
                 //  get the pose of the eef TCP
 
                 Eigen::Matrix4Xf mObject = object->getGlobalPose();
@@ -225,31 +229,137 @@ int showSceneWindow::main()
 
                 Eigen::Matrix4Xf tcp2object = pose.inverse() * mObject;
 
-                //std::cout << mObject << std::endl;
+#if 0
 
-                //std::cout << mGrasp << std::endl;
+                //  one-time fix of poses coordinates wrt object reference frame!
 
-                //std::cout << pose << std::endl;
+                std::cout << tcp2object << std::endl;
 
-                //std::cout << tcp2object << std::endl;
+                Eigen::Affine3f translation(Eigen::Translation3f(0.0, 0.0, 100.0));
+                Eigen::Matrix4Xf fix = translation.matrix();
+
+                std::cout << fix << std::endl;
+
+                tcp2object = fix * tcp2object;
+
+                std::cout << tcp2object << std::endl;
+
+                //  end of fix!
+#endif
+
+#if 0
+
+                //  incrementally change poses to avoid collision
 
                 grasp->setTransformation(tcp2object);
 
                 mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
 
-                //std::cout << mGrasp << std::endl;
-
-                //  not sure what this one does
-
-                GraspStudio::ApproachMovementSurfaceNormalPtr approach(new GraspStudio::ApproachMovementSurfaceNormal(object, currentEEF));
-
                 //  clone the eef and place it according to the TCP in the grasp pose
 
-//                VirtualRobot::RobotPtr eefCloned = approach->getEEFRobotClone();
                 eefCloned = approach->getEEFRobotClone();
                 eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eef_name)->getTcp(), mGrasp);
 
-                //std::cout << eefCloned->getEndEffector(eef_name)->getTcp()->getGlobalPose() << std::endl;
+                //  check if collision
+
+                VirtualRobot::SceneObjectSetPtr eefColModel = eefCloned->getEndEffector(eef_name)->createSceneObjectSet();
+
+                while (object->getCollisionChecker()->checkCollision(object->getCollisionModel(), eefColModel))
+                {
+
+                    //  change the pose a lil bit
+
+                    //std::cout << "COLLISION!" << std::endl;
+
+                    //std::cout << tcp2object << std::endl;
+
+                    Eigen::Affine3f translation(Eigen::Translation3f(4.0, 0.0, 2.0));
+                    Eigen::Matrix4Xf fix = translation.matrix();
+
+                    //std::cout << fix << std::endl;
+
+                    tcp2object = fix * tcp2object;
+
+                    //std::cout << tcp2object << std::endl;
+
+                    grasp->setTransformation(tcp2object);
+
+                    mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
+
+                    eefCloned = approach->getEEFRobotClone();
+
+                    eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eef_name)->getTcp(), mGrasp);
+
+                    eefColModel = eefCloned->getEndEffector(eef_name)->createSceneObjectSet();
+
+                }
+
+
+#endif
+
+
+#if 1
+                //  quality analysis with approach
+                //  start from an approach point
+
+                int approach_steps = 100;
+                Eigen::Affine3f approach_vector(Eigen::Translation3f(100.0, 0.0, 80.0));
+                Eigen::Matrix4Xf m_approach = approach_vector.matrix();
+                tcp2object = approach_vector * tcp2object;
+
+                //  incrementally change poses to avoid collision
+
+                grasp->setTransformation(tcp2object);
+
+                mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
+
+                //  clone the eef and place it according to the TCP in the grasp pose
+
+                eefCloned = approach->getEEFRobotClone();
+                eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eef_name)->getTcp(), mGrasp);
+
+                //  check if collision
+
+                VirtualRobot::SceneObjectSetPtr eefColModel = eefCloned->getEndEffector(eef_name)->createSceneObjectSet();
+
+                Eigen::Matrix4Xf approach_increment = m_approach;
+                approach_increment.block(0,3,3,1) /= (-1 * approach_steps);
+                Eigen::Matrix4Xf last_cf_pose = m_approach;
+
+                for (int step_idx=approach_steps; step_idx>0 && !object->getCollisionChecker()->checkCollision(object->getCollisionModel(), eefColModel); step_idx--)
+                {
+
+                    //  change the pose a lil bit
+
+                    last_cf_pose = tcp2object;
+
+                    tcp2object = approach_increment * tcp2object;
+
+                    grasp->setTransformation(tcp2object);
+
+                    mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
+
+                    eefCloned = approach->getEEFRobotClone();
+
+                    eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eef_name)->getTcp(), mGrasp);
+
+                    eefColModel = eefCloned->getEndEffector(eef_name)->createSceneObjectSet();
+
+                }
+
+                tcp2object = last_cf_pose;
+
+#endif
+
+
+                grasp->setTransformation(tcp2object);
+
+                mGrasp = grasp->getTcpPoseGlobal(object->getGlobalPose());
+
+                //  clone the eef and place it according to the TCP in the grasp pose
+
+                eefCloned = approach->getEEFRobotClone();
+                eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eef_name)->getTcp(), mGrasp);
 
                 //  obtain contact information
 
@@ -308,7 +418,7 @@ int showSceneWindow::main()
 
             }
 
-            saveComputedQuality(grasp_set_log, path_map[object->getName()]);
+            //saveComputedQuality(grasp_set_log, path_map[object->getName()]);
 
         }
     }

@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
     VirtualRobot::RuntimeEnvironment::considerKey("datapath");              //  simox data path dir
     VirtualRobot::RuntimeEnvironment::considerKey("robot");                 //  robot xml, from datapath folder
     VirtualRobot::RuntimeEnvironment::considerKey("graspsdir");              //  path to user-defined grasps
+    VirtualRobot::RuntimeEnvironment::considerKey("approach");
     VirtualRobot::RuntimeEnvironment::processCommandLine(argc, argv);
     VirtualRobot::RuntimeEnvironment::print();
 
