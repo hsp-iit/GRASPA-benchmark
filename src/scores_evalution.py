@@ -89,17 +89,16 @@ s1 = {}
 # s0 = Reachability score associated to each object
 s1_objects = {}
 
-## TODO
-# ------- Grasp Quality -------
-# s2 = Grasp Quality for each object
+# ------- Object graspability -------
+# s2 = Object graspable/not graspable (dictionary)
 s2 = {}
 
-# ------- (Binary) Grasp Success -------
-# s3 = Grasp success for each object (dictionary)
+# ------- Grasp Quality -------
+# s3 = Grasp Quality for each object
 s3 = {}
 
-# ------- Object graspability -------
-# s4 = Object graspable/not graspable (dictionary)
+# ------- (Binary) Grasp Success -------
+# s4 = Grasp success for each object (dictionary)
 s4 = {}
 
 # -------Grasp stability along pre-defined trajectory -------
@@ -112,7 +111,7 @@ s6 = {}
 
 # ------- Auxiliary score  to compute final score-------
 # For each trial of the object
-# s_aux[object][trial] = (s2_aux[object][item] + s5_aux[object][item] + s6_aux[object][item])  * s4_aux[object][item]
+# s_aux[object][trial] = (s3_aux[object][item] + s5_aux[object][item] + s6_aux[object][item])  * s4_aux[object][item]
 s_aux = {}
 
 # ------- Final score -------
@@ -134,10 +133,10 @@ region_6 = np.array([[-272, 246.66], [-272, 370], [-544, 246.66], [-544, 370]])
 
 def compute_final_score(args):
     # Compute the final score for each object
-    # s_final = (s2 + s5 + s6) * s3 * s4 * 1(s0 > reaching_threshold) * 1(s1 > camera_threshold)
+    # s_final = (s3 + s5 + s6) * s3 * s4 * 1(s0 > reaching_threshold) * 1(s1 > camera_threshold)
     for obj in acceptable_object_names[testing_layout]:
         if ((not s0_objects[obj]== 'Missing data') and (not s1_objects[obj]== 'Missing data') and (not s2[obj]== 'Missing data')and (not s3[obj]== 'Missing data') and (not s4[obj]== 'Missing data') and ((not s5[obj]== 'Missing data'))):
-            if (s0_objects[obj] >= args.reaching_threshold and  s1_objects[obj] >= args.camera_threshold and s3[obj] == 1 ):
+            if (s0_objects[obj] >= args.reaching_threshold and  s1_objects[obj] >= args.camera_threshold and s2[obj] == 1 ):
                 if (args.verbose):
                     print("\n")
                     print('------------------------------------------------')
@@ -195,20 +194,21 @@ def print_scores():
 
     print("\n")
     print('------------------------------------------------')
-    string = 'Grasp quality scores (s2):'
+    string = 'Graspability score (s2):'
     print(string.center(len('------------------------------------------------')))
     print('------------------------------------------------')
     print("\n")
     print("\n".join(" {} : {}".format(k, v) for k, v in s2.items()) )
     print("\n")
 
+    print("\n")
     print('------------------------------------------------')
-    string = 'Graspability score (s3):'
+    string = 'Grasp quality scores (s3):'
     print(string.center(len('------------------------------------------------')))
     print('------------------------------------------------')
     print("\n")
     print("\n".join(" {} : {}".format(k, v) for k, v in s3.items()) )
-    print("\n")
+
     print('------------------------------------------------')
     string = 'Binary success score (s4):'
     print(string.center(len('------------------------------------------------')))
@@ -420,20 +420,19 @@ def parse_grasping_files(files, s3, s4, s5, s6, args):
         root = wrap_grasp_files(file)
 
         # Read graspability
-        s3[file_name] = float(root[1].attrib['quality'])
+        s2[file_name] = float(root[1].attrib['quality'])
 
 
         s_tmp = 0.0
         count_grasp_item = 0
-        s2_item = {}
-        s2_item[file_name] = []
-        # Read if object has been grasped
-        # TODO put root[5]
+        s3_item = {}
+        s3_item[file_name] = []
+        # Read grasp quality
         for g in root[5].iter('Grasp'):
             count_grasp_item += 1
             s_tmp += float(g.attrib['quality_collision_free']) ##TODO Update if we decide to use the overall
-            s2_item[file_name].append(float(g.attrib['quality_collision_free'])) ##TODO
-        s2[file_name] = s_tmp / count_grasp_item
+            s3_item[file_name].append(float(g.attrib['quality_collision_free'])) ##TODO
+        s3[file_name] = s_tmp / count_grasp_item
 
         s_tmp = 0.0
         count_grasp_item = 0
@@ -476,14 +475,9 @@ def parse_grasping_files(files, s3, s4, s5, s6, args):
         s_aux[file_name] = []
         for i in range(len(s4_item[file_name])):
             if (args.testing_modality == 'isolation'):
-                # TODO Add s2
-                s_aux[file_name].append((s2_item[file_name][i] + s5_item[file_name][i]) * s4_item[file_name][i])
-                #s_aux[file_name].append((s5_item[file_name][i]) * s4_item[file_name][i])
+                s_aux[file_name].append((s3_item[file_name][i] + s5_item[file_name][i]) * s4_item[file_name][i])
             else:
-                # TODO Add s2
-                s_aux[file_name].append((s2_item[file_name][i] + s5_item[file_name][i] + s6_item[file_name][i]) * s4_item[file_name][i])
-                #s_aux[file_name].append((s5_item[file_name][i] + s6_item[file_name][i]) * s4_item[file_name][i])
-
+                s_aux[file_name].append((s3_item[file_name][i] + s5_item[file_name][i] + s6_item[file_name][i]) * s4_item[file_name][i])
         if args.verbose:
             print('s_aux', s_aux[file_name])
 
@@ -800,7 +794,7 @@ def read_scores(args):
         if (not_consistent(file, acceptable_object_names)):
             sys.exit("Inconsistency between provided object names and benchmark layout!")
 
-    # Read Binary scores and save in s2 as a dictionary, with tag the names
+    # Read Binary scores and save in s3 as a dictionary, with tag the names
     # of the objects as defined in the xmls of the benchmark
     # Read Graspable scores and save in s3 as a dictionary, with tag the names
     # of the objects as defined in the xmls of the benchmark
