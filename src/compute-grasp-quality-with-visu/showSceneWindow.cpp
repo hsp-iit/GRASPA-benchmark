@@ -29,9 +29,6 @@
 
 #include <sstream>
 
-
-
-
 showSceneWindow::showSceneWindow(std::string& scene_filename, std::string& robot_filename, std::string& grasps_path)
     : QMainWindow(nullptr)
 {
@@ -198,7 +195,7 @@ int showSceneWindow::main()
 
             qualityMeasure->calculateObjectProperties();
 
-            GraspSetQuality grasp_set_log;
+            common::GraspSetQuality grasp_set_log;
 
             for ( VirtualRobot::GraspPtr grasp : grasp_vec)
             {
@@ -412,13 +409,13 @@ int showSceneWindow::main()
 
                 //  log results in order to save them later
 
-                GraspQualitySetEntry results_quality(results.avgQuality, results.avgQualityCol);
+                common::GraspQualitySetEntry results_quality(results.avgQuality, results.avgQualityCol);
 
-                grasp_set_log.insert( std::pair<std::string, GraspQualitySetEntry>(grasp->getName(), results_quality));
+                grasp_set_log.insert( std::pair<std::string, common::GraspQualitySetEntry>(grasp->getName(), results_quality));
 
             }
 
-            //saveComputedQuality(grasp_set_log, path_map[object->getName()]);
+            common::saveComputedQuality(grasp_set_log, path_map[object->getName()]);
 
         }
     }
@@ -529,31 +526,3 @@ void showSceneWindow::loadObjectsGrasps()
 
 }
 
-int showSceneWindow::saveComputedQuality( const GraspSetQuality& set_quality, const std::string& xml_filename)
-{
-
-    /*  append to the xml file a node containing
-    *   <ComputedQuality>
-    *       <Grasp name="Grasp 0" quality_collision_free=0.264 quality_overall=0.125/>
-    *       <Grasp name="Grasp 1" quality_collision_free=0.493 quality_overall=0.345/>
-    *       ...
-    *   </ComputedQuality>
-    */
-
-    std::ofstream xml_file(xml_filename, std::ios_base::app);
-    xml_file << "<ComputedQuality>" << "\n";
-
-    for (const auto& g_quality : set_quality)
-    {
-        xml_file << "    <Grasp name=\"" << g_quality.first << "\"";
-        xml_file << " quality_collision_free=\"" << g_quality.second.quality_collision_free << "\"";
-        xml_file << " quality_overall=\"" << g_quality.second.quality_overall << "\"";
-        xml_file << "/>" << "\n";
-    }
-
-    xml_file << "</ComputedQuality>" << "\n";
-
-    xml_file.close();
-    return 0;
-
-}

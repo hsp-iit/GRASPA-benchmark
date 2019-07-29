@@ -20,22 +20,11 @@
 #include <Inventor/Qt/SoQt.h>
 #include <Inventor/nodes/SoSeparator.h>
 
-
 #include <vector>
 
 #include "ui_SceneViewer.h"
 
-struct GraspQualitySetEntry {
-    float quality_collision_free;
-    float quality_overall;
-
-    GraspQualitySetEntry(float q_cfree, float q_overall):  quality_collision_free(q_cfree), quality_overall(q_overall) {}
-};
-
-typedef std::map <std::string, GraspQualitySetEntry> GraspSetQuality;
-
 typedef std::map <std::string, std::string> ManipObjectPathMap;
-
 
 class showSceneWindow : public QMainWindow
 {
@@ -59,8 +48,6 @@ public slots:
     void loadRobot();
 
     void loadObjectsGrasps();
-
-    int saveComputedQuality( const GraspSetQuality& set_quality, const std::string& xml_filename);
 
     SoQtExaminerViewer* getExaminerViewer()
     {

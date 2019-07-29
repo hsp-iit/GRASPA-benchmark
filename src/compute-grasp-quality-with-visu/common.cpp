@@ -165,3 +165,78 @@ bool common::generateClosureTrajectory(const VirtualRobot::EndEffectorPtr& end_e
     return true;
 
 }
+
+int common::saveComputedQuality( const common::GraspSetQuality& set_quality, const std::string& xml_filename)
+{
+
+    /*  append to the xml file a node containing
+    *   <ComputedQuality>
+    *       <Grasp name="Grasp 0" quality_collision_free=0.264 quality_overall=0.125/>
+    *       <Grasp name="Grasp 1" quality_collision_free=0.493 quality_overall=0.345/>
+    *       ...
+    *   </ComputedQuality>
+    */
+
+
+    //  check if the field exists first
+    //  if it does, delete any ComputedQuality field
+
+    std::string tmp_filename = xml_filename + ".tmp";
+
+    std::ifstream file;
+    std::ofstream tmp;
+
+    file.open(xml_filename);
+    tmp.open(tmp_filename);
+
+    if (file.is_open())
+    {
+        std::string line;
+
+        while(!file.eof())
+        {
+            std::getline(file, line);
+
+            if (line.find("<ComputedQuality>", 0) != std::string::npos)
+            {
+
+                while(line.find("</ComputedQuality>",0 ) == std::string::npos)
+                {
+                    std::getline(file, line);
+                }
+
+                continue;
+            }
+
+            if (file.eof())
+                tmp << line;
+            else
+                tmp << line << std::endl;
+
+        }
+    }
+
+    file.close();
+    tmp.close();
+
+    std::remove(xml_filename.c_str());
+    std::rename(tmp_filename.c_str(), xml_filename.c_str());
+
+    std::ofstream xml_file(xml_filename, std::ios_base::app);
+    xml_file << "<ComputedQuality>" << "\n";
+
+    for (const auto& g_quality : set_quality)
+    {
+        xml_file << "    <Grasp name=\"" << g_quality.first << "\"";
+        xml_file << " quality_collision_free=\"" << g_quality.second.quality_collision_free << "\"";
+        xml_file << " quality_overall=\"" << g_quality.second.quality_overall << "\"";
+        xml_file << "/>" << "\n";
+    }
+
+    xml_file << "</ComputedQuality>" << "\n";
+
+    xml_file.close();
+    return 0;
+
+}
+
