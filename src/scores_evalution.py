@@ -208,6 +208,7 @@ def print_scores():
     print('------------------------------------------------')
     print("\n")
     print("\n".join(" {} : {}".format(k, v) for k, v in s3.items()) )
+    print("\n")
 
     print('------------------------------------------------')
     string = 'Binary success score (s4):'
@@ -422,7 +423,6 @@ def parse_grasping_files(files, s3, s4, s5, s6, args):
         # Read graspability
         s2[file_name] = float(root[1].attrib['quality'])
 
-
         s_tmp = 0.0
         count_grasp_item = 0
         s3_item = {}
@@ -554,19 +554,19 @@ def compute_reachability_score(args):
     # Parse the scenes to load object labels
     reached_poses_files = [f for f in listdir(args.reached_poses_folder) if isfile(join(args.reached_poses_folder,f))]
 
-    s0_1 = 0
-    s0_2 = 0
-    s0_3 = 0
-    s0_4 = 0
-    s0_5 = 0
-    s0_6 = 0
+    s0_1 = 0.0
+    s0_2 = 0.0
+    s0_3 = 0.0
+    s0_4 = 0.0
+    s0_5 = 0.0
+    s0_6 = 0.0
 
-    n_poses_1 = 0
-    n_poses_2 = 0
-    n_poses_3 = 0
-    n_poses_4 = 0
-    n_poses_5 = 0
-    n_poses_6 = 0
+    n_poses_1 = 0.0
+    n_poses_2 = 0.0
+    n_poses_3 = 0.0
+    n_poses_4 = 0.0
+    n_poses_5 = 0.0
+    n_poses_6 = 0.0
 
     for file in reached_poses_files:
         # Parse the file provided by the user including the poses reached by the robot
@@ -694,19 +694,19 @@ def compute_camera_calibration_score(args):
     root = tree.getroot()
     parse_reachability_files(cam_desired_poses, root)
 
-    s1_1 = 0
-    s1_2 = 0
-    s1_3 = 0
-    s1_4 = 0
-    s1_5 = 0
-    s1_6 = 0
+    s1_1 = 0.0
+    s1_2 = 0.0
+    s1_3 = 0.0
+    s1_4 = 0.0
+    s1_5 = 0.0
+    s1_6 = 0.0
 
-    n_poses_1 = 0
-    n_poses_2 = 0
-    n_poses_3 = 0
-    n_poses_4 = 0
-    n_poses_5 = 0
-    n_poses_6 = 0
+    n_poses_1 = 0.0
+    n_poses_2 = 0.0
+    n_poses_3 = 0.0
+    n_poses_4 = 0.0
+    n_poses_5 = 0.0
+    n_poses_6 = 0.0
 
     # Compute reachability error for each region of the scene
     for name_pose in cam_desired_poses:
