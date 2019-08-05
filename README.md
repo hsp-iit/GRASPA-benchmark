@@ -52,9 +52,9 @@ GRASPA 1.0 comes with several resources and tools:
    - the poses to be reached for the [`reachability test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/reachability) and the [`camera-calibration test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/camera_calibration).
 - [`src/`](https://github.com/robotology/GRASPA-benchmark/tree/master/src) includes several scripts and executables:
    - a [`launcher script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh) to automatically compute all the scores;
-   - a [`C++ executable`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu) to compute the **grasp quality** score using Simox [??];
+   - a [`C++ executable`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu#grasp-quality-computation) to compute the **grasp quality** score using Simox [??];
    - a [`python script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/scores_evaluation.py) to combine all the information to get the **benchmark scores**;
-   - a [`viewer`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/scene-viewer) to **visualize the data** provided within GRASPA and those collected by the user;
-   - a [`python script`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/layout-printer) to automatically **generate the printable layouts** of the grasping scenarios defined by GRASPA.
+   - a [`viewer`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/scene-viewer#scene-viewer) to **visualize the data** provided within GRASPA and those collected by the user;
+   - a [`python script`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/layout-printer#layout-printer) to automatically **generate the printable layouts** of the grasping scenarios defined by GRASPA.
  
  ## How to collect the data
