@@ -1,4 +1,4 @@
-# Layouts
+# GRASPA data
 
 ## Object layouts
 ### No. 1 - Difficulty: low
