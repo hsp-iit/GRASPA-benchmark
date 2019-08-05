@@ -11,4 +11,4 @@ MODALITY=isolation
 
 
 ## To launch the script to compute all the scores
-python src/scores_evalution.py --verbose=True --reached_poses_folder="${REACHED_POSES_FOLDER}" --file_camera_calibration_test="${FILE_CAMERA_CALIBRATION}" --grasps_folder="${GRASPS_FOLDER}" --layout="${LAYOUT_NAME}" --modality="${MODALITY}"
+python src/scores_evaluation.py --verbose=True --reached_poses_folder="${REACHED_POSES_FOLDER}" --file_camera_calibration_test="${FILE_CAMERA_CALIBRATION}" --grasps_folder="${GRASPS_FOLDER}" --layout="${LAYOUT_NAME}" --modality="${MODALITY}"
