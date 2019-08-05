@@ -57,7 +57,7 @@ poses defined within the benchmark with those acquired by the user:
 <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output2-obstacle.png" width=400>
 </p>
 
-- Then, the final score for the layout under test is provided:
+- Then, the **final score for the layout under test** is provided:
 
 <p align="center">
 <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output3.png" width=400>
