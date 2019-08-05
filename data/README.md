@@ -21,7 +21,7 @@ The poses are defined considering the hand reference frame attached on the robot
 We also provide the set of poses in case the hand reference frame is the following:
 
 <p align="center">
-<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/icub-left.jpg" width=300>
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/icub-left.jpg" width=150>
 </p>
 
 
@@ -46,7 +46,7 @@ The poses are defined considering the hand reference frame attached on the robot
 We also provide the set of poses in case the hand reference frame is the following:
 
 <p align="center">
-<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/icub-left.jpg" width=300>
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/icub-left.jpg" width=150>
 </p>
 
 In this case, use [this xml file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses_l.xml) instead of [this one](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml).
