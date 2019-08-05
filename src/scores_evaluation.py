@@ -40,23 +40,23 @@ parser.add_argument('--verbose', dest="verbose",
 ## and the precision required by its pipeline
 ## NOTE It's important this values are declared together with the results
 parser.add_argument('--threshold_pos', action='store', dest="threshold_pos",
-                    default=0.02,  ## In millimeters (TODO 0.02?)
+                    default=0.02,  ## In meters
                     help='Threshold on reaching position')
 parser.add_argument('--threshold_orie', action='store', dest="threshold_orie",
                     default=0.5,  ## In rad (axis angle error)
                     help='Threshold on reaching position')
 parser.add_argument('--reaching_threshold', action='store', dest="reaching_threshold",
-                    default=0.5,  ## TODO or 0.6?
+                    default=0.5,  ## Minimum number of poses to be reached (in percentage)
                     help='Threshold on reaching position')
 
 parser.add_argument('--threshold_camera_pos', action='store', dest="threshold_camera_pos",
-                    default=0.045,  ## In millimeters
+                    default=0.045,  ## In meters
                     help='Threshold on reaching position')
 parser.add_argument('--threshold_camera_orie', action='store', dest="threshold_camera_orie",
                     default=0.8,  ## In rad (axis angle error)
                     help='Threshold on reaching position')
 parser.add_argument('--camera_threshold', action='store', dest="camera_threshold",
-                    default=0.5,  ## TODO Value?
+                    default=0.5,  ## Minimum number of poses to be reached (in percentage)
                     help='Threshold on reaching position')
 
 
@@ -132,6 +132,9 @@ region_5 = np.array([[-0.0, 246.66], [-0.0, 370], [-272, 246.66], [-272, 370]])
 region_6 = np.array([[-272, 246.66], [-272, 370], [-544, 246.66], [-544, 370]])
 
 def compute_final_score(args):
+
+    args.camera_threshold = float(args.camera_threshold)
+    args.reaching_threshold = float(args.reaching_threshold)
     # Compute the final score for each object
     # s_final = (s3 + s5 + s6) * s3 * s4 * 1(s0 > reaching_threshold) * 1(s1 > camera_threshold)
     for obj in acceptable_object_names[testing_layout]:
@@ -554,6 +557,10 @@ def compute_reachability_score(args):
     # Parse the scenes to load object labels
     reached_poses_files = [f for f in listdir(args.reached_poses_folder) if isfile(join(args.reached_poses_folder,f))]
 
+    args.threshold_pos = float(args.threshold_pos)
+    args.threshold_orie = float(args.threshold_orie)
+    args.reaching_threshold = float(args.reaching_threshold)
+
     s0_1 = 0.0
     s0_2 = 0.0
     s0_3 = 0.0
@@ -596,6 +603,8 @@ def compute_reachability_score(args):
             print("\n")
             print('----------')
             print(experiment_name)
+
+        print("THRESHOLD ", args.reaching_threshold)
 
         # Compute reachability error for each region of the scene
         for name_pose in desired_poses:
@@ -678,6 +687,11 @@ def compute_reachability_score(args):
         print("\n")
 
 def compute_camera_calibration_score(args):
+
+    args.threshold_camera_pos = float(args.threshold_camera_pos)
+    args.threshold_camera_orie = float(args.threshold_camera_orie)
+    args.camera_threshold = float(args.camera_threshold)
+
     # Parse the file provided by the user including the poses reached by the robot
     tree = ET.parse(args.cam_reached_poses_file)
     root = tree.getroot()
