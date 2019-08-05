@@ -20,10 +20,10 @@
  - A **composite score** to quantify the **overall performance** of the algorithm **accounting for** reachability and calibration **limits of the test platform**.
 
 ## Overview
-- [How to install]()
-- [How to run]()
-- [Resources&Tools]()
-- [How to collect data]()
+- [How to install](https://github.com/robotology/GRASPA-benchmark#how-to-install)
+- [How to run](https://github.com/robotology/GRASPA-benchmark#how-to-run)
+- [Resources&Tools](https://github.com/robotology/GRASPA-benchmark#resourcestools)
+- [How to collect data](https://github.com/robotology/GRASPA-benchmark#how-to-collect-the-data)
  ## How to install
   ### Using GitPod
  **TODO**
@@ -38,22 +38,24 @@
  Once the data required by the benchmark are available, all the scores can be computed by:
  1. Properly pointing to the folders including the data in the [`src/script_launcher.sh`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh). More information on how to fill correctly the script is available [here]().
  2. Launching the script:
- ```
- cd /path/to/GRASPA-benchmark
- $ ./src/script_launcher.sh
- ```
+     ```
+     cd /path/to/GRASPA-benchmark
+     $ ./src/script_launcher.sh
+     ```
  More information on the scores computation can be found [at this link](https://github.com/robotology/GRASPA-benchmark/tree/master/src).
 
  ## Resources&Tools
 GRASPA 1.0 comes with several resources and tools:
 -  [`data/`](https://github.com/robotology/GRASPA-benchmark/tree/master/data) collects the:
- - [`YCB objects models`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects) used in the grasping layouts;
- - the [`3D renders of the grasping layouts`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes);
- - the [`printable versions`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes);
- - the poses to be reached for the [`reachability test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/reachability) and the [`camera-calibration test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/camera_calibration).
+   - [`YCB objects models`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects) used in the grasping layouts;
+   - the [`3D renders of the grasping layouts`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes);
+   - the [`printable versions`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/printable_layouts);
+   - the poses to be reached for the [`reachability test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/reachability) and the [`camera-calibration test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/camera_calibration).
 - [`src/`](https://github.com/robotology/GRASPA-benchmark/tree/master/src) includes several scripts and executables:
- - a [`launcher script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh) to automatically compute all the scores;
- - a [`C++ executable`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu) to compute the **grasp quality** score using Simox [??];
- - a [`python script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/scores_evaluation.py) to combine all the information to get the benchmarks cores;
- - a [`scene-viewer`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/scene-viewer) to visualize the data provided within GRASPA and those collected by the user;
- - a [`layout-printer`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/layout-printer) to automatically generate the printable layouts of the grasping scenarios defined by GRASPA.
+   - a [`launcher script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh) to automatically compute all the scores;
+   - a [`C++ executable`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu) to compute the **grasp quality** score using Simox [??];
+   - a [`python script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/scores_evaluation.py) to combine all the information to get the **benchmark scores**;
+   - a [`viewer`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/scene-viewer) to **visualize the data** provided within GRASPA and those collected by the user;
+   - a [`python script`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/layout-printer) to automatically **generate the printable layouts** of the grasping scenarios defined by GRASPA.
+ 
+ ## How to collect the data
