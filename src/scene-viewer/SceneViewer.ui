@@ -46,7 +46,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Select Scene/Object File</string>
+        <string>Select Scene</string>
        </property>
       </widget>
     </widget>
