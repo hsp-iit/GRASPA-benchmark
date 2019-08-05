@@ -3,36 +3,49 @@
 GRASPA 1.0 provides the following useful material to enhance reproducibility:
 
 ### Object models
-- The object models of the YCB objects included in the benchmark are available [in this folder]. These models are used to generate the printable layouts and to compute the grasp quality.
+- The object models of the **YCB objects included in the benchmark** are available [in this folder](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB). These models are used to generate the printable layouts and to compute the grasp quality.
 
 ### 6D poses for the reachability tests
-The poses to be reached within the reaching test are collected [in this folder](). The sets of poses to test the robot reachability on are three:
+The poses to be reached within the reaching test are collected [in this folder](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/reachability). The sets of poses to test the robot reachability on are 3:
 
-   TODO ADD image
+   <p align="center">
+<img  src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/reachability1.png" width=300>  <img title="Set of poses no. 1" src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/reachability2.png" width=300> <img title="Set of poses no. 2" src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/reachability3.png" width=300>
+</p>
 
 The poses are defined considering the hand reference frame attached on the robot hand as follows:
 
-   TODO iCub hand
+ <p align="center">
+<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/icub-hand-frame.jpg" width=200> 
+</p>
 
 We also provide the set of poses in case the hand reference frame is the following:
 
+TODO 
 
-In this case, only one set of poses changes (use [this xml file]() instead of [this one]()):
+
+In this case, only one set of poses changes (use [this xml file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/reachability/reachability_set_poses_2l.xml) instead of [this one](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/reachability/reachability_set_poses_2.xml)).
+
 
 
 **Note** If the end-effector of the test robot  has a reference frame with a different orientation w.r.t the one shown in the previous pictures, the user is supposed to transform the desired poses so to make all the poses have the approaching direction of the end-effector parallel to the x-axes of the poses defined within GRASPA. These ways the poses tested during the reachability tests are coeherent with the movements executed by the test robot.
 
 ### 6D poses for the camera calibration tests
-The poses to be reached within the camera calibration test are collected [in this file(). The sets of poses to test the robot reachability is only one:
-
+The poses to be reached within the camera calibration test are collected [in this file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml). The sets of poses to test the robot reachability is only one:
+ <p align="center">
+   <img title="Set of poses no. 1" src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/reachability2.png" width=300>
+</p>
 
 The poses are defined considering the hand reference frame attached on the robot hand as follows:
 
-   TODO iCub hand
+<p align="center">
+<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/icub-hand-frame.jpg" width=200> 
+</p>
 
 We also provide the set of poses in case the hand reference frame is the following:
 
-In this case, only one set of poses changes (use [this xml file]() instead of [this one]()):
+TODO
+
+In this case, only one set of poses changes (use [this xml file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses_l.xml) instead of [this one](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml)).
 
 
 
@@ -41,17 +54,21 @@ GRASPA 1.0 comes with  3 increasingly challenging layouts, in terms of number of
 In order for layouts to be reproducible in practice, we provide printable layouts of dimensions 594x420 mm  (A2 format) that include markers and object footprints:
 
 #### Layout 0
-
+<p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/scene1.png" width=300> <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/layout_0_printout.png" width=300> 
+</p>
 
 #### Layout 1
-
+<p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/scene2.png" width=300> <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/layout_1_printout.png" width=300> 
+</p>
 
 #### Layout 2
+<p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/scene3.png" width=300> <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/layout_2_printout.png" width=300> 
+</p>
 
-
-**Note**
-GRASPA 1.0 features the printable layouts both in A2 format or in 4 combinable A4 files.
-
+**Note** GRASPA 1.0 features the printable layouts both in **A2 format** or in **4 combinable A4 files**.
 Also, two different sets of printable layouts are available:
 - those with the entire marker board:
 
