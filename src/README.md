@@ -1,6 +1,6 @@
 
 
-### GRASPA score computation
+# GRASPA score computation
 We provide a [bash script](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh) to automatically compute all the scores defined within GRASPA 1.0.
 
 In order to properly run the script, the user is required to fill some information in:
