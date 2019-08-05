@@ -1,9 +1,8 @@
 # GRASPA-benchmark
 
 
-<p align="center">
- Welcome to <b>GRASPA</b>!
- </p>
+ <h2 align="center">Welcome to <b>GRASPA</b>!</h2>
+
  <p align="center">
 <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" width=400>
 </p>
