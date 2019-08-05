@@ -42,7 +42,7 @@
      cd /path/to/GRASPA-benchmark
      $ ./src/script_launcher.sh
      ```
- More information on the scores computation can be found [at this link](https://github.com/robotology/GRASPA-benchmark/tree/master/src).
+ More information on the scores computation can be found [at this link](https://github.com/robotology/GRASPA-benchmark/tree/master/src#graspa-score-computation).
 
  ## Resources&Tools
 GRASPA 1.0 comes with several resources and tools:
