@@ -15,17 +15,17 @@ In order to properly run the script, the user is required to fill some informati
 
 - [`MODALITY`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L7) to specify **if the benchmarking is executed in isolation** (label: `isolation`) or **in the clutter** (label: `clutter`).
 
-- [`THRES_POS_REACH`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#8) to specify the threshold on the minimum acceptable **position error** for the **reachability test**.
+- [`THRES_POS_REACH`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L8) to specify the threshold on the minimum acceptable **position error** for the **reachability test**.
 
-- [`THRES_ORIE_REACH`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#9) to specify the threshold on the minimum acceptable **orientation error** for the **reachability test**.
+- [`THRES_ORIE_REACH`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L9) to specify the threshold on the minimum acceptable **orientation error** for the **reachability test**.
 
-- [`THRES_REACH`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#10) to specify the **percentage of poses to be reached** with the specified position and orientation threshold to consider a **region reachable by the robot**.
+- [`THRES_REACH`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L10) to specify the **percentage of poses to be reached** with the specified position and orientation threshold to consider a **region reachable by the robot**.
 
-- [`THRES_POS_CAM`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#11) to specify the threshold on the minimum acceptable **position error** for the **camera calibration test**.
+- [`THRES_POS_CAM`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L11) to specify the threshold on the minimum acceptable **position error** for the **camera calibration test**.
 
-- [`THRES_ORIE_CAM`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#12) to specify the threshold on the minimum acceptable **orientation error** for the **camera calibration test**.
+- [`THRES_ORIE_CAM`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L12) to specify the threshold on the minimum acceptable **orientation error** for the **camera calibration test**.
 
-- [`THRES_CAM`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#13) to specify the **percentage of poses to be reached** with the specified position and orientation threshold to consider a **egion with a good camera calibration of the robot**.
+- [`THRES_CAM`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L13) to specify the **percentage of poses to be reached** with the specified position and orientation threshold to consider a **egion with a good camera calibration of the robot**.
 
 
 
