@@ -48,9 +48,9 @@ to compare the reached pose with the corresponding desired pose.
         </Obstacle>
 
         <Obstacle name='Frame'>
-            <Visualization>
+             <Visualization>
                 <File>data/objects/misc/frame.wrl</File>
-	        </Visualization>
+	         </Visualization>
              <GlobalPose>
                  <Transform>
                      <Matrix4x4>
@@ -78,34 +78,35 @@ When filling the grasps file, you need to:
 - **Rename the grasp file** as `Ycb`+ name of the object in camel case + `_grasp.xml` (see [the file names used in these folders](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm/grasps_data) for clarity.
 
 - Add a `ManipulationObject` node with the name of the object under test. Accepted object names are listed [here](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB), as folder names. 
+
   ```html
-   <ManipulationObject name="banana">
-	    <Visualization>
-		     <File type="inventor">../../../GRASP-benchmark/data/objects/YCB/banana/./nontextured.stl</File>
-	    </Visualization>
-	    <CollisionModel>
-		     <File type="inventor">../../../GRASP-benchmark/data/objects/YCB/banana/./nontextured.stl</File>
-	   </CollisionModel>
+  <ManipulationObject name="banana">
+     <Visualization>
+         <File type="inventor">../../../GRASP-benchmark/data/objects/YCB/banana/./nontextured.stl</File>
+     </Visualization>
+     <CollisionModel>
+         <File type="inventor">../../../GRASP-benchmark/data/objects/YCB/banana/./nontextured.stl</File>
+     </CollisionModel>
    ```
  - Specify the test **layout, the robot and the end-effector** used:
  
    ```html
-    <GraspSet name="Benchmark_Layout_0" RobotType="iCub" EndEffector="Right Hand">
+        <GraspSet name="Benchmark_Layout_0" RobotType="iCub" EndEffector="Right Hand">
    ```
    
 - For each grasp executed, specify the **grasp name and  6D pose**:
 
   ```html
-    <Grasp name="Grasp 0" quality="0" Creation="Simox - GraspStudio - GraspWrenchSpace" Preshape="Grasp Preshape">
-			<Transform>
-				<Matrix4x4>
-					<row1 c1="0.027" c2="0.994" c3="-0.110" c4="-242.660" />
-					<row2 c1="0.816" c2="-0.086" c3="-0.572" c4="122.864" />
-					<row3 c1="-0.578" c2="-0.074" c3="-0.813" c4="52.416" />
-					<row4 c1="0" c2="0" c3="0" c4="1" />
-				</Matrix4x4>
-			</Transform>
-		</Grasp>
+            <Grasp name="Grasp 0" quality="0" Creation="Simox - GraspStudio - GraspWrenchSpace" Preshape="Grasp Preshape">
+                <Transform>
+                    <Matrix4x4>
+                        <row1 c1="0.027" c2="0.994" c3="-0.110" c4="-242.660" />
+                        <row2 c1="0.816" c2="-0.086" c3="-0.572" c4="122.864" />
+                        <row3 c1="-0.578" c2="-0.074" c3="-0.813" c4="52.416" />
+                        <row4 c1="0" c2="0" c3="0" c4="1" />
+                    </Matrix4x4>
+                </Transform>
+            </Grasp>
   ```
   
 - Close the `ManipulationObject` node:
@@ -123,18 +124,18 @@ When filling the grasps file, you need to:
 - Add information on the **success** of the executed grasp, the **grasp stability** and the **object avoidance** (if in the cluttered mode):
 
   ```html
-  <Grasped>
-	  <Grasp name="Grasp 0" quality="1" />
-     ...
-    </Grasped>
-    GraspStability>
-      <Grasp name="Grasp 0" quality="0.25" />
-      ...
-    </GraspStability>
-  <ObstacleAvoidance>
-    <Grasp name="Grasp 0" quality="0" />
-    ...
-  </ObstacleAvoidance>
+   <Grasped>
+       <Grasp name="Grasp 0" quality="1" />
+        ...
+   </Grasped>
+   <GraspStability>
+       <Grasp name="Grasp 0" quality="0.25" />
+       ...
+   </GraspStability>
+   <ObstacleAvoidance>
+       <Grasp name="Grasp 0" quality="0" />
+       ...
+   </ObstacleAvoidance>
   ```
 
 The `ComputedQuality` node you can see in [the data collected on the iCub](https://github.com/robotology-playground/GRASPA-test/blob/master/experiment_data/right_arm/grasps_data/layout_0/YcbBanana_grasp.xml#L84) is computed by the `compute-grasp-quality-with-visu` executable
