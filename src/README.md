@@ -27,13 +27,38 @@ At first the grasp quality for each grasp in the specific layout is evaluated us
 ### Benchmark scores computation
 - The benchmark scores are computed for **one layout per time**:
 
+ <p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output1-layout.png" width=400>
+</p>
+
 - The **reachability and camera calibration scores** are computed by comparing the
 poses defined within the benchmark with those acquired by the user:
 
+ <p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output1-reachability.png" width=400> <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output1-camera.png" width=400>
+</p>
+
 - The **graspability, binary success and grasp stability** are just read from the files provided by the user:
+
+ <p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output1-graspability.png" width=400> <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output2-binary.png" width=400> <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output2-stability.png" width=400>
+</p>
+
 
 - The **grasp quality** are read from the files properly filled by `compute-grasp-quality-with-visu`:
 
+<p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output2-quality.png" width=400>
+</p>
+
 - In the clutter modality, also the **obstacle avoidance scores** are read from the files provided by the user:
 
+<p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output2-obstacle.png" width=400>
+</p>
+
 - Then, the final score for the layout under test is provided:
+
+<p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output3.png" width=400>
+</p>
