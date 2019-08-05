@@ -6,62 +6,62 @@ with the data collected on your robot.
 
 ## Reachability and camera calibration data
 When filling the [reachability](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files/reached_poses) or [camera calibration file](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files/camera_calibration) is important to:
-- Specify the name of the set of poses (e.g. `Set of Poses 0` in this case). GRASPA will use this tag to compare the data 
+- Specify the name of the set of poses (e.g. `Set of Poses 1` in this case). GRASPA will use this tag to compare the data 
 you collected with the proper corresponding desired poses.
-```html
-<Scene name="Set_Poses_1">
-```
+    ```html
+    <Scene name="Set_Poses_1">
+    ```
 - Store each pose in a `ManipulationObject` node with the proper name (e.g. `Reachable_frame00` in this case). This name is used by the benchmark
 to compare the reached pose with the corresponding desired pose.
   ```html
-    <ManipulationObject name='Reachable_frame00'>
-      <File>objects/frame.xml</File>
-      <GlobalPose>
-        <Transform>
-          <Matrix4x4>
-            <row1 c1='0' c2='0' c3='-1' c4='0'/>
-            <row2 c1='1' c2='0' c3='0' c4='0'/>
-            <row3 c1='0' c2='-1' c3='0' c4='150'/>
-            <row4 c1='0' c2='0' c3='0' c4='1'/>
-          </Matrix4x4>
-        </Transform>
-      </GlobalPose>
-    </ManipulationObject>
+      <ManipulationObject name='Reachable_frame00'>
+          <File>objects/frame.xml</File>
+          <GlobalPose>
+              <Transform>
+                  <Matrix4x4>
+                      <row1 c1='0' c2='0' c3='-1' c4='0'/>
+                      <row2 c1='1' c2='0' c3='0' c4='0'/>
+                      <row3 c1='0' c2='-1' c3='0' c4='150'/>
+                      <row4 c1='0' c2='0' c3='0' c4='1'/>
+                  </Matrix4x4>
+             </Transform>
+          </GlobalPose>
+      </ManipulationObject>
   ```
 - (Optional) Add the `Table` and `Frame` entities as `Obstacle` nodes to visualize them in the viewer:
     ```html
-    <Obstacle name='Table'>
-        <Visualization>
+        <Obstacle name='Table'>
+            <Visualization>
     		<File type='inventor'>objects/iv/layout_base_noboard.iv</File>
     		<UseAsCollisionModel/>
-    	</Visualization>
-        <GlobalPose>
-          <Transform>
-            <Matrix4x4>
-              <row1 c1='1' c2='0' c3='0' c4='-267'/>
-              <row2 c1='0' c2='1' c3='0' c4='178'/>
-              <row3 c1='0' c2='0' c3='1' c4='-2'/>
-              <row4 c1='0' c2='0' c3='0' c4='1'/>
-            </Matrix4x4>
-          </Transform>
-        </GlobalPose>
-      </Obstacle>
+    	    </Visualization>
+            <GlobalPose>
+                <Transform>
+                    <Matrix4x4>
+                        <row1 c1='1' c2='0' c3='0' c4='-267'/>
+                        <row2 c1='0' c2='1' c3='0' c4='178'/>
+                        <row3 c1='0' c2='0' c3='1' c4='-2'/>
+                        <row4 c1='0' c2='0' c3='0' c4='1'/>
+                    </Matrix4x4>
+                </Transform>
+             </GlobalPose>
+        </Obstacle>
 
-      <Obstacle name='Frame'>
-        <Visualization>
-    		<File>data/objects/misc/frame.wrl</File>
-    	</Visualization>
-        <GlobalPose>
-          <Transform>
-            <Matrix4x4>
-              <row1 c1='1' c2='0' c3='0' c4='-0'/>
-              <row2 c1='0=' c2='1' c3='0' c4='-0'/>
-              <row3 c1='0' c2='0' c3='1' c4='0'/>
-              <row4 c1='0' c2='0' c3='0' c4='1'/>
-            </Matrix4x4>
-          </Transform>
-        </GlobalPose>
-      </Obstacle>
+        <Obstacle name='Frame'>
+            <Visualization>
+                <File>data/objects/misc/frame.wrl</File>
+	        </Visualization>
+             <GlobalPose>
+                 <Transform>
+                     <Matrix4x4>
+                         <row1 c1='1' c2='0' c3='0' c4='-0'/>
+                         <row2 c1='0=' c2='1' c3='0' c4='-0'/>
+                         <row3 c1='0' c2='0' c3='1' c4='0'/>
+                         <row4 c1='0' c2='0' c3='0' c4='1'/>
+                     </Matrix4x4>
+                 </Transform>
+             </GlobalPose>
+         </Obstacle>
   ```
 
 - Close the root node:
@@ -87,7 +87,7 @@ When filling the grasps file, you need to:
 		     <File type="inventor">../../../GRASP-benchmark/data/objects/YCB/banana/./nontextured.stl</File>
 	   </CollisionModel>
    ```
- - Specify the test **ayout, the robot and the end-effector** used:
+ - Specify the test **layout, the robot and the end-effector** used:
  
    ```html
     <GraspSet name="Benchmark_Layout_0" RobotType="iCub" EndEffector="Right Hand">
@@ -120,7 +120,7 @@ When filling the grasps file, you need to:
    <Graspable quality="1" />
   ```
   
-- Add information of the **success** of the executed grasp, the **grasp stability** and the **object avoidance** (if in the cluttered mode):
+- Add information on the **success** of the executed grasp, the **grasp stability** and the **object avoidance** (if in the cluttered mode):
 
   ```html
   <Grasped>
