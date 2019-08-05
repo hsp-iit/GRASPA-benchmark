@@ -1,1 +1,1 @@
-## Grasp quality computation
+# Grasp quality computation
