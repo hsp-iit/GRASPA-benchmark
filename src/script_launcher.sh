@@ -1,8 +1,8 @@
 #!/bin/bash
 
-REACHED_POSES_FOLDER=/home/gvezzani/giulia_code/RAL-benchmark-test/experiment_data/right_arm/reaching_test/
-FILE_CAMERA_CALIBRATION=/home/gvezzani/giulia_code/RAL-benchmark-test/experiment_data/right_arm/camera_calibration/cam_calibration_test_output.xml
-GRASPS_FOLDER=/home/gvezzani/giulia_code/RAL-benchmark-test/experiment_data/right_arm/grasps_data/layout_0
+REACHED_POSES_FOLDER=/home/gvezzani/giulia_code/GRASPA-test/experiment_data/right_arm/reaching_test/
+FILE_CAMERA_CALIBRATION=/home/gvezzani/giulia_code/GRASPA-test/experiment_data/right_arm/camera_calibration/cam_calibration_test_output.xml
+GRASPS_FOLDER=/home/gvezzani/giulia_code/GRASPA-test/experiment_data/right_arm/grasps_data/layout_0
 LAYOUT_NAME=Benchmark_Layout_0
 MODALITY=isolation
 
