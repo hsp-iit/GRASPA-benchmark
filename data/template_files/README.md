@@ -34,7 +34,7 @@ to compare the reached pose with the corresponding desired pose.
             <Visualization>
     		<File type='inventor'>objects/iv/layout_base_noboard.iv</File>
     		<UseAsCollisionModel/>
-    	    </Visualization>
+            </Visualization>
             <GlobalPose>
                 <Transform>
                     <Matrix4x4>
@@ -65,7 +65,7 @@ to compare the reached pose with the corresponding desired pose.
   ```
 
 - Close the root node:
-
+  
   ```html
     </Scene>
   ```
