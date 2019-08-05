@@ -27,10 +27,10 @@ In this case, only one set of poses changes (use [this xml file](https://github.
 
 
 
-**Note** If the end-effector of the test robot  has a reference frame with a different orientation w.r.t the one shown in the previous pictures, the user is supposed to transform the desired poses so to make all the poses have the approaching direction of the end-effector parallel to the x-axes of the poses defined within GRASPA. These ways the poses tested during the reachability tests are coeherent with the movements executed by the test robot.
+**Note** If the end-effector of the test robot  has a reference frame with a different orientation w.r.t the one shown in the previous pictures, the user is supposed to transform the desired poses so to make all the poses have the approaching direction of the end-effector parallel to the x-axes of the poses defined within GRASPA. These ways the poses tested during the reachability tests are consistent with the movements executed by the test robot.
 
 ### 6D poses for the camera calibration tests
-The poses to be reached within the camera calibration test are collected [in this file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml). The sets of poses to test the robot reachability is only one:
+The poses to be reached within the camera calibration test are collected [in this file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml). The sets of poses to test the calibration of the vision system is only one:
  <p align="center">
    <img title="Set of poses no. 1" src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/reachability2.png" width=300>
 </p>
@@ -45,13 +45,13 @@ We also provide the set of poses in case the hand reference frame is the followi
 
 TODO
 
-In this case, only one set of poses changes (use [this xml file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses_l.xml) instead of [this one](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml)).
+In this case, use [this xml file](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses_l.xml) instead of [this one](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml).
 
 
 
 ### Grasping scenarios
-GRASPA 1.0 comes with  3 increasingly challenging layouts, in terms of number of involved objects, their pose within the test area and their graspability.
-In order for layouts to be reproducible in practice, we provide printable layouts of dimensions 594x420 mm  (A2 format) that include markers and object footprints:
+GRASPA 1.0 comes with  [3 increasingly challenging layouts](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes), in terms of number of involved objects, their pose within the test area and their graspability.
+In order for layouts to be reproducible in practice, we provide [printable layouts](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/printable_layouts) of dimensions 594x420 mm  (A2 format) that include markers and object footprints:
 
 #### Layout 0
 <p align="center">
