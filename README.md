@@ -1,10 +1,13 @@
 # GRASPA-benchmark
 
-Welcome to the GRASPA project!
 
-TODO ADD ICUB IMAGE
+<p align="center">
+ Welcome to <b>GRASPA</b>!
+ </p>
+ <p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" width=400>
+</p>
 
-**GRASPA** is a **Robotic Arm grAsping Performance benchmArk**.
 **GRASPA (GRASPA is a Robotic Arm grAsping Performance benchmArk)** is
  a benchmarking protocol and a set of metrics to evaluate the performance of grasp planners. It aims to **fairly compare methodologies tested on different robots** by measuring and accounting for **platform limitations** that might affect the performance of the algorithm itself.
 
