@@ -36,7 +36,7 @@
 
  ### Locally
  Once the data required by the benchmark are available, all the scores can be computed by:
- 1. Properly pointing to the folders including the data in the [`src/script_launcher.sh`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh). More information on how to fill correctly the script is available [here]().
+ 1. Properly pointing to the folders including the data in the [`src/script_launcher.sh`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh). More information on how to fill correctly the script is available [here](https://github.com/robotology/GRASPA-benchmark/blob/master/src/README.md#graspa-score-computation).
  2. Launching the script:
      ```
      cd /path/to/GRASPA-benchmark
