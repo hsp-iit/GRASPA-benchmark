@@ -15,4 +15,25 @@ In order to properly run the script, the user is required to fill some informati
 
 - [`MODALITY`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh#L7) to specify **if the benchmarking is executed in isolation** (label: `isolation`) or **in the clutter** (label: `clutter`).
 
+**TODO** Add thresholds
+
 At first the grasp quality for each grasp in the specific layout is evaluated using [`compute-grasp-quality-with-visu`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu). The grasp qualities are added in the grasps data and, finally, each score of the benchmark is computed by [`scores_evaluation.py`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/scores_evaluation.py).
+
+## Output example
+
+### Grasp quality evaluation
+**TODO**: Add output example of grasp quality
+
+### Benchmark scores computation
+- The benchmark scores are computed for **one layout per time**:
+
+- The **reachability and camera calibration scores** are computed by comparing the
+poses defined within the benchmark with those acquired by the user:
+
+- The **graspability, binary success and grasp stability** are just read from the files provided by the user:
+
+- The **grasp quality** are read from the files properly filled by `compute-grasp-quality-with-visu`:
+
+- In the clutter modality, also the **obstacle avoidance scores** are read from the files provided by the user:
+
+- Then, the final score for the layout under test is provided:
