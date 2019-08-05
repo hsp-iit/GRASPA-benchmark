@@ -11,6 +11,8 @@ $ ./build/bin/scene-viewer
 
 The viewer looks like this:
 
-TODO ADD IMAGE
+ <p align="center">
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/scene-viewer.png" width=400>
+</p>
 
 You can select the scene to render using the `Select Scene` button.
