@@ -6,13 +6,13 @@ with the data collected on your robot.
 
 ## Reachability and camera calibration data
 When filling the [reachability](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files/reached_poses) or [camera calibration file](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files/camera_calibration) is important to:
-- Specify the name of the set of poses (e.g. `Set of Poses 1` in this case). GRASPA will use this tag to compare the data 
+- Specify the name of the set of poses (e.g. `Set of Poses 1` in this case). GRASPA will use this tag to compare the data
 you collected with the proper corresponding desired poses.
     ```html
     <Scene name="Set_Poses_1">
     ```
 - Store each pose in a `ManipulationObject` node with the proper name (e.g. `Reachable_frame00` in this case). This name is used by the benchmark
-to compare the reached pose with the corresponding desired pose.
+to compare the reached pose with the corresponding desired pose. The pose needs to be expressed in the **board reference frame** (see [this image](https://raw.githubusercontent.com/robotology/GRASPA-benchmark/master/media/scene1.png))
   ```html
       <ManipulationObject name='Reachable_frame00'>
           <File>objects/frame.xml</File>
@@ -65,7 +65,7 @@ to compare the reached pose with the corresponding desired pose.
   ```
 
 - Close the root node:
-  
+
   ```html
     </Scene>
   ```
@@ -77,7 +77,7 @@ An example of complete grasps data collected on the iCub humanoid robot is avail
 When filling the grasps file, you need to:
 - **Rename the grasp file** as `Ycb`+ name of the object in camel case + `_grasp.xml` (see [the file names used in these folders](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm/grasps_data) for clarity.
 
-- Add a `ManipulationObject` node with the name of the object under test. Accepted object names are listed [here](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB), as folder names. 
+- Add a `ManipulationObject` node with the name of the object under test. Accepted object names are listed [here](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB), as folder names.
 
   ```html
   <ManipulationObject name="banana">
@@ -89,11 +89,11 @@ When filling the grasps file, you need to:
      </CollisionModel>
    ```
  - Specify the test **layout, the robot and the end-effector** used:
- 
+
    ```html
         <GraspSet name="Benchmark_Layout_0" RobotType="iCub" EndEffector="Right Hand">
    ```
-   
+
 - For each grasp executed, specify the **grasp name and  6D pose**:
 
   ```html
@@ -108,19 +108,19 @@ When filling the grasps file, you need to:
                 </Transform>
             </Grasp>
   ```
-  
+  The grasp pose needs to be expressed in the **board reference frame**.
 - Close the `ManipulationObject` node:
 
     ```html
     </ManipulationObject>   
     ```
-    
+
 - Add information on the **graspability** of the object:
 
    ```html
    <Graspable quality="1" />
   ```
-  
+
 - Add information on the **success** of the executed grasp, the **grasp stability** and the **object avoidance** (if in the cluttered mode):
 
   ```html
