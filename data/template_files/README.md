@@ -1,28 +1,28 @@
 # Template files
 
-The files collected in this folder are templates to be filled in order to evaluate the benchmark scores on the data collected on your robot.
+The files collected in this folder are **templates to be filled** in order to evaluate the benchmark scores on the data collected on your robot.
 Hereafter, we briefly explain the meaning of the data contained in this file. This information is useful to understand how to fill them
 with the data collected on your robot.
 
 ## Reachability and camera calibration data
 When filling the [reachability](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files/reached_poses) or [camera calibration file](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files/camera_calibration) is important to:
-- Specify the name of the set of poses (e.g. `Set of Poses 1` in this case). GRASPA will use this tag to compare the data
-you collected with the proper corresponding desired poses.
+- Specify the **name of the set of poses your testing** (e.g. `Set of Poses 1` in this case). **GRASPA** will use this tag to compare the data
+you collected with the **proper corresponding desired poses**.
     ```html
     <Scene name="Set_Poses_1">
     ```
 - Store each pose in a `ManipulationObject` node with the proper name (e.g. `Reachable_frame00` in this case). This name is used by the benchmark
-to compare the reached pose with the corresponding desired pose. The pose needs to be expressed in the **board reference frame** (see [this image](https://raw.githubusercontent.com/robotology/GRASPA-benchmark/master/media/scene1.png))
+to compare the reached pose with the **corresponding desired pose**. The pose needs to be expressed in the **board reference frame** (see [this image](https://raw.githubusercontent.com/robotology/GRASPA-benchmark/master/media/scene1.png)).
   ```html
       <ManipulationObject name='Reachable_frame00'>
           <File>objects/frame.xml</File>
           <GlobalPose>
               <Transform>
                   <Matrix4x4>
-                      <row1 c1='0' c2='0' c3='-1' c4='0'/>
-                      <row2 c1='1' c2='0' c3='0' c4='0'/>
+                      <row1 c1='0' c2='0'  c3='-1' c4='0'/>
+                      <row2 c1='1' c2='0'  c3='0'  c4='0'/>
                       <row3 c1='0' c2='-1' c3='0' c4='150'/>
-                      <row4 c1='0' c2='0' c3='0' c4='1'/>
+                      <row4 c1='0' c2='0'  c3='0'  c4='1'/>
                   </Matrix4x4>
              </Transform>
           </GlobalPose>
@@ -55,7 +55,7 @@ to compare the reached pose with the corresponding desired pose. The pose needs 
                  <Transform>
                      <Matrix4x4>
                          <row1 c1='1' c2='0' c3='0' c4='-0'/>
-                         <row2 c1='0=' c2='1' c3='0' c4='-0'/>
+                         <row2 c1='0' c2='1' c3='0' c4='-0'/>
                          <row3 c1='0' c2='0' c3='1' c4='0'/>
                          <row4 c1='0' c2='0' c3='0' c4='1'/>
                      </Matrix4x4>
@@ -72,12 +72,12 @@ to compare the reached pose with the corresponding desired pose. The pose needs 
 
 ## Grasps data
 The grasps data must be collected separately for **each layout** and for **each object** in the layout. Missing data will lead to altered benchmark scores.
-An example of complete grasps data collected on the iCub humanoid robot is available [here](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm/grasps_data).
+An example of complete grasps data collected on the iCub humanoid robot is available in [`GRASPA-test`](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm/grasps_data).
 
 When filling the grasps file, you need to:
 - **Rename the grasp file** as `Ycb`+ name of the object in camel case + `_grasp.xml` (see [the file names used in these folders](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm/grasps_data) for clarity.
 
-- Add a `ManipulationObject` node with the name of the object under test. Accepted object names are listed [here](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB), as folder names.
+- Add a `ManipulationObject` node with the name of the object under test. **Accepted object names** are listed [here](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB), as **folder names**.
 
   ```html
   <ManipulationObject name="banana">
@@ -138,5 +138,5 @@ When filling the grasps file, you need to:
    </ObstacleAvoidance>
   ```
 
-The `ComputedQuality` node you can see in [the data collected on the iCub](https://github.com/robotology-playground/GRASPA-test/blob/master/experiment_data/right_arm/grasps_data/layout_0/YcbBanana_grasp.xml#L84) is computed by the `compute-grasp-quality-with-visu` executable
+The `ComputedQuality` node you can see in [the data collected on the iCub](https://github.com/robotology-playground/GRASPA-test/blob/master/experiment_data/right_arm/grasps_data/layout_0/YcbBanana_grasp.xml#L84) is added by the `compute-grasp-quality-with-visu` executable
 when processing the information on the grasp pose. The use is not required to manually add it in the grasps data file.
