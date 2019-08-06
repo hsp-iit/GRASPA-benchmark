@@ -47,7 +47,7 @@
  ## Resources&Tools
 **GRASPA 1.0** comes with several resources and tools:
 -  [`data/`](https://github.com/robotology/GRASPA-benchmark/tree/master/data) collects the:
-   - [`YCB objects models`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects) used in the grasping layouts;
+   - [`YCB objects models`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB) used in the grasping layouts;
    - the [`3D renders of the grasping layouts`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes);
    - the [`printable versions`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/printable_layouts);
    - the poses to be reached for the [`reachability test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/reachability) and the [`camera-calibration test`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/camera_calibration).
