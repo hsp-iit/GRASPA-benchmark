@@ -35,16 +35,17 @@
  **TODO**
 
  ### Locally
- Once the data required by the benchmark are available, all the scores can be computed by:
+ Once the data required by the benchmark are available (see [here](https://github.com/robotology/GRASPA-benchmark#how-to-collect-the-data) instructions on how to collect them), all the scores can be computed by:
  1. Properly pointing to the folders including the data in the [`src/script_launcher.sh`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh). More information on how to fill correctly the script is available [here](https://github.com/robotology/GRASPA-benchmark/blob/master/src/README.md#graspa-score-computation).
  2. Launching the script:
      ```
      cd /path/to/GRASPA-benchmark
      $ ./src/script_launcher.sh
      ```
+    An example of the benchmark output is available [here](https://github.com/robotology/GRASPA-benchmark/blob/master/src/README.md#output-example).
 
  ## Resources&Tools
-GRASPA 1.0 comes with several resources and tools:
+**GRASPA 1.0** comes with several resources and tools:
 -  [`data/`](https://github.com/robotology/GRASPA-benchmark/tree/master/data) collects the:
    - [`YCB objects models`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects) used in the grasping layouts;
    - the [`3D renders of the grasping layouts`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes);
@@ -53,10 +54,10 @@ GRASPA 1.0 comes with several resources and tools:
    - [`template files`](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files), the `xmls` to be filled with the data collected on your robot in order to compute the benchmark scores.
 - [`src/`](https://github.com/robotology/GRASPA-benchmark/tree/master/src) includes several scripts and executables:
    - a [`launcher script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh) to automatically compute all the scores;
-   - a [`C++ executable`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu#grasp-quality-computation) to compute the **grasp quality** score using Simox [??];
+   - a [`C++ executable`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu#grasp-quality-computation) to compute the **grasp quality** score using [Simox](https://gitlab.com/Simox/simox);
    - a [`python script`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/scores_evaluation.py) to combine all the information to get the **benchmark scores**;
    - a [`viewer`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/scene-viewer#scene-viewer) to **visualize the data** provided within GRASPA and those collected by the user;
-   - a [`python script`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/layout-printer#layout-printer) to automatically **generate the printable layouts** of the grasping scenarios defined by GRASPA.
+   - a [`python script`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/layout-printer#layout-printer) to automatically **generate the printable layouts** of the grasping scenarios defined by **GRASPA 1.0**.
 
  ## How to collect the data
 
@@ -86,7 +87,7 @@ GRASPA 1.0 comes with several resources and tools:
 - Save the received poses using [this template](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files/reached_poses) and following [this procedure](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files#reachability-and-camera-calibration-data).
 
 ### Camera calibration data
-- Put your robot **in the same pose used during the reachability**:
+- Put your robot **in the same pose used during the reachability test**:
 
 <p align="center"> 
 <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup1.jpg" width=200>
@@ -139,7 +140,7 @@ GRASPA 1.0 comes with several resources and tools:
 
    on condition that **the same modality is kept for each object and layout**.
 
- - If the robot grasps the object, make the robot **execute the trajectory for assessing the grasp stability** defined within GRASPA:
+ - If the robot grasps the object, make the robot **execute the trajectory for assessing the grasp stability** defined within **GRASPA 1.0**:
  <p align="center">
 <img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/grasp.jpg" width=200> <img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/traj1.jpg" width=200> <img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/grasp.jpg" width=200> <img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/traj3.jpg" width=200>
 </p>
