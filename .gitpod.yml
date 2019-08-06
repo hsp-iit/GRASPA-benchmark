@@ -1,0 +1,7 @@
+image: pattacini/graspa-benchmark:latest
+ports:
+- port: 6080
+  onOpen: notify
+tasks:
+- command: start-vnc-session.sh
+- command: tmux
