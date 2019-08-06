@@ -67,7 +67,7 @@ GRASPA 1.0 comes with several resources and tools:
  - Put your robot in front of the printed layout:
 
  <p align="center">
-<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" width=200>
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup1.jpg" width=200>
 </p>
 
  - Estimate the **pose of the board** reference frame:
@@ -89,7 +89,7 @@ GRASPA 1.0 comes with several resources and tools:
 - Put your robot **in the same pose used during the reachability**:
 
 <p align="center"> and camera calibration tests
-<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" width=200>
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup1.jpg" width=200>
 </p>
 
 - Estimate the **pose of the board** reference frame:
@@ -116,7 +116,7 @@ GRASPA 1.0 comes with several resources and tools:
 - Put your robot in the **same pose used during the reachability and camera calibration tests**:
 
 <p align="center">
-<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" width=200>
+<img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup1.jpg" width=200>
 </p>
 
 - Estimate the **pose of the board** reference frame:
@@ -132,11 +132,11 @@ GRASPA 1.0 comes with several resources and tools:
    </p>
 
    Or *in the clutter* :
-   
+
    <p align="center">
    <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" width=200>
    </p>
-   
+
    on condition that **the same modality is kept for each object and layout**.
 
  - If the robot grasps the object, make the robot **execute the trajectory for assessing the grasp stability** defined within GRASPA:
