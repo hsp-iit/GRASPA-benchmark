@@ -79,7 +79,7 @@ GRASPA 1.0 comes with several resources and tools:
 - Ask the robot to reach all the [desired reachability poses](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/reachability):
 
 <p align="center">
-<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/icub-reach.jpg" width=300>
+<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/icub-reach.jpg" width=200>
 </p>
 
 - Acquire the poses actually reached  by querying **forward kinematics**.
@@ -88,7 +88,7 @@ GRASPA 1.0 comes with several resources and tools:
 ### Camera calibration data
 - Put your robot **in the same pose used during the reachability**:
 
-<p align="center"> and camera calibration tests
+<p align="center"> 
 <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/benchmark-setup1.jpg" width=200>
 </p>
 
@@ -101,13 +101,13 @@ GRASPA 1.0 comes with several resources and tools:
 - Ask the robot to reach all the [desired camera calibration poses](https://github.com/robotology/GRASPA-benchmark/blob/master/data/scenes/camera_calibration/camera_calibration_poses.xml):
 
 <p align="center">
-<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/icub-reach.jpg" width=300>
+<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/icub-reach.jpg" width=200>
 </p>
 
 - Acquire the poses actually reached  by using **vision**:
 
 <p align="center">
-<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/camera-calib2.jpg" width=300>
+<img src="https://github.com/robotology-playground/GRASPA-test/blob/master/misc/camera-calib2.jpg" width=200>
 </p>
 
 - Save the received poses using [this template](https://github.com/robotology/GRASPA-benchmark/blob/master/data/template_files/camera_calibration/camera_calibration_output.xml) and following [this procedure](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files#reachability-and-camera-calibration-data).
