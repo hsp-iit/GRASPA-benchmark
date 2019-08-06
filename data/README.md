@@ -90,6 +90,6 @@ Also, two different sets of printable layouts are available:
 The second option allows for properly printing the 4 combinable A4 layouts without white margins overlapped on markers (as sometimes happens with standard printers). 
 
 ### Template files
-[This folder](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files) collects some `xml` files that can be used as templates to collect the data required by the benchmark. An example of `xmls` filled with the data collected on the iCub is available [in this folder](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm).
+[This folder](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files) collects some `xml` files that can be used as templates to collect the data required by the benchmark. An example of `xmls` filled with the data collected on the iCub is available in [`GRASPA-test`](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm).
 
-More information on the structure of the template files is available [here](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files).
+More information on the structure of the template files is available [here](https://github.com/robotology/GRASPA-benchmark/tree/master/data/template_files#template-files).
