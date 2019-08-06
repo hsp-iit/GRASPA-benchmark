@@ -1,6 +1,6 @@
 # Scene viewer
 
-The scene viewer allows visualizing the data provided by GRASPA or those acquired by the user
+The scene viewer allows **visualizing the data** provided by **GRASPA 1.0** or those **acquired by the user**
 by following the benchmark procedure.
 
 ## How to run
