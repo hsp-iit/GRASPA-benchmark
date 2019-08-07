@@ -4,4 +4,3 @@ ports:
   onOpen: notify
 tasks:
 - command: start-vnc-session.sh
-- command: tmux
