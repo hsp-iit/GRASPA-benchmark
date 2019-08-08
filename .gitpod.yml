@@ -4,5 +4,5 @@ ports:
   onOpen: notify
 tasks:
 - init: pip3 install numpy numpy-stl opencv-python opencv-contrib-python scipy
-  command: start-vnc-session.sh
-  command: tmux 
+- command: start-vnc-session.sh
+- command: tmux 
