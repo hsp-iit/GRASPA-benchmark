@@ -17,4 +17,4 @@ THRES_CAM=0.5
 
 
 ## To launch the script to compute all the scores
-python src/scores_evaluation.py --reached_poses_folder="${REACHED_POSES_FOLDER}" --file_camera_calibration_test="${FILE_CAMERA_CALIBRATION}" --grasps_folder="${GRASPS_FOLDER}" --layout="${LAYOUT_NAME}" --modality="${MODALITY}" --threshold_pos=${THRES_POS_REACH} --threshold_orie=${THRES_ORIE_REACH} --reaching_threshold=${THRES_REACH} --threshold_camera_pos=${THRES_POS_CAM} --threshold_camera_orie=${THRES_ORIE_CAM} --camera_threshold=${THRES_CAM}
+python3 src/scores_evaluation.py --reached_poses_folder="${REACHED_POSES_FOLDER}" --file_camera_calibration_test="${FILE_CAMERA_CALIBRATION}" --grasps_folder="${GRASPS_FOLDER}" --layout="${LAYOUT_NAME}" --modality="${MODALITY}" --threshold_pos=${THRES_POS_REACH} --threshold_orie=${THRES_ORIE_REACH} --reaching_threshold=${THRES_REACH} --threshold_camera_pos=${THRES_POS_CAM} --threshold_camera_orie=${THRES_ORIE_CAM} --camera_threshold=${THRES_CAM}
