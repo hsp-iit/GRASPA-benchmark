@@ -28,16 +28,16 @@ int main(int argc, char* argv[])
     cout << " --- START --- " << endl;
 
     VirtualRobot::RuntimeEnvironment::considerKey("scene");                 //  pointing to the layout xml
-    VirtualRobot::RuntimeEnvironment::considerKey("datapath");              //  simox data path dir
+    VirtualRobot::RuntimeEnvironment::considerKey("datapath");              //  benchmark data path (default: repo root)
     VirtualRobot::RuntimeEnvironment::considerKey("robot");                 //  robot xml, from datapath folder
     VirtualRobot::RuntimeEnvironment::considerKey("graspsdir");              //  path to user-defined grasps
-    VirtualRobot::RuntimeEnvironment::considerKey("approach");
+    VirtualRobot::RuntimeEnvironment::considerKey("approach");              //  if approach movement is to consider
     VirtualRobot::RuntimeEnvironment::processCommandLine(argc, argv);
     VirtualRobot::RuntimeEnvironment::print();
 
     //  Add scene/objects data path
 
-    std::string data_path("../");
+    std::string data_path("../../");
     common::parseDataPath(data_path);
 
     //  Find the scene file; if not found, use a default
