@@ -39,7 +39,7 @@ The program will load the scene, objects and the robot end effector. It will com
 
 If there are more grasps planned for the same object, more instances of the end effector will show up in the corresponding poses.
 
-The script will write the computation results by adding a ``<ComputedQuality>`` field to the grasp XML files. In this example, planning 5 grasps for each object results as the following field being added:
+The script will write the computation results by adding a ``<ComputedQuality>`` field to the grasp XML files. In this example, planning 5 grasps for each object results as the following field being added for the Banana object:
 
 ```
 <ComputedQuality>
