@@ -39,7 +39,7 @@ The program will load the scene, objects and the robot end effector. It will com
 
 If there are more grasps planned for the same object, more instances of the end effector will show up in the corresponding poses.
 
-The script will write the computation results by adding a ``<ComputedQuality>`` field to the grasp XML files. In this example, planning 5 grasps for each object results as the following field being added to this file:
+The script will write the computation results by adding a ``<ComputedQuality>`` field to the grasp XML files. In this example, planning 5 grasps for each object results as the following field being added:
 
 ```
 <ComputedQuality>
@@ -51,7 +51,10 @@ The script will write the computation results by adding a ``<ComputedQuality>`` 
 </ComputedQuality>
 ```
 
-`quality_collision_free` refers to the quality of each grasp planned for the object (averaged over a set of perturbations) only in case the grasps are not in a collision state with the object, while  `quality_overall` refers to the average quality of all perturbed grasps, regardless of whether they are initially in collision or not.
+To compute grasp quality, each grasp is perturbed in both position and orientation and the results are averaged.
+
+- `quality_collision_free` refers to the quality of each grasp planned for the object (averaged over the set of perturbations) only in case the grasps are not in a collision state with the object
+- `quality_overall` refers to the average quality of all perturbed grasps, regardless of whether they are initially in collision or not.
 
 
 ### Benchmark scores computation
