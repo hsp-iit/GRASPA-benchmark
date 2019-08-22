@@ -11,7 +11,6 @@
 option(BUILD_COMPUTE_GRASP_QUALITY "Build executable to compute grasp quality" ON)
 if (BUILD_COMPUTE_GRASP_QUALITY)
     add_subdirectory(compute-grasp-quality)
-    add_subdirectory(compute-grasp-quality-with-visu)
 endif()
 
 option(BUILD_SCENE_VIEWER "Build executable to view scenes" ON)
