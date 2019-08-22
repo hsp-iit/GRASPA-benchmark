@@ -1,4 +1,4 @@
-PROJECT ( grasp-quality-scene-viewer )
+PROJECT ( compute-grasp-quality )
 
 IF(Simox_VISUALIZATION AND Simox_USE_COIN_VISUALIZATION)
 	    

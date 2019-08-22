@@ -28,12 +28,31 @@ In order to properly run the script, the user is required to fill some informati
 
 
 
-First, the **grasp quality for each grasp** in the specific layout is evaluated using [`compute-grasp-quality-with-visu`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality-with-visu). The grasp qualities are **added in the grasps data** and, finally, **each score of the benchmark is computed** by [`scores_evaluation.py`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/scores_evaluation.py).
+First, the **grasp quality for each grasp** in the specific layout is evaluated using [`compute-grasp-quality`](https://github.com/robotology/GRASPA-benchmark/tree/master/src/compute-grasp-quality). The grasp qualities are **added in the grasps data** and, finally, **each score of the benchmark is computed** by [`scores_evaluation.py`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/scores_evaluation.py).
 
 ## Output example
 
 ### Grasp quality evaluation
-**TODO**: Add output example of grasp quality
+The program will load the scene, objects and the robot end effector. It will compute the grasp quality for every pose for every object in the layout according to the GWS metric. As output, it will show something like
+
+![grasp-quality-visu](../media/grasp_quality_visual_output.png)
+
+If there are more grasps planned for the same object, more instances of the end effector will show up in the corresponding poses.
+
+The script will write the computation results by adding a ``<ComputedQuality>`` field to the grasp XML files. In this example, planning 5 grasps for each object results as the following field being added to this file:
+
+```
+<ComputedQuality>
+    <Grasp name="Grasp 0" quality_collision_free="0.357533" quality_overall="0.250273"/>
+    <Grasp name="Grasp 1" quality_collision_free="0.0883257" quality_overall="0.0529954"/>
+    <Grasp name="Grasp 2" quality_collision_free="0.372534" quality_overall="0.149013"/>
+    <Grasp name="Grasp 3" quality_collision_free="0.37403" quality_overall="0.299224"/>
+    <Grasp name="Grasp 4" quality_collision_free="0.438608" quality_overall="0.219304"/>
+</ComputedQuality>
+```
+
+`quality_collision_free` refers to the quality of each grasp planned for the object (averaged over a set of perturbations) only in case the grasps are not in a collision state with the object, while  `quality_overall` refers to the average quality of all perturbed grasps, regardless of whether they are initially in collision or not.
+
 
 ### Benchmark scores computation
 - The benchmark scores are computed for **one layout per time**:
@@ -56,7 +75,7 @@ poses defined within the benchmark with those acquired by the user:
 </p>
 
 
-- The **grasp quality** are read from the files properly filled by `compute-grasp-quality-with-visu`:
+- The **grasp quality** are read from the files properly filled by `compute-grasp-quality`:
 
 <p align="center">
 <img src="https://github.com/robotology/GRASPA-benchmark/blob/master/media/output2-quality.png" width=400>
