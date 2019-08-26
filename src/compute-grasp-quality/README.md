@@ -34,15 +34,15 @@ Example grasps can be found in the [GRASPA test directory](https://github.com/ro
 __Important:__ the `SIMOX_DIR` environment variable must be set in order for the program to detect the location of the robot XML files (if using those bundled with Simox).
 
 Arguments:
-- `datapath`: where the GRASPA object XMLs are stored (typically, this is the root of the repo)
-- `graspsdir`: path to where user-defined grasps are stored. The parser implies this directory contains a directory with the same name as the scene (layout) being used. An instance of such directory tree is [this](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm/grasps_data)
-- `robot`: robot or end effector XML file. If using robots in the Simox library, this points to somewhere in `$SIMOX_DIR/VirtualRobot/data/robots`
-- `scene`: XML scene filename, containing object poses. Any scene in [this directory](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes)
+- `datapath`: where the GRASPA object XMLs are stored (typically, this is the root of the repo);
+- `graspsdir`: path to where user-defined grasps are stored. The parser implies this directory contains a directory with the same name as the scene (layout) being used. An instance of such directory tree is [this](https://github.com/robotology-playground/GRASPA-test/tree/master/experiment_data/right_arm/grasps_data);
+- `robot`: robot or end effector XML file. If using robots in the Simox library, this points to somewhere in `$SIMOX_DIR/VirtualRobot/data/robots`;
+- `scene`: XML scene filename, containing object poses. Any scene in [this directory](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes);
 - `approach`: enables the approach motion while detecting contacts [need to be documented further].
 
 ## Example
 
-Suppose the `SIMOX_DIR` environment variable is set, the variable `GRASPA_DIR` points to the root of [the benchmark repo](https://github.com/robotology/GRASPA-benchmark) and the variable `TEST` points to the root of [our test repo](https://github.com/robotology-playground/GRASPA-test). The executable can be run from the build directory as
+Suppose the `SIMOX_DIR` environment variable is set, the variable `GRASPA_DIR` points to the root of [the benchmark repo](https://github.com/robotology/GRASPA-benchmark) and the variable `TEST` points to the root of [our test repo](https://github.com/robotology-playground/GRASPA-test). The executable can be run from the build directory as:
 
 ```
 ./compute-grasp-quality --scene $GRASPA_DIR/data/scenes/grasping/3D_scenes/layout_0.xml --graspsdir $TEST/experiment_data/right_arm/grasps_data --datapath $GRASPA_DIR --robot $SIMOX_DIR/VirtualRobot/data/robots/iCub/iCub.xml

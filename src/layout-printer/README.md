@@ -1,17 +1,17 @@
 # Layout printer
 
-This simple Python 3 script allows users to **produce printout files** from custom GRASPA scenarios.
+This simple `Python 3` script allows users to **produce printout files** from custom GRASPA scenarios.
 
 ## How to build a layout
 
-The script parses layout XML files as produced by the Simox suite. For examples, please refer to the [layouts](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes) already provided by the benchmark. These files contain fields corresponding to
+The script parses layout XML files as produced by the Simox suite. For examples, please refer to the [layouts](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes) already provided by the benchmark. These files contain fields corresponding to:
 
-- the layout name (field `<Scene>`)
-- each object in the layout (field `<ManipulationObject>`)
-    - object name, as appearing in the [data directory](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB)
-    - object XML file, containing the mesh and collision model (field `<File>`)
-    - object pose with respect to the layout reference frame, i.e. bottom-right marker, defined with a 4x4 matrix (field `<Transform>`)
-- the Table object, representing the layout surface
+- the layout name (field `<Scene>`);
+- each object in the layout (field `<ManipulationObject>`):
+    - object name, as appearing in the [data directory](https://github.com/robotology/GRASPA-benchmark/tree/master/data/objects/YCB);
+    - object XML file, containing the mesh and collision model (field `<File>`);
+    - object pose with respect to the layout reference frame, i.e. bottom-right marker, defined with a 4x4 matrix (field `<Transform>`);
+- the Table object, representing the layout surface;
 - the layout reference frame.
 
 New layouts can be built by replicating existing layouts and simply changing the number, type and pose of the objects. GRASPA 1.0 comes with 16 YCB objects, but any other object can be added if a mesh and collision model are provided.
