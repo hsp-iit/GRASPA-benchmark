@@ -29,14 +29,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}"
 # Environment variable Simox_DIR must be set to the build root directory of Simox in order for FIND_PACKAGE to work
 find_package(Simox REQUIRED)
 
-
-# Unsure about the following if we don't use visualization
-# IF(Simox_USE_COIN_VISUALIZATION)
-# 	  FILE(GLOB SRCS ${PROJECT_SOURCE_DIR}/myDemo.cpp ${PROJECT_SOURCE_DIR}/myWindow.cpp)
-# 	  FILE(GLOB INCS ${PROJECT_SOURCE_DIR}/myWindow.h)
-# 	  set(GUI_MOC_HDRS ${PROJECT_SOURCE_DIR}/myWindow.h)
-# 	  set(GUI_UIS ${PROJECT_SOURCE_DIR}/myWindow.ui)
-# 	  SimoxQtApplication(${PROJECT_NAME} "${SRCS}" "${INCS}" "${GUI_MOC_HDRS}" "${GUI_UIS}")
-# ENDIF()
-
 add_subdirectory(src)
