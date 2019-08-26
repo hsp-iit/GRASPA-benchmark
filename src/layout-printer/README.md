@@ -1,10 +1,10 @@
 # Layout printer
 
-This simple Python 3 script allows users to **produce printout files** from custom GRASPA scenarios.
+This simple `Python 3` script allows users to **produce printout files** from custom GRASPA scenarios.
 
 ## How to build a layout
 
-The script parses layout XML files as produced by the Simox suite. For examples, please refer to the [layouts](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes) already provided by the benchmark. These files contain fields corresponding to
+The script parses layout XML files as produced by the Simox suite. For examples, please refer to the [layouts](https://github.com/robotology/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes) already provided by the benchmark. These files contain fields corresponding to:
 
 - the layout name (field `<Scene>`)
 - each object in the layout (field `<ManipulationObject>`)
