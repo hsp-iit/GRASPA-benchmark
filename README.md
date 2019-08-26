@@ -18,6 +18,8 @@
  - A score to assess the **grasp stability during the practical execution** on the robot.
  - The possibility to **benchmark** the algorithm **either in isolation or in the clutter**, with the definition of a further metric to  evaluate the obstacle avoidance in the clutter modality.
  - A **composite score** to quantify the **overall performance** of the algorithm **accounting for** reachability and calibration **limits of the test platform**.
+ 
+ [![Preview](media/preview.jpg)](https://youtu.be/wUBHQQddJr0)
 
 ## Overview
 - [How to install](https://github.com/robotology/GRASPA-benchmark#how-to-install)
