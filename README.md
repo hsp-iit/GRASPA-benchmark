@@ -28,7 +28,8 @@
 - [How to collect data](https://github.com/robotology/GRASPA-benchmark#how-to-collect-the-data)
  ## How to install
   ### Using GitPod
- **TODO**
+  We have packaged a GitPod environment with every dependency compiled and already installed. Click on the tempting blue button to open the cloud environment in your browser. 
+ [![Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/robotology/GRASPA-benchmark)
  ### Locally
  **TODO**
 
