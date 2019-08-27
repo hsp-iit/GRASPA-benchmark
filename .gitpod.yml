@@ -2,6 +2,8 @@ image: fbottarel/graspa-benchmark:latest
 ports:
 - port: 6080
   onOpen: notify
+checkoutLocation: "../home/gitpod"
+workspaceLocation: "../home/gitpod"
 tasks:
 - init: pip3 install -r GRASPA-benchmark/requirements.txt
 - command: mkdir GRASPA-benchmark/build && cd GRASPA-benchmark/build && cmake .. && make
