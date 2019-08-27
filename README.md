@@ -29,9 +29,15 @@
  ## How to install
   ### Using GitPod
   We have packaged a GitPod environment with every dependency compiled and already installed. Click on the tempting blue button to open the cloud environment in your browser. 
+  
  [![Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/robotology/GRASPA-benchmark)
+ 
  ### Locally
- **TODO**
+ To ease the installation process, please use the Docker image we prepared.
+ 
+ ```docker pull fbottarel/graspa-benchmark:latest```
+ or
+  ```docker pull fbottarel/graspa-benchmark-local:latest```
 
  ## How to run
  ### Using GitPod
