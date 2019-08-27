@@ -6,6 +6,6 @@ workspaceLocation: "."
 tasks:
 - init: pip3 install -r GRASPA-benchmark/requirements.txt
 - command: mkdir GRASPA-benchmark/build && cd GRASPA-benchmark/build && cmake .. && make
-- command: cd && git clone https://github.com/robotology-playground/GRASPA-test.git
+- command: git clone https://github.com/robotology-playground/GRASPA-test.git
 - command: start-vnc-session.sh
 - command: tmux
