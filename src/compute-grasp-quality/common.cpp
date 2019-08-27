@@ -30,11 +30,15 @@ bool common::parseDataPath(std::string& data_path)
 {
     //  add datapath to search path
 
-    data_path = VirtualRobot::RuntimeEnvironment::getValue("datapath");
-    if (!data_path.empty())
+    std::string data_path_cmd_line = VirtualRobot::RuntimeEnvironment::getValue("datapath");
+    if (!data_path_cmd_line.empty())
+    {
+        VirtualRobot::RuntimeEnvironment::addDataPath(data_path_cmd_line);
+        return true;
+    }
+    else
     {
         VirtualRobot::RuntimeEnvironment::addDataPath(data_path);
-        return true;
     }
 
     return false;

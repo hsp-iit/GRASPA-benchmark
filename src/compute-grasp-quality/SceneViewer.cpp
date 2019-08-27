@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 
     //  Add scene/objects data path
 
-    std::string data_path("../../");
+    std::string data_path("/usr/local/data");
     common::parseDataPath(data_path);
 
     //  Find the scene file; if not found, use a default
