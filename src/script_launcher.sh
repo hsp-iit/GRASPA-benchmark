@@ -14,6 +14,7 @@ THRES_CAM=0.5
 
 
 ## To launch pose quality evaluation
+compute-grasp-quality --scene $GRASPA_DIR/data/scenes/grasping/3D_scenes/layout_0.xml --graspsdir $GRASPA_TEST_DIR/grasps_data --datapath $GRASPA_DIR --robot /usr/local/data/robots/iCub/iCub.xml
 
 
 ## To launch the script to compute all the scores
