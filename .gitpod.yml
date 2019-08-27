@@ -2,7 +2,6 @@ image: fbottarel/graspa-benchmark:latest
 ports:
 - port: 6080
   onOpen: notify
-checkoutLocation: "."
 workspaceLocation: "."
 tasks:
 - init: pip3 install -r GRASPA-benchmark/requirements.txt
