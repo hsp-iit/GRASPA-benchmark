@@ -41,7 +41,17 @@
 
  ## How to run
  ### Using GitPod
- **TODO**
+ GitPod is a cloud-based development environment that allows users to test code from a GitHub repository without having to set up the environment and dependencies on their local machine. We have set up such an environment for this repo to allow users to test the code in the most hassle-free way.
+ 
+ To further smoothen user experience, our GitPod instance comes with a XFCE desktop environment packed in. Once the environment is ready (it takes a while), GitPod will signal the user that a service is available on port 6080. By clicking on the `Open Browser` option, you will be automatically connected to the XFCE desktop. 
+ 
+ To test the code on the data that we gathered for the paper and see the outcome, simply open a terminal and type 
+ ```
+     cd /path/to/GRASPA-benchmark
+     $ ./src/script_launcher.sh
+  ```
+  
+  and the bash script will perform every step required to compute the benchmark score of our platform.
 
  ### Locally
  Once the data required by the benchmark are available (see [here](https://github.com/robotology/GRASPA-benchmark#how-to-collect-the-data) instructions on how to collect them), all the scores can be computed by:
