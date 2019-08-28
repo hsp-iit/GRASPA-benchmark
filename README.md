@@ -36,8 +36,6 @@
  To ease the installation process, please use the Docker image we prepared.
  
  ```docker pull fbottarel/graspa-benchmark:latest```
- or
-  ```docker pull fbottarel/graspa-benchmark-local:latest```
 
  ## How to run
  ### Using GitPod
@@ -54,11 +52,21 @@
   and the bash script will perform every step required to compute the benchmark score of our platform.
 
  ### Locally
+ You can use the Docker image you just pulled. Fire it up with 
+ ```
+ docker run -it --rm -p 6080 fbottarel/graspa-benchmark
+ ```
+ and you will be welcomed by a humble console, displaying that you are logged as root in the container. You can start the x11 server and html browser hook by launching `start-vnc-session.sh`
+ ```
+ root /workspace $ start-vnc-session.sh
+ ```
+ and then navigating from your favourite web browser to `http://172.17.0.2:6080`. At this point, open a terminal and proceed as outlined in the GitPod instructions section.
+ 
  Once the data required by the benchmark are available (see [here](https://github.com/robotology/GRASPA-benchmark#how-to-collect-the-data) instructions on how to collect them), all the scores can be computed by:
  1. Properly pointing to the folders including the data in the [`src/script_launcher.sh`](https://github.com/robotology/GRASPA-benchmark/blob/master/src/script_launcher.sh). More information on how to fill correctly the script is available [here](https://github.com/robotology/GRASPA-benchmark/blob/master/src/README.md#graspa-score-computation).
  2. Launching the script:
      ```
-     cd /path/to/GRASPA-benchmark
+     cd $GRASPA_DIR
      $ ./src/script_launcher.sh
      ```
     An example of the benchmark output is available [here](https://github.com/robotology/GRASPA-benchmark/blob/master/src/README.md#output-example).
