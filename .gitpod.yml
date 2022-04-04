@@ -4,6 +4,12 @@ ports:
   onOpen: notify
 workspaceLocation: "."
 tasks:
-- init: cd GRASPA-benchmark/build && git pull master && cmake .. && make install
-- command: cd GRASPA-test && git pull
-- command: tmux
+- before: >
+        mkdir -p GRASPA-benchmark/build &&
+        cd GRASPA-benchmark/build &&
+        cmake .. &&
+        make install &&
+        cd /workspace &&
+        git clone https://github.com/hsp-iit/GRASPA-test.git
+- init: /app/entrypoint.sh
+- command: bash
