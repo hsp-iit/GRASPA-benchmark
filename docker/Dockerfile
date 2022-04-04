@@ -88,7 +88,7 @@ RUN mkdir GRASPA-benchmark/build && cd GRASPA-benchmark/build && \
 RUN pip3 install -r GRASPA-benchmark/requirements.txt
 
 # Clone the experiment data repository
-RUN git clone https://github.com/robotology-playground/GRASPA-test.git
+RUN git clone https://github.com/hsp-iit/GRASPA-test.git
 
 # Set up .bashrc for root user
 RUN echo "alias python='/usr/bin/python3.6'" >> ~/.bashrc
