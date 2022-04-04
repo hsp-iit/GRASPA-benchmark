@@ -1,4 +1,11 @@
 #!/bin/bash
+
+echo "alias python='/usr/bin/python3.6'" >> ~/.bashrc
+echo "PS1='\[\e]0;\u \w\a\]\[\033[01;32m\]\u\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\] \$ '" >> ~/.bashrc
+echo "export GRASPA_DIR=/workspace/GRASPA-benchmark" >> ~/.bashrc
+echo "export GRASPA_TEST_DIR=/workspace/GRASPA-test/experiment_data/right_arm" >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib" >> ~/.bashrc
+
 set -ex
 
 RUN_FLUXBOX=${RUN_FLUXBOX:-yes}

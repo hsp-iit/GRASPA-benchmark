@@ -90,12 +90,12 @@ RUN pip3 install -r GRASPA-benchmark/requirements.txt
 # Clone the experiment data repository
 RUN git clone https://github.com/hsp-iit/GRASPA-test.git
 
-# Set up .bashrc for root user
-RUN echo "alias python='/usr/bin/python3.6'" >> ~/.bashrc
-RUN echo "PS1='\[\e]0;\u \w\a\]\[\033[01;32m\]\u\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\] \$ '" >> ~/.bashrc
-RUN echo "export GRASPA_DIR=/workspace/GRASPA-benchmark" >> ~/.bashrc
-RUN echo "export GRASPA_TEST_DIR=/workspace/GRASPA-test/experiment_data/right_arm" >> ~/.bashrc
-RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib" >> ~/.bashrc
+# Set up .bashrc for root user (now in entrypoint)
+# RUN echo "alias python='/usr/bin/python3.6'" >> ~/.bashrc
+# RUN echo "PS1='\[\e]0;\u \w\a\]\[\033[01;32m\]\u\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\] \$ '" >> ~/.bashrc
+# RUN echo "export GRASPA_DIR=/workspace/GRASPA-benchmark" >> ~/.bashrc
+# RUN echo "export GRASPA_TEST_DIR=/workspace/GRASPA-test/experiment_data/right_arm" >> ~/.bashrc
+# RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib" >> ~/.bashrc
 
 # Set up configs and entrypoint
 COPY supervisord.conf entrypoint.sh /app/
