@@ -17,10 +17,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      packages: write
-
     steps:
 
       - name: Checkout repository
@@ -29,7 +25,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@main
         with:
-          name: ${{ env.IMAGE_NAME}}/latest
+          name: ${{ env.IMAGE_NAME}}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           workdir: docker
