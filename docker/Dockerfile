@@ -13,7 +13,8 @@ ENV HOME=/root \
     DISPLAY_HEIGHT=1080 \
     RUN_XTERM=yes \
     RUN_FLUXBOX=yes \
-    BUILD_TYPE=Release
+    BUILD_TYPE=Release \
+    SHELL=bash
 
 # Install git, supervisor, VNC, & X11 packages
 
@@ -79,12 +80,12 @@ RUN rm -Rf simox
 
 ENV Simox_DIR=/usr/local
 
-# Clone the GRASPA benchmark repository (only for docker local)
+# Clone the GRASPA benchmark repository
 RUN git clone https://github.com/hsp-iit/GRASPA-benchmark
 RUN mkdir GRASPA-benchmark/build && cd GRASPA-benchmark/build && \
     cmake .. && make install
 
-# Install the Python packages (only for docker local)
+# Install the Python packages
 RUN pip3 install -r GRASPA-benchmark/requirements.txt
 
 # Clone the experiment data repository
