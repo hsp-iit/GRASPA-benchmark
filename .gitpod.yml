@@ -11,6 +11,5 @@ tasks:
         make install &&
         cd /workspace &&
         git clone https://github.com/hsp-iit/GRASPA-test.git
-- init: /app/entrypoint.sh
-env:
-  SHELL:bash
+- init: >
+        /app/entrypoint.sh

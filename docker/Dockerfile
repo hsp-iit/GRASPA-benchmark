@@ -14,7 +14,7 @@ ENV HOME=/root \
     RUN_XTERM=yes \
     RUN_FLUXBOX=yes \
     BUILD_TYPE=Release \
-    SHELL=bash
+    SHELL=/bin/bash
 
 # Install git, supervisor, VNC, & X11 packages
 
