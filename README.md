@@ -9,6 +9,7 @@
  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/hsp-iit/GRASPA-benchmark/Build%20and%20publish%20docker%20image">
  <img alt="paper-ieeexplore" src="https://img.shields.io/badge/paper-IEEEXplore-lightgrey" href="https://ieeexplore.ieee.org/document/8957275">
  <img alt="paper-arxiv" src="https://img.shields.io/badge/paper-ArXiv-red" href="https://arxiv.org/abs/2002.05017">
+ <img alt="gitpod" src="https://img.shields.io/badge/env-gitpod-yellow" href="https://gitpod.io/#https://github.com/hsp-iit/GRASPA-benchmark">
  
 </p>
  
