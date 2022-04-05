@@ -3,8 +3,18 @@
 
  <h1 align="center">Welcome to <b>GRASPA</b>!</h1>
 
- <p align="center">
-<img src="https://github.com/hsp-iit/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" width=400>
+<p align="center"> 
+
+ <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/hsp-iit/graspa-benchmark">
+ <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/hsp-iit/GRASPA-benchmark/Build%20and%20publish%20docker%20image">
+ <img alt="paper-ieeexplore" src="https://img.shields.io/badge/paper-IEEEXplore-lightgrey" href="https://ieeexplore.ieee.org/document/8957275">
+ <img alt="paper-arxiv" src="https://img.shields.io/badge/paper-ArXiv-red" href="https://arxiv.org/abs/2002.05017">
+ 
+</p>
+ 
+<p align="center">
+ <img src="https://github.com/hsp-iit/GRASPA-benchmark/blob/master/media/benchmark-setup2.jpg" height=400>
+ <img src="https://github.com/hsp-iit/GRASPA-benchmark/blob/master/media/benchmark-setup-panda.png" height=400> 
 </p>
 
 **GRASPA (GRASPA is a Robot Arm graSping Performance benchmArk)** is
@@ -35,11 +45,9 @@
  ### Locally
  To ease the installation process, please use the Docker image we prepared.
 
- ```docker pull ghcr.io/hsp-iit/graspa-benchmark:latest```
-
-
- ![workflow](https://github.com/hsp-iit/GRASPA-benchmark/actions/workflows/docker-image.yml/badge.svg)
-
+ ```
+ docker pull ghcr.io/hsp-iit/graspa-benchmark:latest
+ ```
 
  ## How to run
  ### Using GitPod
