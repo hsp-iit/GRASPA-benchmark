@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <VirtualRobot/VirtualRobot.h>
+#include <VirtualRobot/VirtualRobotException.h>
 #include <VirtualRobot/Robot.h>
 #include <VirtualRobot/ManipulationObject.h>
 #include <VirtualRobot/RuntimeEnvironment.h>
@@ -15,6 +16,9 @@
 #include <GraspPlanning/ApproachMovementSurfaceNormal.h>
 #include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
+#include <rapidxml/rapidxml_print.hpp>
 
 
 std::string common::fileBaseName(std::string const& path)
@@ -243,4 +247,42 @@ int common::saveComputedQuality( const common::GraspSetQuality& set_quality, con
     return 0;
 
 }
+
+VirtualRobot::ManipulationObjectPtr common::getManipulationObjectFromGRASPAXML(const std::string& xml_path)
+{
+    // Return a Simox Manipulation Object being parsed from a GRASPA XML with a different xml root
+
+    // Load the XML
+    rapidxml::file<char> xml_file(xml_path.c_str());
+    rapidxml::xml_document<char> doc;
+    doc.parse<0>(xml_file.data());
+
+    // Get the ManipulationObject node
+    rapidxml::xml_node<char> *root_node = doc.first_node("grasp_data");
+    rapidxml::xml_node<char> *manipulation_object_node = root_node->first_node("ManipulationObject");
+
+    // Print the ManipulationObject node on a xml string
+    // std::string manipulation_object_xml_string;
+    // rapidxml::print(back_insterter(manipulation_object_xml_string), *manipulation_object_node, 0);
+    // std::ifstream manipulation_object_ifstream(manipulation_object_xml_string.c_str());
+
+    // Find the xml file directory
+    std::string xml_dir = xml_path.substr(0, xml_path.find_last_of("/\\"));
+
+    // Call the Simox function to parse the ManipulationObject
+    VirtualRobot::ManipulationObjectPtr manipulation_object;
+    try
+    {
+        // manipulation_object = VirtualRobot::ObjectIO::LoadManipulationObjectFromString(manipulation_object_xml_string, xml_dir);
+        manipulation_object = VirtualRobot::ObjectIO::processManipulationObject(manipulation_object_node, xml_dir);
+    }
+    catch (VirtualRobot::VirtualRobotException& exc)
+    {
+        std::cout << "Could not parse manipulation object from " << xml_path << std::endl;
+        throw;
+    }
+
+    return manipulation_object;
+}
+
 

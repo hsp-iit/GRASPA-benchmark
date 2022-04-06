@@ -495,7 +495,7 @@ void showSceneWindow::loadObjectsGrasps()
 
         try
         {
-            man_obj = VirtualRobot::ObjectIO::loadManipulationObject(man_obj_filename);
+            man_obj = common::getManipulationObjectFromGRASPAXML(man_obj_filename);
         }
         catch (VirtualRobot::VirtualRobotException &exc)
         {
