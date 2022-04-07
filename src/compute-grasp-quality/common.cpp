@@ -220,13 +220,12 @@ int common::saveComputedQuality(const common::GraspSetQuality& set_quality, cons
     // Add each grasp quality scores
     for (const auto& g_quality : set_quality)
     {
-        std::cout << "DEBUG           -------------------- " << g_quality.second.quality_collision_free << std::endl;
         rapidxml::xml_node<char> *grasp_node = xml_doc.allocate_node(rapidxml::node_element, "Grasp");
-        std::string quality_collision_free_string = std::to_string(g_quality.second.quality_collision_free);
-        std::string quality_overall_string = std::to_string(g_quality.second.quality_overall);
+        const char* quality_collision_free_string = std::to_string(g_quality.second.quality_collision_free).c_str();
+        const char* quality_overall_string = std::to_string(g_quality.second.quality_overall).c_str();
         rapidxml::xml_attribute<char> *grasp_attribute = xml_doc.allocate_attribute("name", g_quality.first.c_str());
-        rapidxml::xml_attribute<char> *q_cf_attribute = xml_doc.allocate_attribute("quality_collision_free", quality_collision_free_string.c_str());
-        rapidxml::xml_attribute<char> *q_ov_attribute = xml_doc.allocate_attribute("quality_overall", quality_overall_string.c_str());
+        rapidxml::xml_attribute<char> *q_cf_attribute = xml_doc.allocate_attribute("quality_collision_free", xml_doc.allocate_string(quality_collision_free_string));
+        rapidxml::xml_attribute<char> *q_ov_attribute = xml_doc.allocate_attribute("quality_overall", xml_doc.allocate_string(quality_overall_string));
         grasp_node -> append_attribute(grasp_attribute);
         grasp_node -> append_attribute(q_cf_attribute);
         grasp_node -> append_attribute(q_ov_attribute);
