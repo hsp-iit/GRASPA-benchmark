@@ -54,9 +54,9 @@
  ### Using GitPod
  GitPod is a cloud-based development environment that allows users to test code from a GitHub repository without having to set up the environment and dependencies on their local machine. We have set up such an environment for this repo to allow users to test the code in the most hassle-free way.
 
- To further smoothen user experience, our GitPod instance comes with a Fluxbox desktop environment packed in. Once the environment is ready (it takes a while), GitPod will signal the user that a service is available on port 8080. By clicking on the `Open Browser` option, you will be automatically connected to the in-browser desktop.
+ To further smoothen user experience, our GitPod instance comes with a Fluxbox desktop environment packed in. Once the environment is ready (it takes a while), GitPod will signal the user that a service is available on port 8080. By clicking on the `Open Browser` option, you will be automatically connected to the in-browser desktop. Otherwise, click `Remote Explore` tab in Gitpod, the Gitpod Workspace dropdown shows several ports. Select `Open Browser` for the 8080 port and click on `vnc_auto.html` to visualize the remote desktop.    
 
- To test the code on the data that we gathered for the paper and see the outcome, simply open a terminal and type
+ To test the code on the data that we gathered for the paper and see the outcome, simply open a terminal in the remote desktop and type
  ```
      cd /path/to/GRASPA-benchmark
      $ ./src/script_launcher.sh
