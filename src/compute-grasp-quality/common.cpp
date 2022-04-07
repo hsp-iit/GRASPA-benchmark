@@ -253,11 +253,6 @@ VirtualRobot::ManipulationObjectPtr common::getManipulationObjectFromGRASPAXML(c
     rapidxml::xml_node<char> *root_node = doc.first_node("grasp_data");
     rapidxml::xml_node<char> *manipulation_object_node = root_node->first_node("ManipulationObject");
 
-    // Print the ManipulationObject node on a xml string
-    // std::string manipulation_object_xml_string;
-    // rapidxml::print(back_insterter(manipulation_object_xml_string), *manipulation_object_node, 0);
-    // std::ifstream manipulation_object_ifstream(manipulation_object_xml_string.c_str());
-
     // Find the xml file directory
     std::string xml_dir = xml_path.substr(0, xml_path.find_last_of("/\\"));
 
@@ -265,7 +260,6 @@ VirtualRobot::ManipulationObjectPtr common::getManipulationObjectFromGRASPAXML(c
     VirtualRobot::ManipulationObjectPtr manipulation_object;
     try
     {
-        // manipulation_object = VirtualRobot::ObjectIO::LoadManipulationObjectFromString(manipulation_object_xml_string, xml_dir);
         manipulation_object = VirtualRobot::ObjectIO::processManipulationObject(manipulation_object_node, xml_dir);
     }
     catch (VirtualRobot::VirtualRobotException& exc)
