@@ -204,7 +204,8 @@ int common::saveComputedQuality(const common::GraspSetQuality& set_quality, cons
 
     // Parse the XML string
     rapidxml::xml_document<char> xml_doc;
-    xml_doc.parse<0>(&xml_string_copy[0]);
+    xml_doc.parse<rapidxml::parse_declaration_node | rapidxml::parse_no_data_nodes>(&xml_string_copy[0]);
+
 
     // Add a ComputedQuality child to the root node. Delete any existing ones with the same name
     rapidxml::xml_node<char> *root_node = xml_doc.first_node("grasp_data");
