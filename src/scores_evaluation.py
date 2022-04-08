@@ -388,22 +388,13 @@ def acceptable(thres_pos, thres_orie, error):
     else:
         return True
 
-def wrap_grasp_files(file):
-    with open(file, 'r') as file_input:
-        contents = file_input.readlines()
-        file_input.close()
-
-        contents.insert(1, '<wrapper>')
-        contents.insert(len(contents), '</wrapper>')
-        root = ET.fromstring(''.join(contents))
-        return root
-
 def not_consistent(file, acceptable_object_names):
     # Check if the user provides the correct layout name
     # w.r.t the list of objects provided
-    # tree = ET.parse(file)
-    # root = tree.getroot()
-    root = wrap_grasp_files(file)
+    with open(file, 'r') as file_input:
+        contents = file_input.readlines()
+        file_input.close()
+        root = ET.fromstring(''.join(contents))
 
     file_name = os.path.splitext(os.path.basename(file))[0]
     file_name = file_name[:-6]
@@ -419,9 +410,9 @@ def parse_grasping_files(files, s3, s4, s5, s6, args):
         file_name = os.path.splitext(os.path.basename(file))[0]
         file_name = file_name[:-6]
 
-        # tree = ET.parse(file)
-        # root = tree.getroot()
-        root = wrap_grasp_files(file)
+        # Get the XML tree from filename
+        tree = ET.parse(file)
+        root = tree.getroot()
 
         # Read graspability
         s2[file_name] = float(root[1].attrib['quality'])
