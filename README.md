@@ -69,7 +69,7 @@
  ```
  docker run -it --rm -p 8080:8080 ghcr.io/hsp-iit/graspa-benchmark
  ```
- and then navigate from your favourite web browser to `http://localhost:6080`. At this point, open a terminal and proceed as outlined in the GitPod instructions section.
+ and then navigate from your favourite web browser to `http://localhost:8080`. At this point, open a terminal and proceed as outlined in the GitPod instructions section.
 
  Once the data required by the benchmark are available (see [here](https://github.com/hsp-iit/GRASPA-benchmark#how-to-collect-the-data) instructions on how to collect them), all the scores can be computed by:
  1. Properly pointing to the folders including the data in the [`src/script_launcher.sh`](https://github.com/hsp-iit/GRASPA-benchmark/blob/master/src/script_launcher.sh). More information on how to fill correctly the script is available [here](https://github.com/hsp-iit/GRASPA-benchmark/blob/master/src/README.md#graspa-score-computation).
