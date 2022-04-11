@@ -800,7 +800,7 @@ def read_scores(args):
     # Check consistency between object and layout
     for file in grasp_files:
         if (not_consistent(file, acceptable_object_names)):
-            sys.exit("Inconsistency between provided object names and benchmark layout!")
+            sys.exit("Inconsistency between provided object filename {} and benchmark layout {}".format(file, testing_layout))
 
     # Read Binary scores and save in s3 as a dictionary, with tag the names
     # of the objects as defined in the xmls of the benchmark
