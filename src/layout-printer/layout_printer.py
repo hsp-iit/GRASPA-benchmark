@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial.transform import Rotation as R
 from stl import mesh
 import cv2
 import xml.etree.ElementTree as et
@@ -8,6 +9,10 @@ import argparse
 def projectMeshOnImage(image, mesh_filename, transform, density):
 
     input_mesh = mesh.Mesh.from_file(mesh_filename)
+
+    transform_rot = transform[:3,:3]
+    transform_rot_fixed = R.from_matrix(transform_rot).as_matrix()
+    transform[:3,:3] = transform_rot_fixed
 
     input_mesh.transform(transform)
 
