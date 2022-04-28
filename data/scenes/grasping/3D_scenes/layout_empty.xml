@@ -3,9 +3,9 @@
 <Scene name="Benchmark_Layout_empty">
   <Obstacle name='Table'>
     <Visualization>
-		<File type='inventor'>data/objects/iv/board_layout_empty.iv</File>
-		<UseAsCollisionModel/>
-	</Visualization>
+      <File type='inventor'>data/objects/iv/board_layout_empty.iv</File>
+      <UseAsCollisionModel/>
+    </Visualization>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
@@ -20,8 +20,8 @@
 
   <Obstacle name='Frame'>
     <Visualization>
-		<File>data/objects/misc/frame.wrl</File>
-	</Visualization>
+      <File>data/objects/misc/frame.wrl</File>
+    </Visualization>
     <GlobalPose>
       <Transform>
         <Matrix4x4>
