@@ -60,7 +60,8 @@ RUN apt install -y libboost-all-dev \
                    libeigen3-dev libsoqt4-dev \
                    libcoin80-dev \
                    libqt4-dev \
-                   libnlopt-dev
+                   libnlopt-dev \
+                   librapidxml-dev
 
 # Get and build Simox v2.3.74
 

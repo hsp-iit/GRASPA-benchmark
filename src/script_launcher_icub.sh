@@ -1,10 +1,20 @@
 #!/bin/bash
 
+## Layout -- Change me
+LAYOUT=0
+
+## Algorithm to test -- Change me
+ALGORITHM=superquadrics
+
+## Env variables
+GRASPA_TEST_DIR=/workspace/GRASPA-test/experiment_data/icub/icub-$ALGORITHM
 REACHED_POSES_FOLDER=$GRASPA_TEST_DIR/reaching_test/
 FILE_CAMERA_CALIBRATION=$GRASPA_TEST_DIR/camera_calibration/cam_calibration_test_output.xml
-GRASPS_FOLDER=$GRASPA_TEST_DIR/grasps_data/layout_0
-LAYOUT_NAME=Benchmark_Layout_0
+GRASPS_FOLDER=$GRASPA_TEST_DIR/grasps_data/layout_${LAYOUT}
+LAYOUT_NAME=Benchmark_Layout_${LAYOUT}
 MODALITY=isolation
+
+## Thresholds
 THRES_POS_REACH=0.02
 THRES_ORIE_REACH=0.5
 THRES_REACH=0.5
@@ -12,9 +22,8 @@ THRES_POS_CAM=0.045
 THRES_ORIE_CAM=0.8
 THRES_CAM=0.5
 
-
 ## To launch pose quality evaluation
-compute-grasp-quality --scene $GRASPA_DIR/data/scenes/grasping/3D_scenes/layout_0.xml --graspsdir $GRASPA_TEST_DIR/grasps_data --datapath $GRASPA_DIR --robot /usr/local/data/robots/iCub/iCub.xml
+compute-grasp-quality --scene $GRASPA_DIR/data/scenes/grasping/3D_scenes/layout_${LAYOUT}.xml --graspsdir $GRASPA_TEST_DIR/grasps_data --datapath $GRASPA_DIR --robot /usr/local/data/robots/iCub/iCub.xml
 
 
 ## To launch the script to compute all the scores

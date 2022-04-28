@@ -388,22 +388,13 @@ def acceptable(thres_pos, thres_orie, error):
     else:
         return True
 
-def wrap_grasp_files(file):
-    with open(file, 'r') as file_input:
-        contents = file_input.readlines()
-        file_input.close()
-
-        contents.insert(1, '<wrapper>')
-        contents.insert(len(contents), '</wrapper>')
-        root = ET.fromstring(''.join(contents))
-        return root
-
 def not_consistent(file, acceptable_object_names):
     # Check if the user provides the correct layout name
     # w.r.t the list of objects provided
-    # tree = ET.parse(file)
-    # root = tree.getroot()
-    root = wrap_grasp_files(file)
+    with open(file, 'r') as file_input:
+        contents = file_input.readlines()
+        file_input.close()
+        root = ET.fromstring(''.join(contents))
 
     file_name = os.path.splitext(os.path.basename(file))[0]
     file_name = file_name[:-6]
@@ -419,70 +410,73 @@ def parse_grasping_files(files, s3, s4, s5, s6, args):
         file_name = os.path.splitext(os.path.basename(file))[0]
         file_name = file_name[:-6]
 
-        # tree = ET.parse(file)
-        # root = tree.getroot()
-        root = wrap_grasp_files(file)
+        # Get the XML tree from filename
+        tree = ET.parse(file)
+        root = tree.getroot()
 
         # Read graspability
         s2[file_name] = float(root[1].attrib['quality'])
 
-        s_tmp = 0.0
-        count_grasp_item = 0
-        s3_item = {}
-        s3_item[file_name] = []
-        # Read grasp quality
-        for g in root[5].iter('Grasp'):
-            count_grasp_item += 1
-            s_tmp += float(g.attrib['quality_collision_free']) ##TODO Update if we decide to use the overall
-            s3_item[file_name].append(float(g.attrib['quality_collision_free'])) ##TODO
-        s3[file_name] = s_tmp / count_grasp_item
+        # If not graspable, do not perform any of this parsing
+        if s2[file_name] > 0.0:
 
-        s_tmp = 0.0
-        count_grasp_item = 0
-        s4_item = {}
-        s4_item[file_name] = []
-        # Read if object has been grasped
-        for g in root[2].iter('Grasp'):
-            count_grasp_item += 1
-            s_tmp += float(g.attrib['quality'])
-            s4_item[file_name].append(float(g.attrib['quality']))
-        s4[file_name] = s_tmp / count_grasp_item
-
-        s_tmp = 0.0
-        count_grasp_item = 0
-        s5_item = {}
-        s5_item[file_name] = []
-        # Read grasp stability over trajectory
-        for g in root[3].iter('Grasp'):
-            count_grasp_item += 1
-            s_tmp += float(g.attrib['quality'])
-            s5_item[file_name].append(float(g.attrib['quality']))
-        s5[file_name] = s_tmp / count_grasp_item
-
-        # Read grasp stability over trajectory
-        s_tmp = 0.0
-        count_grasp_item = 0
-        s6_item = {}
-        s6_item[file_name] = []
-        if (args.testing_modality == 'clutter'):
-            for g in root[4].iter('Grasp'):
+            s_tmp = 0.0
+            count_grasp_item = 0
+            s3_item = {}
+            s3_item[file_name] = []
+            # Read grasp quality
+            for g in root[5].iter('Grasp'):
                 count_grasp_item += 1
-                s_tmp += (1.0 -float(g.attrib['quality'])/len(acceptable_object_names))
-                s6_item[file_name].append(float(g.attrib['quality']))
-            s6[file_name] = s_tmp / count_grasp_item
-        else:
-            s6[file_name] = 0.0
-            for g in root[4].iter('Grasp'):
-                s6_item[file_name].append(0.0)
+                s_tmp += float(g.attrib['quality_collision_free']) ##TODO Update if we decide to use the overall
+                s3_item[file_name].append(float(g.attrib['quality_collision_free'])) ##TODO
+            s3[file_name] = s_tmp / count_grasp_item
 
-        s_aux[file_name] = []
-        for i in range(len(s4_item[file_name])):
-            if (args.testing_modality == 'isolation'):
-                s_aux[file_name].append((s3_item[file_name][i] + s5_item[file_name][i]) * s4_item[file_name][i])
+            s_tmp = 0.0
+            count_grasp_item = 0
+            s4_item = {}
+            s4_item[file_name] = []
+            # Read if object has been grasped
+            for g in root[2].iter('Grasp'):
+                count_grasp_item += 1
+                s_tmp += float(g.attrib['quality'])
+                s4_item[file_name].append(float(g.attrib['quality']))
+            s4[file_name] = s_tmp / count_grasp_item
+
+            s_tmp = 0.0
+            count_grasp_item = 0
+            s5_item = {}
+            s5_item[file_name] = []
+            # Read grasp stability over trajectory
+            for g in root[3].iter('Grasp'):
+                count_grasp_item += 1
+                s_tmp += float(g.attrib['quality'])
+                s5_item[file_name].append(float(g.attrib['quality']))
+            s5[file_name] = s_tmp / count_grasp_item
+
+            # Read grasp stability over trajectory
+            s_tmp = 0.0
+            count_grasp_item = 0
+            s6_item = {}
+            s6_item[file_name] = []
+            if (args.testing_modality == 'clutter'):
+                for g in root[4].iter('Grasp'):
+                    count_grasp_item += 1
+                    s_tmp += (1.0 -float(g.attrib['quality'])/len(acceptable_object_names))
+                    s6_item[file_name].append(float(g.attrib['quality']))
+                s6[file_name] = s_tmp / count_grasp_item
             else:
-                s_aux[file_name].append((s3_item[file_name][i] + s5_item[file_name][i] + s6_item[file_name][i]) * s4_item[file_name][i])
-        if args.verbose:
-            print('s_aux', s_aux[file_name])
+                s6[file_name] = 0.0
+                for g in root[4].iter('Grasp'):
+                    s6_item[file_name].append(0.0)
+
+            s_aux[file_name] = []
+            for i in range(len(s4_item[file_name])):
+                if (args.testing_modality == 'isolation'):
+                    s_aux[file_name].append((s3_item[file_name][i] + s5_item[file_name][i]) * s4_item[file_name][i])
+                else:
+                    s_aux[file_name].append((s3_item[file_name][i] + s5_item[file_name][i] + s6_item[file_name][i]) * s4_item[file_name][i])
+            if args.verbose:
+                print('s_aux', s_aux[file_name])
 
         # If the user does not provide some objects of the testing layout
         # their are stored with the value 'Missing data'
@@ -806,7 +800,7 @@ def read_scores(args):
     # Check consistency between object and layout
     for file in grasp_files:
         if (not_consistent(file, acceptable_object_names)):
-            sys.exit("Inconsistency between provided object names and benchmark layout!")
+            sys.exit("Inconsistency between provided object filename {} and benchmark layout {}".format(file, testing_layout))
 
     # Read Binary scores and save in s3 as a dictionary, with tag the names
     # of the objects as defined in the xmls of the benchmark

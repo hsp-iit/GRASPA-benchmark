@@ -1,7 +1,9 @@
 #include "common.h"
 #include <iostream>
+#include <string>
 
 #include <VirtualRobot/VirtualRobot.h>
+#include <VirtualRobot/VirtualRobotException.h>
 #include <VirtualRobot/Robot.h>
 #include <VirtualRobot/ManipulationObject.h>
 #include <VirtualRobot/RuntimeEnvironment.h>
@@ -15,6 +17,9 @@
 #include <GraspPlanning/ApproachMovementSurfaceNormal.h>
 #include <GraspPlanning/GraspQuality/GraspEvaluationPoseUncertainty.h>
 
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
+#include <rapidxml/rapidxml_print.hpp>
 
 
 std::string common::fileBaseName(std::string const& path)
@@ -170,10 +175,10 @@ bool common::generateClosureTrajectory(const VirtualRobot::EndEffectorPtr& end_e
 
 }
 
-int common::saveComputedQuality( const common::GraspSetQuality& set_quality, const std::string& xml_filename)
+int common::saveComputedQuality(const common::GraspSetQuality& set_quality, const std::string& xml_filename)
 {
-
-    /*  append to the xml file a node containing
+    /*  Save the computed quality to the xml file adding a node as child of <grasp_data>
+    *   replacing any existing node with same name
     *   <ComputedQuality>
     *       <Grasp name="Grasp 0" quality_collision_free=0.264 quality_overall=0.125/>
     *       <Grasp name="Grasp 1" quality_collision_free=0.493 quality_overall=0.345/>
@@ -181,66 +186,90 @@ int common::saveComputedQuality( const common::GraspSetQuality& set_quality, con
     *   </ComputedQuality>
     */
 
-
-    //  check if the field exists first
-    //  if it does, delete any ComputedQuality field
-
-    std::string tmp_filename = xml_filename + ".tmp";
-
-    std::ifstream file;
-    std::ofstream tmp;
-
-    file.open(xml_filename);
-    tmp.open(tmp_filename);
-
-    if (file.is_open())
+    // Check for file existence
+    std::ifstream xml_file_in(xml_filename.c_str());
+    if (xml_file_in.fail())
     {
-        std::string line;
-
-        while(!file.eof())
-        {
-            std::getline(file, line);
-
-            if (line.find("<ComputedQuality>", 0) != std::string::npos)
-            {
-
-                while(line.find("</ComputedQuality>",0 ) == std::string::npos)
-                {
-                    std::getline(file, line);
-                }
-
-                continue;
-            }
-
-            if (file.eof())
-                tmp << line;
-            else
-                tmp << line << std::endl;
-
-        }
+        std::cout << "Error: could not open file " << xml_filename << std::endl;
+        return 1;
     }
 
-    file.close();
-    tmp.close();
+    // Read the XML as a 0-terminated char string
+    std::string line, xml_string;
+    while (std::getline(xml_file_in, line))
+        xml_string += line;
+    std::vector<char> xml_string_copy(xml_string.begin(), xml_string.end());
+    xml_string_copy.push_back('\0');
+    xml_file_in.close();
 
-    std::remove(xml_filename.c_str());
-    std::rename(tmp_filename.c_str(), xml_filename.c_str());
+    // Parse the XML string
+    rapidxml::xml_document<char> xml_doc;
+    xml_doc.parse<rapidxml::parse_declaration_node | rapidxml::parse_no_data_nodes>(&xml_string_copy[0]);
 
-    std::ofstream xml_file(xml_filename, std::ios_base::app);
-    xml_file << "<ComputedQuality>" << "\n";
 
+    // Add a ComputedQuality child to the root node. Delete any existing ones with the same name
+    rapidxml::xml_node<char> *root_node = xml_doc.first_node("grasp_data");
+    rapidxml::xml_node<char> *existing_computed_quality_node = root_node -> first_node("ComputedQuality");
+    if (existing_computed_quality_node != 0)
+    {
+        root_node -> remove_node(existing_computed_quality_node);
+        std::cout << "Removed existing Computed Quality information" << std::endl;
+    }
+    rapidxml::xml_node<char> *computed_quality_node = xml_doc.allocate_node(rapidxml::node_element, "ComputedQuality", 0);
+    root_node -> append_node(computed_quality_node);
+
+    // Add each grasp quality scores
     for (const auto& g_quality : set_quality)
     {
-        xml_file << "    <Grasp name=\"" << g_quality.first << "\"";
-        xml_file << " quality_collision_free=\"" << g_quality.second.quality_collision_free << "\"";
-        xml_file << " quality_overall=\"" << g_quality.second.quality_overall << "\"";
-        xml_file << "/>" << "\n";
+        rapidxml::xml_node<char> *grasp_node = xml_doc.allocate_node(rapidxml::node_element, "Grasp");
+        const char* quality_collision_free_string = std::to_string(g_quality.second.quality_collision_free).c_str();
+        const char* quality_overall_string = std::to_string(g_quality.second.quality_overall).c_str();
+        rapidxml::xml_attribute<char> *grasp_attribute = xml_doc.allocate_attribute("name", g_quality.first.c_str());
+        rapidxml::xml_attribute<char> *q_cf_attribute = xml_doc.allocate_attribute("quality_collision_free", xml_doc.allocate_string(quality_collision_free_string));
+        rapidxml::xml_attribute<char> *q_ov_attribute = xml_doc.allocate_attribute("quality_overall", xml_doc.allocate_string(quality_overall_string));
+        grasp_node -> append_attribute(grasp_attribute);
+        grasp_node -> append_attribute(q_cf_attribute);
+        grasp_node -> append_attribute(q_ov_attribute);
+        computed_quality_node -> append_node(grasp_node);
     }
 
-    xml_file << "</ComputedQuality>" << "\n";
+    // Save the modified DOM
+    std::ofstream xml_file_out(xml_filename.c_str());
+    xml_file_out << xml_doc;
+    xml_file_out.close();
 
-    xml_file.close();
     return 0;
-
 }
+
+VirtualRobot::ManipulationObjectPtr common::getManipulationObjectFromGRASPAXML(const std::string& xml_path)
+{
+    // Return a Simox Manipulation Object being parsed from a GRASPA XML with a different xml root
+
+    // Load the XML
+    rapidxml::file<char> xml_file(xml_path.c_str());
+    rapidxml::xml_document<char> doc;
+    doc.parse<0>(xml_file.data());
+
+    // Get the ManipulationObject node
+    rapidxml::xml_node<char> *root_node = doc.first_node("grasp_data");
+    rapidxml::xml_node<char> *manipulation_object_node = root_node->first_node("ManipulationObject");
+
+    // Find the xml file directory
+    std::string xml_dir = xml_path.substr(0, xml_path.find_last_of("/\\"));
+
+    // Call the Simox function to parse the ManipulationObject
+    VirtualRobot::ManipulationObjectPtr manipulation_object;
+    try
+    {
+        manipulation_object = VirtualRobot::ObjectIO::processManipulationObject(manipulation_object_node, xml_dir);
+    }
+    catch (VirtualRobot::VirtualRobotException& exc)
+    {
+        std::cout << "Could not parse manipulation object from " << xml_path << std::endl;
+        throw;
+    }
+
+    return manipulation_object;
+}
+
 

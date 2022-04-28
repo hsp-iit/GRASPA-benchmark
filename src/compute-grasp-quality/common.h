@@ -4,6 +4,7 @@
 #include <string>
 #include <VirtualRobot/EndEffector/EndEffector.h>
 #include <VirtualRobot/Grasping/Grasp.h>
+#include <VirtualRobot/ManipulationObject.h>
 
 namespace common {
 
@@ -35,6 +36,8 @@ void listGrasps(const std::vector<VirtualRobot::GraspPtr> grasp_vec);
 int saveComputedQuality( const GraspSetQuality& set_quality, const std::string& xml_filename);
 
 bool generateClosureTrajectory(const VirtualRobot::EndEffectorPtr& end_effector, const VirtualRobot::GraspPtr& grasp, VirtualRobot::TrajectoryPtr& closure_trajectory);
+
+VirtualRobot::ManipulationObjectPtr getManipulationObjectFromGRASPAXML(const std::string& xml_path);
 
 }
 

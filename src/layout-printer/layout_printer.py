@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial.transform import Rotation as R
 from stl import mesh
 import cv2
 import xml.etree.ElementTree as et
@@ -8,6 +9,10 @@ import argparse
 def projectMeshOnImage(image, mesh_filename, transform, density):
 
     input_mesh = mesh.Mesh.from_file(mesh_filename)
+
+    transform_rot = transform[:3,:3]
+    transform_rot_fixed = R.from_matrix(transform_rot).as_matrix()
+    transform[:3,:3] = transform_rot_fixed
 
     input_mesh.transform(transform)
 
@@ -127,13 +132,22 @@ for manip_object in root.findall('ManipulationObject'):
     matfix[0,3] = marker_root_origin_x/1000
     matfix[1,3] = marker_root_origin_y/1000
 
+    print(mesh_filename)
     print(transform)
+
 
     transform = np.dot(matfix, transform)
 
     projectMeshOnImage(image, mesh_filename, transform, density)
 
-base_output_filename = os.path.splitext(scene_filename)[0]
+layout_base_name = os.path.split(os.path.splitext(scene_filename)[0])[1]
+printout_base_dir = os.path.join(data_dir, 'data', 'scenes', 'grasping', 'printable_layouts', layout_base_name)
+base_output_filename = os.path.join(printout_base_dir, layout_base_name)
+
+if not os.path.isdir(printout_base_dir):
+    print(f"Creating output directory {printout_base_dir}")
+    os.makedirs(printout_base_dir, exist_ok=True)
+
 if not args.cross:
     base_output_filename+='_no_central'
 
@@ -146,7 +160,7 @@ cv2.imwrite(base_output_filename + '_printout_page_2.png', image[2100:4200, 0:29
 cv2.imwrite(base_output_filename + '_printout_page_3.png', image[0:2100, 2970:5940])
 cv2.imwrite(base_output_filename + '_printout_page_4.png', image[2100:4200, 2970:5940])
 
-
+print(f"Written output in {printout_base_dir}")
 
 
 
