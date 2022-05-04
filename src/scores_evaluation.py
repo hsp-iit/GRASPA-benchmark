@@ -414,6 +414,15 @@ def parse_grasping_files(files, s3, s4, s5, s6, args):
         tree = ET.parse(file)
         root = tree.getroot()
 
+        # Parse fields of interest
+        manip_object_element = root.find('ManipulationObject')
+        grasp_set_element = manip_object_element.find('GraspSet')
+        graspability_element = root.find('Graspable')
+        grasped_element = root.find('Grasped')
+        grasp_stab_element = root.find('GraspStability')
+        obst_avoidance_element = root.find('ObstacleAvoidance')
+        computed_quality_element = root.find('ComputedQuality')
+
         # Read graspability
         s2[file_name] = float(root[1].attrib['quality'])
 
