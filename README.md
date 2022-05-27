@@ -89,7 +89,7 @@
  ## Resources&Tools
 **GRASPA 1.0** comes with several resources and tools:
 -  [`data/`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/data) collects the:
-   - [`YCB objects models`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/data/objects/YCB) used in the grasping layouts;
+   - [`YCB objects models`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/data/objects/YCB) used in the grasping layouts[1];
    - the [`3D renders of the grasping layouts`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/data/scenes/grasping/3D_scenes);
    - the [`printable versions`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/data/scenes/grasping/printable_layouts);
    - the poses to be reached for the [`reachability test`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/data/scenes/reachability) and the [`camera-calibration test`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/data/scenes/camera_calibration).
@@ -101,4 +101,8 @@
    - a [`viewer`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/src/scene-viewer#scene-viewer) to **visualize the data** provided within GRASPA and those collected by the user;
    - a [`python script`](https://github.com/hsp-iit/GRASPA-benchmark/tree/master/src/layout-printer#layout-printer) to automatically **generate the printable layouts** of the grasping scenarios defined by **GRASPA 1.0**.
 
+[1]This repo includes a subset of the [YCB object dataset](http://ycb-benchmarks.s3-website-us-east-1.amazonaws.com/) meshes for user convenience. We re-distribute these files under the same [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE_YCB.txt) license.  
+
  ## [How to collect the data](/data_collection)
+
+
